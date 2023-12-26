@@ -46,7 +46,7 @@ export const connectToDatabase = async () => {
   cached.promise =
     cached.promise ||
     mongoose.connect(MONGODB_URI, {
-      dbName: "sentimetric",
+      dbName: "Sentimetric",
       bufferCommands: false,
     });
 
