@@ -1,8 +1,9 @@
 "use server";
 
-import { CreateUserParams } from "@/types";
+import { CreateUserParams, UpdateUserParams } from "@/types";
 import { connectToDatabase } from "../database";
 import User from "../database/models/user.model";
+import { handleError } from "../utils";
 
 export const createUser = async (user: CreateUserParams) => {
   try {
@@ -10,9 +11,23 @@ export const createUser = async (user: CreateUserParams) => {
 
     const newUser = await User.create(user);
 
+    // ensure the newUser object is of correct format
     return JSON.parse(JSON.stringify(newUser));
   } catch (error) {
-    console.log(error);
-    throw new Error(typeof error === "string" ? error : JSON.stringify(error));
+    handleError(error);
+  }
+};
+
+export const updateUser = async (id: string, user: UpdateUserParams) => {
+  try {
+    await connectToDatabase();
+
+    const updatedUser = await User.findByIdAndUpdate(id, user);
+
+    if (!updatedUser) throw new Error("Error during updating user");
+
+    return JSON.parse(JSON.stringify(updatedUser));
+  } catch (error) {
+    handleError(error);
   }
 };

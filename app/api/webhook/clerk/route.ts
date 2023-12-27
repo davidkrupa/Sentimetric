@@ -1,7 +1,7 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
-import { createUser } from "@/lib/actions/user.actions";
+import { createUser, updateUser } from "@/lib/actions/user.actions";
 import { clerkClient } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
@@ -73,6 +73,8 @@ export async function POST(req: Request) {
 
     const newUser = await createUser(user);
 
+    // passing id of user object from mongodb to clerk (._id = ObjectId('someId'))
+    // clerk works with ObjectId types and it is converted to string in user data
     if (newUser) {
       await clerkClient.users.updateUserMetadata(id, {
         publicMetadata: {
@@ -82,6 +84,21 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ message: "OK", user: newUser });
+  }
+
+  if (eventType === "user.updated") {
+    const { id, username, first_name, last_name, image_url } = evt.data;
+
+    const user = {
+      username: username!,
+      firstName: first_name,
+      lastName: last_name,
+      photo: image_url,
+    };
+
+    const updatedUser = await updateUser(id, user);
+
+    return NextResponse.json({ message: "OK", user: updatedUser });
   }
 
   return new Response("", { status: 200 });
