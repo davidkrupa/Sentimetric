@@ -23,7 +23,7 @@ export const updateUser = async (id: string, user: UpdateUserParams) => {
   try {
     await connectToDatabase();
 
-    const updatedUser = await User.findByIdAndUpdate(id, user);
+    const updatedUser = await User.findOneAndUpdate({ id }, user);
 
     if (!updatedUser) throw new Error("Error during updating user");
 
@@ -37,7 +37,7 @@ export const deleteUser = async (id: string) => {
   try {
     await connectToDatabase();
 
-    const deletedUser = await User.findByIdAndDelete(id);
+    const deletedUser = await User.findOneAndDelete({ id });
 
     if (!deletedUser) throw new Error("Error during deleting user");
 
