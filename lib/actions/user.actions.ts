@@ -19,11 +19,11 @@ export const createUser = async (user: CreateUserParams) => {
   }
 };
 
-export const updateUser = async (id: string, user: UpdateUserParams) => {
+export const updateUser = async (clerkId: string, user: UpdateUserParams) => {
   try {
     await connectToDatabase();
 
-    const updatedUser = await User.findOneAndUpdate({ id }, user);
+    const updatedUser = await User.findOneAndUpdate({ clerkId }, user);
 
     if (!updatedUser) throw new Error("Error during updating user");
 
@@ -33,11 +33,11 @@ export const updateUser = async (id: string, user: UpdateUserParams) => {
   }
 };
 
-export const deleteUser = async (id: string) => {
+export const deleteUser = async (clerkId: string) => {
   try {
     await connectToDatabase();
 
-    const deletedUser = await User.findOneAndDelete({ id });
+    const deletedUser = await User.findOneAndDelete({ clerkId });
 
     if (!deletedUser) throw new Error("Error during deleting user");
 
