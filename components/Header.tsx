@@ -1,10 +1,11 @@
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
+import { buttonVariants } from "./ui/button";
 
 const Header = () => {
   return (
-    <header className="w-full border-b">
+    <header className="w-full border-b p-2">
       <div className="flex items-center justify-between">
         <Link href="/" className="w-36">
           <Image
@@ -15,8 +16,14 @@ const Header = () => {
           />
         </Link>
 
-        <div className="flex w-32 justify-end gap-3">
+        <div className="flex justify-center items-center gap-3">
           <SignedIn>
+            <Link
+              href="/dashboard"
+              className={buttonVariants({ variant: "default" })}
+            >
+              Dashboard
+            </Link>
             <UserButton afterSignOutUrl="/" />
           </SignedIn>
           <SignedOut>
