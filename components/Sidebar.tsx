@@ -6,6 +6,7 @@ import { useState } from "react";
 import { RiMenuFoldLine, RiMenuUnfoldLine, RiOpenaiFill } from "react-icons/ri";
 
 const Sidebar = () => {
+  // change to state from context, move out to layout
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const menuItems = [
     {
@@ -13,7 +14,7 @@ const Sidebar = () => {
       list: [
         {
           title: "Summary",
-          path: "/dashboard/summary",
+          path: "/dashboard",
           icon: <RiOpenaiFill />,
         },
         {
@@ -71,7 +72,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="ml-3 my-5 h-screen md:overflow-hidden overflow-auto md:hover:overflow-auto pb-10">
+    <div className="w-72 h-screen pb-10 md:overflow-hidden overflow-auto md:hover:overflow-auto z-20 border-r border-card border-opacity-25">
       {isSidebarOpen && (
         <>
           <div className="flex justify-between items-center">
