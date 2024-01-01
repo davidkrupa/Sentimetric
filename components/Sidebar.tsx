@@ -72,7 +72,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="w-72 h-screen pb-10 md:overflow-hidden overflow-auto md:hover:overflow-auto z-20 border-r border-card border-opacity-25">
+    <div className="w-72 h-screen pb-10 md:overflow-hidden overflow-auto md:hover:overflow-auto border-r border-r-border">
       {isSidebarOpen && (
         <>
           <div className="flex justify-between items-center">

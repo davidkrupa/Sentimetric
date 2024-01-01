@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 
 import "./globals.css";
+import { ThemeProvider } from "../components/themeProvider/ThemeProvider";
 
 const poppins = Poppins({
   subsets: ["latin"],
