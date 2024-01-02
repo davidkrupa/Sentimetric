@@ -6,7 +6,6 @@ import { useState } from "react";
 import { RiMenuFoldLine, RiMenuUnfoldLine, RiOpenaiFill } from "react-icons/ri";
 
 const Sidebar = () => {
-  // change to state from context, move out to layout
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const menuItems = [
     {
@@ -72,10 +71,11 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="w-72 h-screen pb-10 md:overflow-hidden overflow-auto md:hover:overflow-auto border-r border-r-border">
+    <>
+      {/* opened sidebar */}
       {isSidebarOpen && (
-        <>
-          <div className="flex justify-between items-center">
+        <div className="w-72 h-screen pb-10 md:overflow-hidden overflow-auto md:hover:overflow-auto border-r border-r-border">
+          <div className="flex justify-between items-center px-2 pt-3">
             <div className="flex">
               <Image
                 src="../public/next.svg"
@@ -85,12 +85,11 @@ const Sidebar = () => {
               />
               <span>Sentimetric</span>
             </div>
-            {/* button to separate component */}
             <button onClick={() => setIsSidebarOpen(false)}>
               <RiMenuFoldLine />
             </button>
           </div>
-          <div className="">
+          <div>
             {menuItems.map((item) => (
               <div key={item.title}>
                 <p className="text-gray-400 dark:text-gray-400 m-3 mt-4 uppercase">
@@ -110,9 +109,19 @@ const Sidebar = () => {
               </div>
             ))}
           </div>
-        </>
+        </div>
       )}
-    </div>
+
+      {/* closed sidebar */}
+      {!isSidebarOpen && (
+        <button
+          className="flex justify-center items-center fixed top-5 left-0 p-2 border-r border-t border-b border-input rounded-e-full"
+          onClick={() => setIsSidebarOpen(true)}
+        >
+          <RiMenuUnfoldLine />
+        </button>
+      )}
+    </>
   );
 };
 

@@ -3,9 +3,6 @@ import Sidebar from "@/components/Sidebar";
 import { ThemeProvider } from "../../components/themeProvider/ThemeProvider";
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
-  // move to context or to Sidebar
-  const isHidden = false;
-
   return (
     <ThemeProvider
       attribute="class"
@@ -13,12 +10,8 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       enableSystem
       disableTransitionOnChange
     >
-      <div
-        className={`flex h-screen overflow-y-hidden bg-background ${
-          isHidden ? "overflow-x-hidden" : ""
-        }`}
-      >
-        {!isHidden && <Sidebar />}
+      <div className="flex h-screen overflow-y-hidden bg-background">
+        <Sidebar />
         <div className="flex flex-col flex-1 overflow-y-auto w-full">
           <DashboardNavbar />
           <main className="flex-1 p-4">{children}</main>
