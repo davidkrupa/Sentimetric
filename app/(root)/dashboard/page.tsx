@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { getAiResponse } from "@/lib/openai";
+import { ShadcnInputForm } from "@/components/ShadcnInputForm";
 
 const page = () => {
   const [text, setText] = useState("");
@@ -52,6 +53,8 @@ const page = () => {
           <p>Card Footer</p>
         </CardFooter>
       </Card>
+
+      <ShadcnInputForm />
     </div>
   );
 };
