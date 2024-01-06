@@ -1,3 +1,5 @@
+"use server"
+
 import OpenAI from "openai";
 
 const apiKey = process.env.OPENAI_SECRET;
@@ -6,7 +8,7 @@ if (!apiKey) throw new Error("apiKey is missing");
 
 const openai = new OpenAI({ apiKey });
 
-export default openai;
+// export default openai;
 
 export async function getAiResponse(text: string) {
   const response = await openai.chat.completions.create({
