@@ -16,38 +16,52 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
+import { getAiResponse } from "@/lib/openai";
 
 const FormSchema = z.object({
-  username: z.string().min(3, {
-    message: "Job title must be at least 3 characters",
-  }),
+  jobTitle: z
+    .string()
+    .min(3, {
+      message: "Job title must be at least 3 characters",
+    })
+    .max(40, {
+      message: "Job title must be at max 40 characters",
+    }),
 });
 
 export function ShadcnInputForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      username: "",
+      jobTitle: "",
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    console.log(data);
+    const prompt = `Please provide a JSON object of the most important hard and soft skills for a person that want to apply to a position: ${data.jobTitle}. Each skill should be assigned to one or more groups of skills e.g: leadership, communication. There should be maximum 5 groups, if needed one of them should be called "other" for skills that don't fit to other groups. There should be minimum 15 and maximum 40 skills in total. Please format your response as follows: {
+      hardSkills: [{
+        skill: "",
+        groups: [],
+      }],
+      softSkills: [{
+        skill: "",
+        groups: [],
+      }]
+    }`;
+
+    const response = await getAiResponse(prompt);
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="w-2/3 space-y-6 max-w-md"
+      >
         <FormField
           control={form.control}
-          name="username"
+          name="jobTitle"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Target Job Title</FormLabel>
