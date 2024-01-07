@@ -15,8 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { toast } from "@/components/ui/use-toast";
-import { getAiResponse } from "@/lib/openai";
+import { getAiResponse } from "@/lib/actions/openai.actions";
 
 const FormSchema = z.object({
   jobTitle: z
@@ -38,7 +37,6 @@ export function ShadcnInputForm() {
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data);
     const prompt = `Please provide a JSON object of the most important hard and soft skills for a person that want to apply to a position: ${data.jobTitle}. Each skill should be assigned to one or more groups of skills e.g: leadership, communication. There should be maximum 5 groups, if needed one of them should be called "other" for skills that don't fit to other groups. There should be minimum 15 and maximum 40 skills in total. Please format your response as follows: {
       hardSkills: [{
         skill: "",
@@ -50,7 +48,9 @@ export function ShadcnInputForm() {
       }]
     }`;
 
-    const response = await getAiResponse(prompt);
+    const skills = await getAiResponse(prompt);
+
+    console.log(skills)
   }
 
   return (
