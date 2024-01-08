@@ -50,14 +50,14 @@ export function ShadcnInputForm() {
 
     const skills = await getAiResponse(prompt);
 
-    console.log(skills)
+    console.log(skills);
   }
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-2/3 space-y-6 max-w-md"
+        className="w-5/6 space-y-6 max-w-md"
       >
         <FormField
           control={form.control}
@@ -73,7 +73,7 @@ export function ShadcnInputForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit">Generate List</Button>
       </form>
     </Form>
   );
