@@ -37,7 +37,7 @@ export function ShadcnInputForm() {
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    const prompt = `Please provide a JSON object of the most important hard and soft skills for a person that want to apply to a position: ${data.jobTitle}. Each skill should be assigned to one or more groups of skills e.g: leadership, communication. There should be maximum 5 groups, if needed one of them should be called "other" for skills that don't fit to other groups. There should be minimum 15 and maximum 40 skills in total. Please format your response as follows: {
+    const prompt = `Please provide a stringified JSON object of the most important hard and soft skills for a person that want to apply to a position: ${data.jobTitle}. Each skill should be assigned to one or more groups of skills e.g: leadership, communication. There should be maximum 5 groups, if needed one of them should be called "other" for skills that don't fit to other groups. There should be minimum 15 and maximum 40 skills in total. Please format your response as follows: {
       hardSkills: [{
         skill: "",
         groups: [],
@@ -50,7 +50,22 @@ export function ShadcnInputForm() {
 
     const skills = await getAiResponse(prompt);
 
+    type Skill = {
+      skill: string;
+      groups: string[];
+    };
+
+    type SkillsObject = {
+      hardSkills: Skill[];
+      softSkills: Skill[];
+    };
+
     console.log(skills);
+
+    if (typeof skills === "string") {
+      const parsedSkills: SkillsObject = JSON.parse(skills) as SkillsObject;
+      console.log(parsedSkills.hardSkills);
+    }
   }
 
   return (
