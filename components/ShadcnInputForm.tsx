@@ -16,17 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { getAiResponse } from "@/lib/actions/openai.actions";
-
-const FormSchema = z.object({
-  jobTitle: z
-    .string()
-    .min(3, {
-      message: "Job title must be at least 3 characters",
-    })
-    .max(40, {
-      message: "Job title must be at max 40 characters",
-    }),
-});
+import { FormSchema } from "@/lib/formSchemas/input.schemas";
 
 export function ShadcnInputForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -37,35 +27,11 @@ export function ShadcnInputForm() {
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    const prompt = `Please provide a stringified JSON object of the most important hard and soft skills for a person that want to apply to a position: ${data.jobTitle}. Each skill should be assigned to one or more groups of skills e.g: leadership, communication. There should be maximum 5 groups, if needed one of them should be called "other" for skills that don't fit to other groups. There should be minimum 15 and maximum 40 skills in total. Please format your response as follows: {
-      hardSkills: [{
-        skill: "",
-        groups: [],
-      }],
-      softSkills: [{
-        skill: "",
-        groups: [],
-      }]
-    }`;
+    const prompt = `Please provide a brief description of the position of ${data.jobTitle} for a person who wants to apply for this position. Please focus on writing a list of skills that are important for this position. Please divide skills into hard and soft. Word limit 300.`;
 
     const skills = await getAiResponse(prompt);
 
-    type Skill = {
-      skill: string;
-      groups: string[];
-    };
-
-    type SkillsObject = {
-      hardSkills: Skill[];
-      softSkills: Skill[];
-    };
-
     console.log(skills);
-
-    if (typeof skills === "string") {
-      const parsedSkills: SkillsObject = JSON.parse(skills) as SkillsObject;
-      console.log(parsedSkills.hardSkills);
-    }
   }
 
   return (
