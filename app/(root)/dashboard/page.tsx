@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card";
 
 import { Badge } from "@/components/ui/badge";
+import { ShadcnUserSkillsForm } from "@/components/ShadcnUserSkillsForm";
 
 const page = () => {
   const tabsList = [{ name: "Hard Skills" }, { name: "Soft Skills" }];
@@ -33,7 +34,9 @@ const page = () => {
             Enter your skills related to the new job position.
           </CardDescription>
         </CardHeader>
-        <CardContent></CardContent>
+        <CardContent>
+          <ShadcnUserSkillsForm />
+        </CardContent>
       </Card>
 
       <Card className="col-span-2">

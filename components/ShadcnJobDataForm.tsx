@@ -16,11 +16,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { getAiResponse } from "@/lib/actions/openai.actions";
-import { FormSchema } from "@/lib/formSchemas/input.schemas";
+import { JobDetailsFormSchema } from "@/lib/formSchemas/input.schemas";
 
 export function ShadcnJobDataForm() {
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const form = useForm<z.infer<typeof JobDetailsFormSchema>>({
+    resolver: zodResolver(JobDetailsFormSchema),
     defaultValues: {
       jobTitle: "",
       company: "",
@@ -28,7 +28,7 @@ export function ShadcnJobDataForm() {
     },
   });
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
+  async function onSubmit(data: z.infer<typeof JobDetailsFormSchema>) {
     // const prompt = `Please provide a brief description of the position of ${data.jobTitle} for a person who wants to apply for this position. Please focus on writing a list of skills that are important for this position. Please divide skills into hard and soft. Word limit 300.`;
     // const skills = await getAiResponse(prompt);
     // console.log(skills);
