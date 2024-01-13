@@ -1,4 +1,4 @@
-import { ShadcnInputForm } from "@/components/ShadcnInputForm";
+import { ShadcnJobDataForm } from "@/components/ShadcnJobDataForm";
 import {
   Card,
   CardContent,
@@ -7,36 +7,33 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+
 import { Badge } from "@/components/ui/badge";
 
 const page = () => {
+  const tabsList = [{ name: "Hard Skills" }, { name: "Soft Skills" }];
   return (
     <div className="grid grid-cols-2 gap-6">
-      {/* <ShadcnInputForm /> */}
-
       <Card>
         <CardHeader>
-          <CardTitle>Analyze Job Skills</CardTitle>
+          <CardTitle>Target Job Data</CardTitle>
           <CardDescription>
-            Get a list of skills employers are looking for.
+            Enter basic data to get a personalized analysis.
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <ShadcnInputForm />
+          <ShadcnJobDataForm />
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader>
-          <CardTitle>Skills Chart</CardTitle>
-          <CardDescription>Card Description</CardDescription>
+          <CardTitle>Your Skills</CardTitle>
+          <CardDescription>
+            Enter your skills related to the new job position.
+          </CardDescription>
         </CardHeader>
-        <CardContent>
-          <p>Card Content</p>
-        </CardContent>
-        <CardFooter>
-          <p>Card Footer</p>
-        </CardFooter>
+        <CardContent></CardContent>
       </Card>
 
       <Card className="col-span-2">
