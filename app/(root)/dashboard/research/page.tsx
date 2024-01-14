@@ -1,5 +1,4 @@
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+import { ShadcnJobDataForm } from "@/components/ShadcnJobDataForm";
 import {
   Card,
   CardContent,
@@ -9,38 +8,55 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+import { Badge } from "@/components/ui/badge";
+import { ShadcnUserSkillsForm } from "@/components/ShadcnUserSkillsForm";
+
 const page = () => {
   return (
-    <div className="grid w-full gap-2">
-      <Textarea placeholder='Content of the "about us" or similar page' />
-      <Button>Analyze page</Button>
-      <div className="flex gap-4">
-        <Card className="flex-1">
-          <CardHeader>
-            <CardTitle>Skills Chart</CardTitle>
-            <CardDescription>Card Description</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p>Card Content</p>
-          </CardContent>
-          <CardFooter>
-            <p>Card Footer</p>
-          </CardFooter>
-        </Card>
+    <div className="grid grid-cols-2 gap-6">
+      <Card>
+        <CardHeader>
+          <CardTitle>Target Job Data</CardTitle>
+          <CardDescription>
+            Enter basic data to get a personalized analysis.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ShadcnJobDataForm />
+        </CardContent>
+      </Card>
 
-        <Card className="flex-1">
-          <CardHeader>
-            <CardTitle>Skills Chart</CardTitle>
-            <CardDescription>Card Description</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p>Card Content</p>
-          </CardContent>
-          <CardFooter>
-            <p>Card Footer</p>
-          </CardFooter>
-        </Card>
-      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle>Your Skills</CardTitle>
+          <CardDescription>
+            Enter your skills related to the new job position.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ShadcnUserSkillsForm />
+        </CardContent>
+      </Card>
+
+      <Card className="col-span-2">
+        <CardHeader>
+          <CardTitle>Skills List</CardTitle>
+          <CardDescription>Card Description</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p>Hard Skills</p>
+          <Badge variant="outline" className="px-3 py-1 relative group">
+            Leadership
+            <button className="hidden group-hover:block text-white absolute top-0 right-0 bg-destructive pr-3 pl-2 py-1 rounded-r-full transition ease-out">
+              X
+            </button>
+          </Badge>
+          <Badge variant="outline">Communication</Badge>
+        </CardContent>
+        <CardFooter>
+          <p>Soft Skills</p>
+        </CardFooter>
+      </Card>
     </div>
   );
 };
