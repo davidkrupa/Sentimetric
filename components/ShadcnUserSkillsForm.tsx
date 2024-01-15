@@ -22,14 +22,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
 import {
   DEFAULT_GROUPS,
   UserSkillsFormSchema,
 } from "@/lib/formSchemas/input.schemas";
+import { addSkills } from "@/lib/actions/skills.actions";
+import { UserSkills } from "@/types";
 
 export function ShadcnUserSkillsForm() {
-  const [skills, setSkills] = useState<string[]>([]);
   const form = useForm<z.infer<typeof UserSkillsFormSchema>>({
     resolver: zodResolver(UserSkillsFormSchema),
     defaultValues: {
@@ -39,8 +39,23 @@ export function ShadcnUserSkillsForm() {
   });
 
   async function onSubmit(data: z.infer<typeof UserSkillsFormSchema>) {
-    console.log(data.skill);
-    setSkills((prev: string[]) => [...prev, data.skill]);
+    const { skillGroup, skill } = data;
+
+    const skills: UserSkills = {
+      hardSkills: [],
+      softSkills: [],
+    };
+
+    if (skillGroup === "hard skills") {
+      skills.hardSkills = [skill];
+    }
+    if (skillGroup === "soft skills") {
+      skills.softSkills = [skill];
+    }
+
+    const res = await addSkills(skills);
+
+    console.log(res);
   }
 
   return (
@@ -63,7 +78,11 @@ export function ShadcnUserSkillsForm() {
                 </FormControl>
                 <SelectContent>
                   {DEFAULT_GROUPS.map((group) => (
-                    <SelectItem key={group} value={group}>
+                    <SelectItem
+                      key={group}
+                      value={group}
+                      className="capitalize"
+                    >
                       {group}
                     </SelectItem>
                   ))}
@@ -88,13 +107,6 @@ export function ShadcnUserSkillsForm() {
         />
         <Button type="submit">Add Skill</Button>
       </form>
-      <div>
-        {skills.map((skill) => (
-          <p key={skill} className="border rounded-full p-3 text-white">
-            {skill}
-          </p>
-        ))}
-      </div>
     </Form>
   );
 }

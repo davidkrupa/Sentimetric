@@ -13,3 +13,8 @@ export type UpdateUserParams = {
   lastName: string;
   photo: string;
 };
+
+export type UserSkills = {
+  hardSkills: string[];
+  softSkills: string[];
+};
