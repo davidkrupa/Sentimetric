@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-export const DEFAULT_GROUPS = ["Hard Skills", "Soft Skills"] as const;
+export const DEFAULT_GROUPS = ["hard skills", "soft skills"] as const;
 
 export const JobDetailsFormSchema = z.object({
   jobTitle: z
