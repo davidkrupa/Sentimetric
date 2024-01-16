@@ -61,3 +61,33 @@ export const addSkills = async (skills: UserSkills) => {
     handleError(error);
   }
 };
+
+export const getSkills = async () => {
+  try {
+    await connectToDatabase();
+
+    const { userId }: { userId: string | null } = auth();
+
+    console.log(`USERID2: ${userId}`);
+
+    if (!userId) {
+      throw new Error("User not authorized");
+    }
+
+    const user = await User.findOne({ clerkId: userId });
+
+    if (!user) {
+      throw new Error(`User not found with Clerk Id: ${userId}`);
+    }
+
+    const jobSkills = await JobSkills.findOne({ userId: user._id });
+
+    if (!jobSkills) {
+      throw new Error(`Skills not found`);
+    }
+
+    return JSON.parse(JSON.stringify(jobSkills));
+  } catch (error) {
+    handleError(error);
+  }
+};
