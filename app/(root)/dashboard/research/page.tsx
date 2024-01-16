@@ -7,11 +7,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-
-import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 import { ShadcnUserSkillsForm } from "@/components/ShadcnUserSkillsForm";
+import SkillsBadges from "@/components/SkillsBadges";
+import { getSkills } from "@/lib/actions/skills.actions";
+import { UserSkills } from "@/types";
 
-const page = () => {
+const page = async () => {
+  const { hardSkills, softSkills }: UserSkills = await getSkills();
+
+  console.log(`DATA: ${hardSkills}`);
   return (
     <div className="grid grid-cols-2 gap-6">
       <Card>
@@ -36,26 +41,29 @@ const page = () => {
         <CardContent>
           <ShadcnUserSkillsForm />
         </CardContent>
+        <CardFooter></CardFooter>
       </Card>
 
       <Card className="col-span-2">
         <CardHeader>
-          <CardTitle>Skills List</CardTitle>
-          <CardDescription>Card Description</CardDescription>
+          <CardTitle>Your Profile</CardTitle>
         </CardHeader>
         <CardContent>
-          <p>Hard Skills</p>
-          <Badge variant="outline" className="px-3 py-1 relative group">
+          {/* <Badge variant="outline" className="px-3 py-1 relative group">
             Leadership
             <button className="hidden group-hover:block text-white absolute top-0 right-0 bg-destructive pr-3 pl-2 py-1 rounded-r-full transition ease-out">
-              X
+            X
             </button>
-          </Badge>
-          <Badge variant="outline">Communication</Badge>
+          </Badge> */}
+          <div></div>
+          <Separator className="mb-2" />
+          <div>
+            <p className="text-sm font-medium mb-1">Hard Skills</p>
+            <SkillsBadges skills={hardSkills} />
+            <p className="text-sm font-medium mb-1 mt-2">Soft Skills</p>
+            <SkillsBadges skills={softSkills} />
+          </div>
         </CardContent>
-        <CardFooter>
-          <p>Soft Skills</p>
-        </CardFooter>
       </Card>
     </div>
   );

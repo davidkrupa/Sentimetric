@@ -18,3 +18,7 @@ export type UserSkills = {
   hardSkills: string[];
   softSkills: string[];
 };
+
+export type SkillBadgesProps = {
+  skills: string[];
+};
