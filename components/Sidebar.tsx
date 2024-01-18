@@ -22,8 +22,8 @@ const Sidebar = () => {
           icon: <RiOpenaiFill />,
         },
         {
-          title: "Analyze",
-          path: "/dashboard/analyze",
+          title: "Analysis",
+          path: "/dashboard/analysis",
           icon: <RiOpenaiFill />,
         },
       ],
