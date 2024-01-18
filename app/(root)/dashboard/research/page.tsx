@@ -48,21 +48,23 @@ const page = async () => {
         <CardHeader>
           <CardTitle>Your Profile</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="grid grid-cols-3">
           {/* <Badge variant="outline" className="px-3 py-1 relative group">
             Leadership
             <button className="hidden group-hover:block text-white absolute top-0 right-0 bg-destructive pr-3 pl-2 py-1 rounded-r-full transition ease-out">
             X
             </button>
           </Badge> */}
-          <div></div>
-          <Separator className="mb-2" />
-          <div>
-            <p className="text-sm font-medium mb-1">Hard Skills</p>
-            <SkillsBadges skills={hardSkills} />
-            <p className="text-sm font-medium mb-1 mt-2">Soft Skills</p>
-            <SkillsBadges skills={softSkills} />
+          <div className="col-span-2">
+            <Separator className="mb-2" />
+            <div>
+              <p className="text-sm font-medium mb-1">Hard Skills</p>
+              <SkillsBadges skills={hardSkills} />
+              <p className="text-sm font-medium mb-1 mt-2">Soft Skills</p>
+              <SkillsBadges skills={softSkills} />
+            </div>
           </div>
+          <div className="grid place-items-center">chart</div>
         </CardContent>
       </Card>
     </div>
