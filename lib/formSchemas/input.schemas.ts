@@ -24,5 +24,15 @@ export const UserSkillsFormSchema = z.object({
   skill: z
     .string()
     .min(1, { message: "Skill name must be at least 1 character" })
-    .max(60, { message: "Skill name must be at max 60 character" }),
+    .max(60, { message: "Skill name must be at max 60 characters" }),
+});
+
+export const CompanyAnalysisFormSchema = z.object({
+  topic: z
+    .string()
+    .max(200, { message: "Topic must be at max 200 characters" }),
+  content: z
+    .string()
+    .min(300, { message: "Content must be at least 300 characters" })
+    .max(5000, { message: "Content must be at max 5000 characters" }),
 });
