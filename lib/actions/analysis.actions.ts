@@ -46,3 +46,34 @@ export const getAnalysisAndSave = async (data: CustomAnalysisParams) => {
     handleError(error);
   }
 };
+
+export async function getAllAnalysis(): Promise<CustomAnalysisParams[]> {
+  try {
+    const { userId }: { userId: string | null } = auth();
+
+    if (!userId) {
+      throw new Error("User not authorized");
+    }
+
+    await connectToDatabase();
+
+    const user = await User.findOne({ clerkId: userId });
+
+    if (!user) {
+      throw new Error(`User not found with Clerk Id: ${userId}`);
+    }
+
+    const allAnalysis = await CustomAnalysis.find({ userId: user._id });
+
+    if (!allAnalysis) {
+      throw new Error("Analysis for user not found");
+    }
+
+    return JSON.parse(JSON.stringify(allAnalysis));
+  } catch (error) {
+    handleError(error);
+  }
+
+  // for typescript
+  return [];
+}
