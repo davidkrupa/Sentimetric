@@ -15,8 +15,6 @@ export const addSkills = async (skills: UserSkills) => {
 
     const { userId }: { userId: string | null } = auth();
 
-    console.log(`USERID1: ${userId}`);
-
     if (!userId) {
       throw new Error("User not authorized");
     }
@@ -67,8 +65,6 @@ export const getSkills = async () => {
     await connectToDatabase();
 
     const { userId }: { userId: string | null } = auth();
-
-    console.log(`USERID2: ${userId}`);
 
     if (!userId) {
       throw new Error("User not authorized");
