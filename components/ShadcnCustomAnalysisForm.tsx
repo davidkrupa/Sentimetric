@@ -17,6 +17,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { CompanyAnalysisFormSchema } from "@/lib/formSchemas/input.schemas";
+import { getAnalysisAndSave } from "@/lib/actions/analysis.actions";
 
 export function ShadcnCustomAnalysisForm() {
   const form = useForm<z.infer<typeof CompanyAnalysisFormSchema>>({
@@ -28,7 +29,7 @@ export function ShadcnCustomAnalysisForm() {
   });
 
   async function onSubmit(data: z.infer<typeof CompanyAnalysisFormSchema>) {
-    return;
+    getAnalysisAndSave(data);
   }
 
   return (
@@ -63,9 +64,6 @@ export function ShadcnCustomAnalysisForm() {
                   {...field}
                 />
               </FormControl>
-              {/* <FormDescription>
-                You can <span>@mention</span> other users and organizations.
-              </FormDescription> */}
               <FormMessage />
             </FormItem>
           )}
