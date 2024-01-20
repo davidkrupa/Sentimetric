@@ -22,3 +22,8 @@ export type UserSkills = {
 export type SkillBadgesProps = {
   skills: string[];
 };
+
+export type CustomAnalysisParams = {
+  topic: string;
+  content: string;
+};
