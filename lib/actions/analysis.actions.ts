@@ -69,7 +69,16 @@ export async function getAllAnalysis(): Promise<CustomAnalysisParams[]> {
       throw new Error("Analysis for user not found");
     }
 
-    return JSON.parse(JSON.stringify(allAnalysis));
+    const formattedAnalysis = allAnalysis.map((analysis) => ({
+      ...analysis.toObject(), // to get a plain JavaScript object without mongoose stuff
+      createdAt: new Date(analysis.createdAt).toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      }),
+    }));
+
+    return JSON.parse(JSON.stringify(formattedAnalysis));
   } catch (error) {
     handleError(error);
   }
