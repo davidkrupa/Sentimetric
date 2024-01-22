@@ -26,6 +26,11 @@ const Sidebar = () => {
           path: "/dashboard/analysis",
           icon: <RiOpenaiFill />,
         },
+        {
+          title: "Creating",
+          path: "/dashboard/creating",
+          icon: <RiOpenaiFill />,
+        },
       ],
     },
     {
