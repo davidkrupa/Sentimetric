@@ -27,3 +27,9 @@ export type CustomAnalysisParams = {
   topic: string;
   content: string;
 };
+
+export type ProfileParams = {
+  jobTitle: string;
+  company: string;
+  industry: string;
+};
