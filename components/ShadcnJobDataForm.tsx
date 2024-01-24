@@ -17,6 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { getAiResponse } from "@/lib/actions/openai.actions";
 import { JobDetailsFormSchema } from "@/lib/formSchemas/input.schemas";
+import { addProfile } from "@/lib/actions/profile.actions";
 
 export function ShadcnJobDataForm() {
   const form = useForm<z.infer<typeof JobDetailsFormSchema>>({
@@ -29,9 +30,7 @@ export function ShadcnJobDataForm() {
   });
 
   async function onSubmit(data: z.infer<typeof JobDetailsFormSchema>) {
-    // const prompt = `Please provide a brief description of the position of ${data.jobTitle} for a person who wants to apply for this position. Please focus on writing a list of skills that are important for this position. Please divide skills into hard and soft. Word limit 300.`;
-    // const skills = await getAiResponse(prompt);
-    // console.log(skills);
+    await addProfile(data);
   }
 
   return (
@@ -80,7 +79,7 @@ export function ShadcnJobDataForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Save Job Details</Button>
+        <Button type="submit">Create New Profile</Button>
       </form>
     </Form>
   );
