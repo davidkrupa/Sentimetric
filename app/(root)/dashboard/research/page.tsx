@@ -12,11 +12,11 @@ import { ShadcnUserSkillsForm } from "@/components/ShadcnUserSkillsForm";
 import SkillsBadges from "@/components/SkillsBadges";
 import { getSkills } from "@/lib/actions/skills.actions";
 import { UserSkills } from "@/types";
+import { RechartsBarChart } from "@/components/RechartsBarChart";
 
-const page = async () => {
+const Page = async () => {
   const { hardSkills, softSkills }: UserSkills = await getSkills();
 
-  console.log(`DATA: ${hardSkills}`);
   return (
     <div className="grid grid-cols-2 gap-6">
       <Card>
@@ -64,11 +64,13 @@ const page = async () => {
               <SkillsBadges skills={softSkills} />
             </div>
           </div>
-          <div className="grid place-items-center">chart</div>
+          <div className="grid place-items-center max-w-[350px] ml-auto">
+            <RechartsBarChart />
+          </div>
         </CardContent>
       </Card>
     </div>
   );
 };
 
-export default page;
+export default Page;
