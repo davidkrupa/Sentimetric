@@ -1,21 +1,11 @@
 "use client";
 
+import { BarChartProps } from "@/types";
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
-const data = [
-  {
-    name: "Hard Skills",
-    total: 9,
-  },
-  {
-    name: "Soft Skills",
-    total: 5,
-  },
-];
-
-export function RechartsBarChart() {
+export function RechartsBarChart({ data }: BarChartProps) {
   return (
-    <ResponsiveContainer width="100%" height={350}>
+    <ResponsiveContainer width="100%" height={250}>
       <BarChart data={data}>
         <XAxis
           dataKey="name"

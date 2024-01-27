@@ -33,3 +33,12 @@ export type ProfileParams = {
   company: string;
   industry: string;
 };
+
+type BarChartItem = {
+  name: string;
+  total: number;
+};
+
+export type BarChartProps = {
+  data: BarChartItem[];
+};
