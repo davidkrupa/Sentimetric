@@ -2,18 +2,14 @@ import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { buttonVariants } from "./ui/button";
+import logo from "../lib/assets/logo-first.png";
 
 const Header = () => {
   return (
     <header className="w-full border-b p-2">
       <div className="flex items-center justify-between">
         <Link href="/" className="w-36">
-          <Image
-            src="../public/next.svg"
-            width={40}
-            height={40}
-            alt="Sentimetric logo"
-          />
+          <Image src={logo} width={25} height={25} alt="Sentimetric logo" />
         </Link>
 
         <div className="flex justify-center items-center gap-3">
