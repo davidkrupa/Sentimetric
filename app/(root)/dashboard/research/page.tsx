@@ -7,7 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { ShadcnUserSkillsForm } from "@/components/ShadcnUserSkillsForm";
 import SkillsBadges from "@/components/SkillsBadges";
 import { getSkills } from "@/lib/actions/skills.actions";
@@ -16,6 +15,17 @@ import { RechartsBarChart } from "@/components/RechartsBarChart";
 
 const Page = async () => {
   const { hardSkills, softSkills }: UserSkills = await getSkills();
+
+  const data = [
+    {
+      name: "Hard Skills",
+      total: hardSkills.length,
+    },
+    {
+      name: "Soft Skills",
+      total: softSkills.length,
+    },
+  ];
 
   return (
     <div className="grid grid-cols-2 gap-6">
@@ -44,31 +54,17 @@ const Page = async () => {
         <CardFooter></CardFooter>
       </Card>
 
-      <Card className="col-span-2">
-        <CardHeader>
-          <CardTitle>Your Profile</CardTitle>
-        </CardHeader>
-        <CardContent className="grid grid-cols-3">
-          {/* <Badge variant="outline" className="px-3 py-1 relative group">
-            Leadership
-            <button className="hidden group-hover:block text-white absolute top-0 right-0 bg-destructive pr-3 pl-2 py-1 rounded-r-full transition ease-out">
-            X
-            </button>
-          </Badge> */}
-          <div className="col-span-2">
-            <Separator className="mb-2" />
-            <div>
-              <p className="text-sm font-medium mb-1">Hard Skills</p>
-              <SkillsBadges skills={hardSkills} />
-              <p className="text-sm font-medium mb-1 mt-2">Soft Skills</p>
-              <SkillsBadges skills={softSkills} />
-            </div>
-          </div>
-          <div className="grid place-items-center max-w-[350px] ml-auto">
-            <RechartsBarChart />
-          </div>
-        </CardContent>
-      </Card>
+      <div className="col-span-2 grid grid-cols-3 border rounded-lg shadow-sm p-6">
+        <div className="col-span-2 flex flex-col">
+          <p className="text-sm font-medium mb-3">Hard Skills</p>
+          <SkillsBadges skills={hardSkills} />
+          <p className="text-sm font-medium mb-3 mt-5">Soft Skills</p>
+          <SkillsBadges skills={softSkills} />
+        </div>
+        <div className="grid place-items-center max-w-[300px]">
+          <RechartsBarChart data={data} />
+        </div>
+      </div>
     </div>
   );
 };
