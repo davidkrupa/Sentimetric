@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { RiMenuFoldLine, RiMenuUnfoldLine, RiOpenaiFill } from "react-icons/ri";
+import logo from "../lib/assets/logo-first.png";
 
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -33,46 +34,46 @@ const Sidebar = () => {
         },
       ],
     },
-    {
-      title: "Results",
-      list: [
-        {
-          title: "Line",
-          path: "/dashboard/line",
-          icon: <RiOpenaiFill />,
-        },
-        {
-          title: "Area",
-          path: "/dashboard/area",
-          icon: <RiOpenaiFill />,
-        },
-        {
-          title: "Bar",
-          path: "/dashboard/bar",
-          icon: <RiOpenaiFill />,
-        },
-      ],
-    },
-    {
-      title: "Creating Project",
-      list: [
-        {
-          title: "Introduction",
-          path: "/dashboard/introduction",
-          icon: <RiOpenaiFill />,
-        },
-        {
-          title: "Presentation",
-          path: "/dashboard/presentation",
-          icon: <RiOpenaiFill />,
-        },
-        {
-          title: "Summary",
-          path: "/dashboard/summary",
-          icon: <RiOpenaiFill />,
-        },
-      ],
-    },
+    // {
+    //   title: "Results",
+    //   list: [
+    //     {
+    //       title: "Line",
+    //       path: "/dashboard/line",
+    //       icon: <RiOpenaiFill />,
+    //     },
+    //     {
+    //       title: "Area",
+    //       path: "/dashboard/area",
+    //       icon: <RiOpenaiFill />,
+    //     },
+    //     {
+    //       title: "Bar",
+    //       path: "/dashboard/bar",
+    //       icon: <RiOpenaiFill />,
+    //     },
+    //   ],
+    // },
+    // {
+    //   title: "Creating Project",
+    //   list: [
+    //     {
+    //       title: "Introduction",
+    //       path: "/dashboard/introduction",
+    //       icon: <RiOpenaiFill />,
+    //     },
+    //     {
+    //       title: "Presentation",
+    //       path: "/dashboard/presentation",
+    //       icon: <RiOpenaiFill />,
+    //     },
+    //     {
+    //       title: "Summary",
+    //       path: "/dashboard/summary",
+    //       icon: <RiOpenaiFill />,
+    //     },
+    //   ],
+    // },
   ];
 
   return (
@@ -81,13 +82,8 @@ const Sidebar = () => {
       {isSidebarOpen && (
         <div className="w-72 h-screen pb-10 md:overflow-hidden overflow-auto md:hover:overflow-auto border-r border-r-border">
           <div className="flex justify-between items-center px-2 pt-3">
-            <div className="flex">
-              <Image
-                src="../public/next.svg"
-                alt="Sentimetric logo"
-                width={40}
-                height={40}
-              />
+            <div className="flex justify-start items-center gap-3">
+              <Image src={logo} alt="Sentimetric logo" width={25} height={25} />
               <span>Sentimetric</span>
             </div>
             <button onClick={() => setIsSidebarOpen(false)}>

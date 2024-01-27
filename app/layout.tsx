@@ -3,7 +3,6 @@ import { Poppins } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 
 import "./globals.css";
-import { ThemeProvider } from "../components/themeProvider/ThemeProvider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -22,7 +21,8 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      {/* disabling warning caused by shadcn theme provider in html */}
+      <html lang="en" suppressHydrationWarning={true}>
         <body className={poppins.className}>{children}</body>
       </html>
     </ClerkProvider>
