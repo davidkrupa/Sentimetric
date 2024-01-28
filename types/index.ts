@@ -5,6 +5,7 @@ export type CreateUserParams = {
   firstName: string;
   lastName: string;
   photo: string;
+  currentProfile: string | null;
 };
 
 export type UpdateUserParams = {
@@ -32,6 +33,8 @@ export type ProfileParams = {
   jobTitle: string;
   company: string;
   industry: string;
+  userId: string;
+  _id: string;
 };
 
 type BarChartItem = {
@@ -41,4 +44,9 @@ type BarChartItem = {
 
 export type BarChartProps = {
   data: BarChartItem[];
+};
+
+export type ProfilePickerProps = {
+  data: ProfileParams[];
+  current: string;
 };

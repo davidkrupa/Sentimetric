@@ -52,6 +52,8 @@ export function ShadcnUserSkillsForm() {
     if (skillGroup === "soft skills") {
       skills.softSkills = [skill];
     }
+
+    await addSkills(skills);
   }
 
   return (

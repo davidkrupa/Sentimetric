@@ -8,6 +8,7 @@ import { handleError } from "../utils";
 import { revalidatePath } from "next/cache";
 
 import { auth } from "@clerk/nextjs";
+import Profile from "../database/models/profile.models";
 
 export const addSkills = async (skills: UserSkills) => {
   try {
@@ -25,12 +26,19 @@ export const addSkills = async (skills: UserSkills) => {
       throw new Error(`User not found with Clerk Id: ${userId}`);
     }
 
+    const profile = await Profile.findOne({ userId: user._id });
+
+    if (!profile) {
+      throw new Error("Profile not found");
+    }
+
     const jobSkills = await JobSkills.findOne({ userId: user._id });
 
     // Create new if no skills added yet
     if (!jobSkills) {
       const newJobSkills = await JobSkills.create({
-        userId: user._id, // id of related User document
+        profileId: profile._id,
+        userId: user._id,
         hardSkills: skills.hardSkills,
         softSkills: skills.softSkills,
       });
@@ -42,7 +50,10 @@ export const addSkills = async (skills: UserSkills) => {
 
     // Update existing document
     const updatedSkills = await JobSkills.findOneAndUpdate(
-      { userId: user._id },
+      {
+        userId: user._id,
+        profileId: profile._id,
+      },
       {
         $push: {
           hardSkills: { $each: skills.hardSkills },
@@ -79,7 +90,10 @@ export const getSkills = async () => {
     const jobSkills = await JobSkills.findOne({ userId: user._id });
 
     if (!jobSkills) {
-      throw new Error(`Skills not found`);
+      return {
+        hardSkills: [],
+        softSkills: [],
+      };
     }
 
     return JSON.parse(JSON.stringify(jobSkills));

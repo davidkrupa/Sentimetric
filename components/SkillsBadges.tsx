@@ -12,7 +12,7 @@ const SkillsBadges: React.FC<SkillBadgesProps> = async ({ skills }) => {
             className="mr-2 mb-2 px-3 py-1 capitalize font-medium text-muted-foreground relative group"
           >
             {skill}
-            <button className="absolute invisible group-hover:visible right-0 top-0 h-full w-full rounded-full bg-secondary">
+            <button className="absolute invisible group-hover:visible right-0 top-0 h-full w-full rounded-lg bg-secondary text-primary">
               X
             </button>
           </Badge>
