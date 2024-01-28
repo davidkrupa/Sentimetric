@@ -33,8 +33,6 @@ export type ProfileParams = {
   jobTitle: string;
   company: string;
   industry: string;
-  userId: string;
-  _id: string;
 };
 
 type BarChartItem = {
