@@ -32,7 +32,7 @@ const Page = async () => {
           <div className="flex-1">
             Analysis
             {analysis.map((item, i) => (
-              <p className="text-muted-foreground" key={i}>
+              <p className="text-muted-foreground" key={`analysis-${i}`}>
                 {item.topic}
               </p>
             ))}
