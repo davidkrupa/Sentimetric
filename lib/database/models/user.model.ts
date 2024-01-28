@@ -7,7 +7,12 @@ const UserSchema = new Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   photo: { type: String, required: true },
-  jobSkills: [{ type: Schema.Types.ObjectId, ref: "JobSkills" }],
+  currentProfile: {
+    type: Schema.Types.ObjectId,
+    ref: "Profile",
+    required: true,
+    default: null,
+  },
 });
 
 const User = models.User || model("User", UserSchema);
