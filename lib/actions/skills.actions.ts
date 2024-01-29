@@ -26,16 +26,19 @@ export const addSkills = async (skills: UserSkills) => {
       throw new Error(`User not found with Clerk Id: ${userId}`);
     }
 
-    const profile = await Profile.findOne({ userId: user._id });
+    const jobSkills = await JobSkills.findOne({
+      userId: user._id,
+      profileId: user.currentProfile,
+    });
 
-    if (!profile) {
-      throw new Error("Profile not found");
-    }
-
-    const jobSkills = await JobSkills.findOne({ userId: user._id });
-
-    // Create new if no skills added yet
+    // CREATE NEW
     if (!jobSkills) {
+      const profile = await Profile.findOne({ _id: user.currentProfile });
+
+      if (!profile) {
+        throw new Error("Profile not found");
+      }
+
       const newJobSkills = await JobSkills.create({
         profileId: profile._id,
         userId: user._id,
@@ -48,11 +51,11 @@ export const addSkills = async (skills: UserSkills) => {
       return JSON.parse(JSON.stringify(newJobSkills));
     }
 
-    // Update existing document
+    // UPDATE
     const updatedSkills = await JobSkills.findOneAndUpdate(
       {
         userId: user._id,
-        profileId: profile._id,
+        profileId: user.currentProfile,
       },
       {
         $push: {
@@ -87,7 +90,10 @@ export const getSkills = async () => {
       throw new Error(`User not found with Clerk Id: ${userId}`);
     }
 
-    const jobSkills = await JobSkills.findOne({ userId: user._id });
+    const jobSkills = await JobSkills.findOne({
+      userId: user._id,
+      profileId: user.currentProfile,
+    });
 
     if (!jobSkills) {
       return {
