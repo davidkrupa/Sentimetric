@@ -44,7 +44,16 @@ export type BarChartProps = {
   data: BarChartItem[];
 };
 
+type ProfileData = {
+  jobTitle: string;
+  company: string;
+  industry: string;
+  _id: string;
+  userId: string;
+  createdAt: string;
+};
+
 export type ProfilePickerProps = {
-  data: ProfileParams[];
+  data: ProfileData[];
   current: string;
 };
