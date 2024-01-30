@@ -9,10 +9,10 @@ const SkillsBadges: React.FC<SkillBadgesProps> = async ({ skills }) => {
           <Badge
             key={`skill-${i}`}
             variant="outline"
-            className="mr-2 mb-2 px-3 py-1 capitalize font-medium text-muted-foreground relative group"
+            className="relative group mr-2 mb-2 px-3 py-1 capitalize font-medium text-muted-foreground hover:text-transparent"
           >
             {skill}
-            <button className="absolute invisible group-hover:visible right-0 top-0 h-full w-full rounded-lg bg-secondary text-primary">
+            <button className="absolute right-0 top-0 h-full w-full rounded-lg bg-muted/50 text-primary opacity-0 group-hover:opacity-100 transition-opacity">
               X
             </button>
           </Badge>

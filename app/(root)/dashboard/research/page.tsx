@@ -12,6 +12,11 @@ import SkillsBadges from "@/components/SkillsBadges";
 import { getSkills } from "@/lib/actions/skills.actions";
 import { UserSkills } from "@/types";
 import { RechartsBarChart } from "@/components/RechartsBarChart";
+import {
+  getAllProfiles,
+  getCurrentProfileId,
+} from "@/lib/actions/profile.actions";
+import ProfilePicker from "@/components/ProfilePicker";
 
 const Page = async () => {
   const { hardSkills, softSkills }: UserSkills = await getSkills();
@@ -26,6 +31,9 @@ const Page = async () => {
       total: softSkills.length,
     },
   ];
+
+  const profiles = await getAllProfiles();
+  const currentId = await getCurrentProfileId();
 
   return (
     <div className="grid grid-cols-2 gap-6">
@@ -55,11 +63,20 @@ const Page = async () => {
       </Card>
 
       <div className="col-span-2 grid grid-cols-3 border rounded-lg shadow-sm p-6">
-        <div className="col-span-2 flex flex-col">
-          <p className="text-sm font-medium mb-3">Hard Skills</p>
-          <SkillsBadges skills={hardSkills} />
-          <p className="text-sm font-medium mb-3 mt-5">Soft Skills</p>
-          <SkillsBadges skills={softSkills} />
+        <div className="col-span-2 flex flex-col gap-6">
+          <div className="flex gap-6 items-center">
+            <ProfilePicker data={profiles} current={currentId} />
+            {/* to add - get and display company related to the current profile */}
+            <p>Google</p>
+          </div>
+          <div>
+            <p className="text-sm font-medium mb-3">Hard Skills</p>
+            <SkillsBadges skills={hardSkills} />
+          </div>
+          <div>
+            <p className="text-sm font-medium mb-3">Soft Skills</p>
+            <SkillsBadges skills={softSkills} />
+          </div>
         </div>
         <div className="grid place-items-center max-w-[300px]">
           <RechartsBarChart data={data} />
