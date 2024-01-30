@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { RiMenuFoldLine, RiMenuUnfoldLine, RiOpenaiFill } from "react-icons/ri";
 import logo from "../lib/assets/logo-first.png";
+import { usePathname } from "next/navigation";
 
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -76,11 +77,15 @@ const Sidebar = () => {
     // },
   ];
 
+  const path = usePathname();
+
+  console.log(path);
+
   return (
     <>
       {/* opened sidebar */}
       {isSidebarOpen && (
-        <div className="w-72 h-screen pb-10 md:overflow-hidden overflow-auto md:hover:overflow-auto border-r border-r-border">
+        <div className="w-60 h-screen pb-10 md:overflow-hidden overflow-auto md:hover:overflow-auto border-r border-r-border">
           <div className="flex justify-between items-center px-2 pt-3">
             <div className="flex justify-start items-center gap-3">
               <Image src={logo} alt="Sentimetric logo" width={25} height={25} />
@@ -93,14 +98,16 @@ const Sidebar = () => {
           <div>
             {menuItems.map((item) => (
               <div key={item.title}>
-                <p className="text-gray-400 dark:text-gray-400 m-3 mt-4 uppercase">
+                <p className="text-foreground m-3 mt-4 uppercase">
                   {item.title}
                 </p>
                 {item.list.map((tool) => (
                   <div key={tool.title} className="flex">
                     <Link
                       href={tool.path}
-                      className="flex items-center justify-start gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-white text-md m-2 w-full hover:bg-slate-300 transition-all delay-75 ease-out"
+                      className={`flex items-center justify-start gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-foreground text-md m-2 w-full hover:bg-muted/50 transition-colors ${
+                        tool.path === path && "bg-muted/50"
+                      }`}
                     >
                       {tool.icon}
                       <span className="capitalize">{tool.title}</span>
