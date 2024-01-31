@@ -1,9 +1,13 @@
 import { SkillBadgesProps } from "@/types";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "./ui/button";
 
-const SkillsBadges: React.FC<SkillBadgesProps> = async ({ skills }) => {
+const SkillsBadges: React.FC<SkillBadgesProps> = async ({
+  skills,
+  hasMore,
+}) => {
   return (
-    <div className="line-clamp-2">
+    <div>
       {skills.map((skill, i) => (
         <>
           <Badge
@@ -18,6 +22,8 @@ const SkillsBadges: React.FC<SkillBadgesProps> = async ({ skills }) => {
           </Badge>
         </>
       ))}
+      {/* make separate component - button need to be a client component to show dialog */}
+      {hasMore && <Button size="xs">Show All</Button>}
     </div>
   );
 };

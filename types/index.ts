@@ -22,6 +22,7 @@ export type UserSkills = {
 
 export type SkillBadgesProps = {
   skills: string[];
+  hasMore: boolean;
 };
 
 export type CustomAnalysisParams = {

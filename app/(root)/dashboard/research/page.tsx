@@ -17,9 +17,14 @@ import {
   getCurrentProfileId,
 } from "@/lib/actions/profile.actions";
 import ProfilePicker from "@/components/ProfilePicker";
+import { getShortenedList } from "@/lib/utils";
+
+const MAX_CHARS = 80;
 
 const Page = async () => {
   const { hardSkills, softSkills }: UserSkills = await getSkills();
+  const profiles = await getAllProfiles();
+  const currentId = await getCurrentProfileId();
 
   const data = [
     {
@@ -32,8 +37,8 @@ const Page = async () => {
     },
   ];
 
-  const profiles = await getAllProfiles();
-  const currentId = await getCurrentProfileId();
+  const shortenedHardSkills = getShortenedList(hardSkills, MAX_CHARS);
+  const shortenedSoftSkills = getShortenedList(softSkills, MAX_CHARS);
 
   return (
     <div className="grid grid-cols-2 gap-6">
@@ -71,11 +76,17 @@ const Page = async () => {
           </div>
           <div>
             <p className="text-sm font-medium mb-3">Hard Skills</p>
-            <SkillsBadges skills={hardSkills} />
+            <SkillsBadges
+              skills={shortenedHardSkills}
+              hasMore={hardSkills.length > shortenedHardSkills.length}
+            />
           </div>
           <div>
             <p className="text-sm font-medium mb-3">Soft Skills</p>
-            <SkillsBadges skills={softSkills} />
+            <SkillsBadges
+              skills={shortenedSoftSkills}
+              hasMore={softSkills.length > shortenedHardSkills.length}
+            />
           </div>
         </div>
         <div className="grid place-items-center max-w-[300px]">
