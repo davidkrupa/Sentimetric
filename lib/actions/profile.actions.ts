@@ -4,7 +4,7 @@ import { auth } from "@clerk/nextjs";
 import { connectToDatabase } from "../database";
 import User from "../database/models/user.model";
 import Profile from "../database/models/profile.models";
-import { ProfileParams } from "@/types";
+import { ProfileData, ProfileParams } from "@/types";
 import { handleError } from "../utils";
 import { revalidatePath } from "next/cache";
 
@@ -33,14 +33,12 @@ export const addProfile = async (data: ProfileParams) => {
       { clerkId: userId },
       { currentProfile: profile._id }
     );
-
-    console.log(profile._id);
   } catch (error) {
     handleError(error);
   }
 };
 
-export const getAllProfiles = async () => {
+export const getAllProfiles = async (): Promise<ProfileData[]> => {
   try {
     await connectToDatabase();
 
@@ -59,17 +57,22 @@ export const getAllProfiles = async () => {
     const profiles = await Profile.find({ userId: user._id });
 
     if (!profiles) {
-      return {
-        data: [],
-        current: {},
-      };
+      return [
+        {
+          jobTitle: "",
+          company: "",
+          industry: "",
+          _id: "",
+          userId: "",
+          createdAt: "",
+        },
+      ];
     }
-
-    console.log(user.currentProfile);
 
     return JSON.parse(JSON.stringify(profiles));
   } catch (error) {
     handleError(error);
+    return [];
   }
 };
 
@@ -113,8 +116,6 @@ export const getCurrentProfileId = async () => {
     }
 
     const user = await User.findOne({ clerkId: userId });
-
-    console.log(user.currentProfile);
 
     return JSON.parse(JSON.stringify(user.currentProfile));
   } catch (error) {

@@ -79,8 +79,6 @@ const Sidebar = () => {
 
   const path = usePathname();
 
-  console.log(path);
-
   return (
     <>
       {/* opened sidebar */}

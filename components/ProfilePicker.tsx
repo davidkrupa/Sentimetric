@@ -13,14 +13,9 @@ import {
 import { updateCurrentProfile } from "@/lib/actions/profile.actions";
 import { ProfilePickerProps } from "@/types";
 const ProfilePicker = ({ data, current }: ProfilePickerProps) => {
-  console.log("DATA: ", data);
-  console.log("CURRENT: ", current);
-
   const currentProfile = data.find((profile) => profile._id === current);
 
   const handleChange = async (e: string) => {
-    console.log("ID UPDATE: ", e);
-
     await updateCurrentProfile(e);
   };
 
