@@ -10,13 +10,19 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { getAllAnalysis } from "@/lib/actions/analysis.actions";
 import { getSkills } from "@/lib/actions/skills.actions";
+import { getShortenedList } from "@/lib/utils";
 import { UserSkills } from "@/types";
+
+const MAX_CHARS = 60;
 
 const Page = async () => {
   const [analysis, { hardSkills, softSkills }] = await Promise.all([
     getAllAnalysis(),
     getSkills(),
   ]);
+
+  const shortenedHardSkills = getShortenedList(hardSkills, MAX_CHARS);
+  const shortenedSoftSkills = getShortenedList(softSkills, MAX_CHARS);
 
   return (
     <main className="rounded-lg border shadow-sm p-6">
@@ -25,9 +31,15 @@ const Page = async () => {
           <div className="flex-1">Profile</div>
           <div className="flex-1">
             <p className="text-sm font-medium mb-1">Hard Skills</p>
-            <SkillsBadges skills={hardSkills} />
+            <SkillsBadges
+              skills={shortenedHardSkills}
+              hasMore={hardSkills.length > shortenedHardSkills.length}
+            />
             <p className="text-sm font-medium mb-1 mt-2">Soft Skills</p>
-            <SkillsBadges skills={softSkills} />
+            <SkillsBadges
+              skills={shortenedSoftSkills}
+              hasMore={softSkills.length > shortenedSoftSkills.length}
+            />
           </div>
           <div className="flex-1">
             Analysis

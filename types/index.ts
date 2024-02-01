@@ -45,7 +45,7 @@ export type BarChartProps = {
   data: BarChartItem[];
 };
 
-type ProfileData = {
+export type ProfileData = {
   jobTitle: string;
   company: string;
   industry: string;

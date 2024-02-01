@@ -40,6 +40,8 @@ const Page = async () => {
   const shortenedHardSkills = getShortenedList(hardSkills, MAX_CHARS);
   const shortenedSoftSkills = getShortenedList(softSkills, MAX_CHARS);
 
+  const currentProfile = profiles.find((profile) => profile._id === currentId);
+
   return (
     <div className="grid grid-cols-2 gap-6">
       <Card>
@@ -71,8 +73,7 @@ const Page = async () => {
         <div className="col-span-2 flex flex-col gap-6">
           <div className="flex gap-6 items-center">
             <ProfilePicker data={profiles} current={currentId} />
-            {/* to add - get and display company related to the current profile */}
-            <p>Google</p>
+            <p>{currentProfile?.company}</p>
           </div>
           <div>
             <p className="text-sm font-medium mb-3">Hard Skills</p>
@@ -85,7 +86,7 @@ const Page = async () => {
             <p className="text-sm font-medium mb-3">Soft Skills</p>
             <SkillsBadges
               skills={shortenedSoftSkills}
-              hasMore={softSkills.length > shortenedHardSkills.length}
+              hasMore={softSkills.length > shortenedSoftSkills.length}
             />
           </div>
         </div>
