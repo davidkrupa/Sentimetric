@@ -5,6 +5,7 @@ import { Button } from "./ui/button";
 const SkillsBadges: React.FC<SkillBadgesProps> = async ({
   skills,
   hasMore,
+  children,
 }) => {
   return (
     <div>
@@ -22,8 +23,8 @@ const SkillsBadges: React.FC<SkillBadgesProps> = async ({
           </Badge>
         </>
       ))}
-      {/* make separate component - button need to be a client component to show dialog */}
-      {hasMore && <Button size="xs">Show All</Button>}
+
+      {hasMore && children}
     </div>
   );
 };

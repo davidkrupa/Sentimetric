@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export type CreateUserParams = {
   clerkId: string;
   email: string;
@@ -23,6 +25,7 @@ export type UserSkills = {
 export type SkillBadgesProps = {
   skills: string[];
   hasMore: boolean;
+  children?: ReactNode;
 };
 
 export type CustomAnalysisParams = {
