@@ -18,6 +18,7 @@ import {
 } from "@/lib/actions/profile.actions";
 import ProfilePicker from "@/components/ProfilePicker";
 import { getShortenedList } from "@/lib/utils";
+import ShowAllDialog from "@/components/ShowAllDialog";
 
 const MAX_CHARS = 80;
 
@@ -80,14 +81,18 @@ const Page = async () => {
             <SkillsBadges
               skills={shortenedHardSkills}
               hasMore={hardSkills.length > shortenedHardSkills.length}
-            />
+            >
+              <ShowAllDialog skills={hardSkills} hasMore={false} />
+            </SkillsBadges>
           </div>
           <div>
             <p className="text-sm font-medium mb-3">Soft Skills</p>
             <SkillsBadges
               skills={shortenedSoftSkills}
               hasMore={softSkills.length > shortenedSoftSkills.length}
-            />
+            >
+              <ShowAllDialog skills={softSkills} hasMore={false} />
+            </SkillsBadges>
           </div>
         </div>
         <div className="grid place-items-center max-w-[300px]">
