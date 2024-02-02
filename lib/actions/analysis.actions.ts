@@ -63,7 +63,10 @@ export async function getAllAnalysis(): Promise<CustomAnalysisParams[]> {
       throw new Error(`User not found with Clerk Id: ${userId}`);
     }
 
-    const allAnalysis = await CustomAnalysis.find({ userId: user._id });
+    const allAnalysis = await CustomAnalysis.find({
+      userId: user._id,
+      profileId: user.currentProfile,
+    });
 
     if (!allAnalysis) {
       throw new Error("Analysis for user not found");
