@@ -47,10 +47,10 @@ export function ShadcnUserSkillsForm() {
     };
 
     if (skillGroup === "hard skills") {
-      skills.hardSkills = [skill];
+      skills.hardSkills = [skill.toLowerCase().trim()];
     }
     if (skillGroup === "soft skills") {
-      skills.softSkills = [skill];
+      skills.softSkills = [skill.toLowerCase().trim()];
     }
 
     await addSkills(skills);

@@ -1,9 +1,10 @@
 import { SkillBadgesProps } from "@/types";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "./ui/button";
+import DeleteBadgeButton from "./DeleteBadgeButton";
 
 const SkillsBadges: React.FC<SkillBadgesProps> = async ({
   skills,
+  type,
   hasMore,
   children,
 }) => {
@@ -17,9 +18,7 @@ const SkillsBadges: React.FC<SkillBadgesProps> = async ({
             className="relative group mr-2 mb-2 px-3 py-1 capitalize font-medium text-muted-foreground hover:text-transparent"
           >
             {skill}
-            <button className="absolute right-0 top-0 h-full w-full rounded-lg bg-muted/50 text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-              X
-            </button>
+            <DeleteBadgeButton skill={skill} type={type} />
           </Badge>
         </>
       ))}

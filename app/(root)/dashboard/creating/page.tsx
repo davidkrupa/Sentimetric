@@ -33,11 +33,13 @@ const Page = async () => {
             <p className="text-sm font-medium mb-1">Hard Skills</p>
             <SkillsBadges
               skills={shortenedHardSkills}
+              type="hardSkills"
               hasMore={hardSkills.length > shortenedHardSkills.length}
             />
             <p className="text-sm font-medium mb-1 mt-2">Soft Skills</p>
             <SkillsBadges
               skills={shortenedSoftSkills}
+              type="softSkills"
               hasMore={softSkills.length > shortenedSoftSkills.length}
             />
           </div>

@@ -58,7 +58,7 @@ export const addSkills = async (skills: UserSkills) => {
         profileId: user.currentProfile,
       },
       {
-        $push: {
+        $addToSet: {
           hardSkills: { $each: skills.hardSkills },
           softSkills: { $each: skills.softSkills },
         },
@@ -103,6 +103,35 @@ export const getSkills = async () => {
     }
 
     return JSON.parse(JSON.stringify(jobSkills));
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+export const deleteOneSkill = async (skill: string, type: string) => {
+  try {
+    await connectToDatabase();
+
+    const { userId }: { userId: string | null } = auth();
+
+    if (!userId) {
+      throw new Error("User not authorized");
+    }
+
+    const user = await User.findOne({ clerkId: userId });
+
+    if (!user) {
+      throw new Error(`User not found with Clerk Id: ${userId}`);
+    }
+
+    const updatdSkills = await JobSkills.updateOne(
+      { userId: user._id, profileId: user.currentProfile },
+      { $pull: { [type]: skill } }
+    );
+
+    console.log("UPDATED: ", updatdSkills);
+
+    revalidatePath("/dashboard");
   } catch (error) {
     handleError(error);
   }
