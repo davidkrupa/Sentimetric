@@ -80,18 +80,28 @@ const Page = async () => {
             <p className="text-sm font-medium mb-3">Hard Skills</p>
             <SkillsBadges
               skills={shortenedHardSkills}
+              type="hardSkills"
               hasMore={hardSkills.length > shortenedHardSkills.length}
             >
-              <ShowAllDialog skills={hardSkills} hasMore={false} />
+              <ShowAllDialog
+                skills={hardSkills}
+                type="hardSkills"
+                hasMore={false}
+              />
             </SkillsBadges>
           </div>
           <div>
             <p className="text-sm font-medium mb-3">Soft Skills</p>
             <SkillsBadges
               skills={shortenedSoftSkills}
+              type="softSkills"
               hasMore={softSkills.length > shortenedSoftSkills.length}
             >
-              <ShowAllDialog skills={softSkills} hasMore={false} />
+              <ShowAllDialog
+                skills={softSkills}
+                type="softSkills"
+                hasMore={false}
+              />
             </SkillsBadges>
           </div>
         </div>

@@ -24,6 +24,7 @@ export type UserSkills = {
 
 export type SkillBadgesProps = {
   skills: string[];
+  type: "hardSkills" | "softSkills";
   hasMore: boolean;
   children?: ReactNode;
 };
@@ -60,4 +61,9 @@ export type ProfileData = {
 export type ProfilePickerProps = {
   data: ProfileData[];
   current: string;
+};
+
+export type DeleteBadgeButtonProps = {
+  skill: string;
+  type: string;
 };
