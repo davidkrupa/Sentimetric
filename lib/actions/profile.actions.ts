@@ -101,6 +101,39 @@ export const updateCurrentProfile = async (id: string) => {
   }
 };
 
+export const updateProfileCurrentAnalysis = async (id: string) => {
+  try {
+    await connectToDatabase();
+
+    const { userId }: { userId: string | null } = auth();
+
+    if (!userId) {
+      throw new Error("User not authorized");
+    }
+
+    const user = await User.findOne({ clerkId: userId });
+
+    if (!user) {
+      throw new Error(`User not found with Clerk Id: ${userId}`);
+    }
+
+    const updatedProfile = await Profile.findOneAndUpdate(
+      { _id: user.currentProfile, userId: user._id },
+      { currentAnalysis: id }
+    );
+
+    console.log("UPDATED PROFILE: ", updatedProfile);
+
+    if (!updatedProfile) {
+      throw new Error(`Profile not found with Clerk Id: ${userId}`);
+    }
+
+    revalidatePath("/dashboard/analysis");
+  } catch (error) {
+    handleError(error);
+  }
+};
+
 export const getCurrentProfileId = async () => {
   try {
     await connectToDatabase();
