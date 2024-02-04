@@ -9,11 +9,24 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { getAllAnalysis } from "@/lib/actions/analysis.actions";
+import {
+  getAllAnalysis,
+  getCurrentAnalysis,
+} from "@/lib/actions/analysis.actions";
 import { columns } from "@/lib/tables/columns";
 
-const page = async () => {
+const Page = async () => {
   const data = await getAllAnalysis();
+  const currentAnalysis = await getCurrentAnalysis();
+
+  const formattedContent = currentAnalysis?.content
+    .split("\n")
+    .map((line: string, i: number) => (
+      <p key={`line-${i}`}>
+        {line}
+        <br />
+      </p>
+    ));
 
   return (
     <main className="grid gap-6">
@@ -32,18 +45,24 @@ const page = async () => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Your Current Analysis</CardTitle>
-            <CardDescription>Topic from previous form</CardDescription>
+            <CardTitle>Your Analysis</CardTitle>
+            <CardDescription>{currentAnalysis?.topic}</CardDescription>
           </CardHeader>
           <CardContent>
-            <ScrollArea className="h-72">Content of the analysis.</ScrollArea>
+            <ScrollArea className="h-72 text-sm text-muted-foreground leading-normal">
+              {formattedContent}
+            </ScrollArea>
           </CardContent>
         </Card>
       </div>
 
-      <DataTable columns={columns} data={data} />
+      <DataTable
+        columns={columns}
+        data={data}
+        currentId={currentAnalysis?._id}
+      />
     </main>
   );
 };
 
-export default page;
+export default Page;
