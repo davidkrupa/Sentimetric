@@ -6,6 +6,12 @@ const ProfileSchema = new Schema({
   industry: { type: String, required: true },
   userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
   createdAt: { type: Date, default: Date.now },
+  currentAnalysis: {
+    type: Schema.Types.ObjectId,
+    ref: "Analysis",
+    required: true,
+    default: null,
+  },
 });
 
 const Profile = models.Profile || model("Profile", ProfileSchema);

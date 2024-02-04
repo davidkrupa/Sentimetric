@@ -15,21 +15,29 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { updateProfileCurrentAnalysis } from "@/lib/actions/profile.actions";
+import { CustomAnalysisParams } from "@/types";
 
-interface DataTableProps<TData, TValue> {
+interface DataTableProps<TData extends CustomAnalysisParams, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  currentId: string;
 }
 
-export function DataTable<TData, TValue>({
+export function DataTable<TData extends CustomAnalysisParams, TValue>({
   columns,
   data,
+  currentId,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
+
+  const handleRowClick = async (row: TData) => {
+    await updateProfileCurrentAnalysis(row._id);
+  };
 
   return (
     <div className="rounded-md border">
@@ -54,10 +62,14 @@ export function DataTable<TData, TValue>({
         </TableHeader>
         <TableBody>
           {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
+            table.getRowModel().rows.map((row, i) => (
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
+                onClick={() => handleRowClick(row.original)}
+                className={`cursor-pointer ${
+                  row.original?._id === currentId && "bg-muted/50"
+                }`}
               >
                 {row.getVisibleCells().map((cell) => (
                   // bug in columns definition, need to truncate here for now
@@ -70,7 +82,7 @@ export function DataTable<TData, TValue>({
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+                No analysis yet.
               </TableCell>
             </TableRow>
           )}
