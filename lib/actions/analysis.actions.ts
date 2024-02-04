@@ -5,10 +5,12 @@ import { auth } from "@clerk/nextjs";
 import { CustomAnalysisParams } from "@/types";
 import CustomAnalysis from "../database/models/analysis.model";
 import User from "../database/models/user.model";
+import Profile from "../database/models/profile.models";
 import { connectToDatabase } from "../database";
 import { getAiResponse } from "./openai.actions";
 import { handleError } from "../utils";
 import { revalidatePath } from "next/cache";
+import { updateProfileCurrentAnalysis } from "./profile.actions";
 
 export const getAnalysisAndSave = async (data: CustomAnalysisParams) => {
   try {
@@ -35,11 +37,14 @@ export const getAnalysisAndSave = async (data: CustomAnalysisParams) => {
       topic: data.topic,
       content: openAiResponse,
       userId: user._id,
+      profileId: user.currentProfile,
     });
 
     if (!analysis) {
       throw new Error("Error during creating analyis");
     }
+
+    await updateProfileCurrentAnalysis(analysis._id);
 
     revalidatePath("/dashboard/analysis");
   } catch (error) {
@@ -47,7 +52,7 @@ export const getAnalysisAndSave = async (data: CustomAnalysisParams) => {
   }
 };
 
-export async function getAllAnalysis(): Promise<CustomAnalysisParams[]> {
+export const getAllAnalysis = async (): Promise<CustomAnalysisParams[]> => {
   try {
     const { userId }: { userId: string | null } = auth();
 
@@ -88,4 +93,37 @@ export async function getAllAnalysis(): Promise<CustomAnalysisParams[]> {
 
   // for typescript
   return [];
-}
+};
+
+export const getCurrentAnalysis = async () => {
+  try {
+    const { userId }: { userId: string | null } = auth();
+
+    if (!userId) {
+      throw new Error("User not authorized");
+    }
+
+    await connectToDatabase();
+
+    const user = await User.findOne({ clerkId: userId });
+
+    if (!user) {
+      throw new Error(`User not found with Clerk Id: ${userId}`);
+    }
+
+    const profile = await Profile.findOne({ _id: user.currentProfile });
+
+    if (!profile) {
+      throw new Error("Profile not found");
+    }
+
+    const analysis = await CustomAnalysis.findOne({
+      userId: user._id,
+      _id: profile.currentAnalysis,
+    });
+
+    return JSON.parse(JSON.stringify(analysis));
+  } catch (error) {
+    handleError(error);
+  }
+};
