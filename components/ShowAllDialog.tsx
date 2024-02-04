@@ -15,6 +15,7 @@ import { SkillBadgesProps } from "@/types";
 const ShowAllDialog: React.FC<SkillBadgesProps> = async ({
   skills,
   hasMore,
+  type,
 }) => {
   return (
     <Dialog>
@@ -28,7 +29,7 @@ const ShowAllDialog: React.FC<SkillBadgesProps> = async ({
             All the skills you have in your current profile.
           </DialogDescription>
         </DialogHeader>
-        <SkillsBadges skills={skills} hasMore={hasMore} />
+        <SkillsBadges skills={skills} type={type} hasMore={hasMore} />
         <DialogFooter className="sm:justify-start">
           <DialogClose asChild>
             <Button type="button" variant="secondary">

@@ -129,8 +129,6 @@ export const deleteOneSkill = async (skill: string, type: string) => {
       { $pull: { [type]: skill } }
     );
 
-    console.log("UPDATED: ", updatdSkills);
-
     revalidatePath("/dashboard");
   } catch (error) {
     handleError(error);
