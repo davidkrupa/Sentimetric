@@ -16,18 +16,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { updateProfileCurrentAnalysis } from "@/lib/actions/profile.actions";
+import { CustomAnalysisParams } from "@/types";
 
-interface RowId {
-  _id: string;
-}
-
-interface DataTableProps<TData extends RowId, TValue> {
+interface DataTableProps<TData extends CustomAnalysisParams, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   currentId: string;
 }
 
-export function DataTable<TData extends RowId, TValue>({
+export function DataTable<TData extends CustomAnalysisParams, TValue>({
   columns,
   data,
   currentId,

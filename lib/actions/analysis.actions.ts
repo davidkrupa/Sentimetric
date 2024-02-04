@@ -2,7 +2,7 @@
 
 import { auth } from "@clerk/nextjs";
 
-import { CustomAnalysisParams } from "@/types";
+import { CustomAnalysisParams, SaveAnalysisParams } from "@/types";
 import CustomAnalysis from "../database/models/analysis.model";
 import User from "../database/models/user.model";
 import Profile from "../database/models/profile.models";
@@ -12,7 +12,7 @@ import { handleError } from "../utils";
 import { revalidatePath } from "next/cache";
 import { updateProfileCurrentAnalysis } from "./profile.actions";
 
-export const getAnalysisAndSave = async (data: CustomAnalysisParams) => {
+export const getAnalysisAndSave = async (data: SaveAnalysisParams) => {
   try {
     const { userId }: { userId: string | null } = auth();
 

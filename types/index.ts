@@ -32,6 +32,12 @@ export type SkillBadgesProps = {
 export type CustomAnalysisParams = {
   topic: string;
   content: string;
+  _id: string;
+};
+
+export type SaveAnalysisParams = {
+  topic: string;
+  content: string;
 };
 
 export type ProfileParams = {
