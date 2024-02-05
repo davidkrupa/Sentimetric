@@ -29,10 +29,12 @@ export const addProfile = async (data: ProfileParams) => {
       userId: user._id,
     });
 
-    const editedUser = await User.findOneAndUpdate(
+    await User.findOneAndUpdate(
       { clerkId: userId },
       { currentProfile: profile._id }
     );
+
+    revalidatePath("/dashboard/research");
   } catch (error) {
     handleError(error);
   }
@@ -57,7 +59,7 @@ export const getAllProfiles = async (): Promise<ProfileData[]> => {
     const profiles = await Profile.find({ userId: user._id });
 
     if (!profiles) {
-      return [
+      const emptyProfile: ProfileData[] = [
         {
           jobTitle: "",
           company: "",
@@ -67,13 +69,15 @@ export const getAllProfiles = async (): Promise<ProfileData[]> => {
           createdAt: "",
         },
       ];
+      return emptyProfile;
     }
 
     return JSON.parse(JSON.stringify(profiles));
   } catch (error) {
     handleError(error);
-    return [];
   }
+
+  return [];
 };
 
 export const updateCurrentProfile = async (id: string) => {
@@ -92,7 +96,7 @@ export const updateCurrentProfile = async (id: string) => {
     );
 
     if (!updatedUser) {
-      throw new Error(`User not found with Clerk Id: ${userId}`);
+      throw new Error("User not updated");
     }
 
     revalidatePath("/dashboard");
@@ -122,10 +126,8 @@ export const updateProfileCurrentAnalysis = async (id: string) => {
       { currentAnalysis: id }
     );
 
-    console.log("UPDATED PROFILE: ", updatedProfile);
-
     if (!updatedProfile) {
-      throw new Error(`Profile not found with Clerk Id: ${userId}`);
+      throw new Error("Profile not updated");
     }
 
     revalidatePath("/dashboard/analysis");
@@ -134,7 +136,7 @@ export const updateProfileCurrentAnalysis = async (id: string) => {
   }
 };
 
-export const getCurrentProfileId = async () => {
+export const getCurrentProfileId = async (): Promise<string> => {
   try {
     await connectToDatabase();
 
@@ -144,14 +146,15 @@ export const getCurrentProfileId = async () => {
       throw new Error("User not authorized");
     }
 
-    if (!userId) {
-      throw new Error("User not authorized");
-    }
-
     const user = await User.findOne({ clerkId: userId });
+
+    if (!user) {
+      throw new Error(`User not found with Clerk Id: ${userId}`);
+    }
 
     return JSON.parse(JSON.stringify(user.currentProfile));
   } catch (error) {
     handleError(error);
+    return "";
   }
 };

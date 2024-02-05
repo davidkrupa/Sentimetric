@@ -15,7 +15,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { getAiResponse } from "@/lib/actions/openai.actions";
 import { JobDetailsFormSchema } from "@/lib/formSchemas/input.schemas";
 import { addProfile } from "@/lib/actions/profile.actions";
 
