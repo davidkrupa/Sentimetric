@@ -9,7 +9,6 @@ const ProfileSchema = new Schema({
   currentAnalysis: {
     type: Schema.Types.ObjectId,
     ref: "Analysis",
-    required: true,
     default: null,
   },
 });

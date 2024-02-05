@@ -50,7 +50,7 @@ const Page = async () => {
           </CardHeader>
           <CardContent>
             <ScrollArea className="h-72 text-sm text-muted-foreground leading-normal">
-              {formattedContent}
+              {formattedContent || "No analysis yet"}
             </ScrollArea>
           </CardContent>
         </Card>

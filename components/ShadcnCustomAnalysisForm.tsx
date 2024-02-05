@@ -68,7 +68,7 @@ export function ShadcnCustomAnalysisForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Analyze</Button>
+        <Button type="submit">Generate Analysis</Button>
       </form>
     </Form>
   );

@@ -10,7 +10,6 @@ const UserSchema = new Schema({
   currentProfile: {
     type: Schema.Types.ObjectId,
     ref: "Profile",
-    required: true,
     default: null,
   },
 });
