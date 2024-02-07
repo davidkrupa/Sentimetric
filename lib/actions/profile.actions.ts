@@ -34,7 +34,7 @@ export const addProfile = async (data: ProfileParams) => {
       { currentProfile: profile._id }
     );
 
-    revalidatePath("/dashboard/research");
+    revalidatePath("/dashboard/profile");
   } catch (error) {
     handleError(error);
   }

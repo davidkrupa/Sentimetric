@@ -46,7 +46,7 @@ export const addSkills = async (skills: UserSkills) => {
         softSkills: skills.softSkills,
       });
 
-      revalidatePath("/dashboard/research");
+      revalidatePath("/dashboard/profile");
 
       return JSON.parse(JSON.stringify(newJobSkills));
     }
@@ -66,7 +66,7 @@ export const addSkills = async (skills: UserSkills) => {
       { new: true } // return the modified document instead of original
     );
 
-    revalidatePath("/dashboard/research");
+    revalidatePath("/dashboard/profile");
 
     return JSON.parse(JSON.stringify(updatedSkills));
   } catch (error) {

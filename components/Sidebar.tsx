@@ -19,8 +19,8 @@ const Sidebar = () => {
           icon: <RiOpenaiFill />,
         },
         {
-          title: "Research",
-          path: "/dashboard/research",
+          title: "Profile",
+          path: "/dashboard/profile",
           icon: <RiOpenaiFill />,
         },
         {
@@ -29,8 +29,13 @@ const Sidebar = () => {
           icon: <RiOpenaiFill />,
         },
         {
-          title: "Creating",
-          path: "/dashboard/creating",
+          title: "Ideas",
+          path: "/dashboard/ideas",
+          icon: <RiOpenaiFill />,
+        },
+        {
+          title: "Project",
+          path: "/dashboard/project",
           icon: <RiOpenaiFill />,
         },
       ],
@@ -103,7 +108,7 @@ const Sidebar = () => {
                   <div key={tool.title} className="flex">
                     <Link
                       href={tool.path}
-                      className={`flex items-center justify-start gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-foreground text-md m-2 w-full hover:bg-muted/50 transition-colors ${
+                      className={`flex items-center justify-start gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-muted-foreground hover:text-foreground text-md m-2 w-full hover:bg-muted/50 transition-colors ${
                         tool.path === path && "bg-muted/50"
                       }`}
                     >
