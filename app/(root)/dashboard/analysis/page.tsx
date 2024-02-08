@@ -1,4 +1,5 @@
 import { DataTable } from "@/components/DataTable";
+import DialogWithText from "@/components/DialogWithText";
 import { ShadcnCustomAnalysisForm } from "@/components/ShadcnCustomAnalysisForm";
 import {
   Card,
@@ -34,9 +35,9 @@ const Page = async () => {
         <Card>
           <CardHeader>
             <CardTitle>Custom Analysis</CardTitle>
-            <CardDescription>
-              Analyze areas that will allow to collect data on the company's
-              goals (job offer, about us page, news).
+            <CardDescription className="flex items-start gap-4">
+              Analyze the company's goals, problems and opportunities.
+              <DialogWithText />
             </CardDescription>
           </CardHeader>
           <CardContent>
