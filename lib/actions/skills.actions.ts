@@ -1,58 +1,31 @@
 "use server";
 
-import { UserSkills } from "@/types";
+import { auth } from "@clerk/nextjs";
+import { revalidatePath } from "next/cache";
+
+import { UserParams, UserSkills } from "@/types";
 import { connectToDatabase } from "../database";
 import JobSkills from "../database/models/skills.model";
 import User from "../database/models/user.model";
-import { handleError } from "../utils";
-import { revalidatePath } from "next/cache";
 
-import { auth } from "@clerk/nextjs";
-import Profile from "../database/models/profile.models";
+const getUser = async (): Promise<UserParams> => {
+  await connectToDatabase();
 
-export const addSkills = async (skills: UserSkills) => {
+  const { userId }: { userId: string | null } = auth();
+
+  if (!userId) throw new Error("User not authorized");
+
+  const user = await User.findOne({ clerkId: userId });
+
+  if (!user) throw new Error(`User not found with Clerk Id: ${userId}`);
+
+  return user;
+};
+export const addSkills = async (skills: UserSkills): Promise<void> => {
   try {
-    await connectToDatabase();
+    const user = await getUser();
 
-    const { userId }: { userId: string | null } = auth();
-
-    if (!userId) {
-      throw new Error("User not authorized");
-    }
-
-    const user = await User.findOne({ clerkId: userId });
-
-    if (!user) {
-      throw new Error(`User not found with Clerk Id: ${userId}`);
-    }
-
-    const jobSkills = await JobSkills.findOne({
-      userId: user._id,
-      profileId: user.currentProfile,
-    });
-
-    // CREATE NEW
-    if (!jobSkills) {
-      const profile = await Profile.findOne({ _id: user.currentProfile });
-
-      if (!profile) {
-        throw new Error("Profile not found");
-      }
-
-      const newJobSkills = await JobSkills.create({
-        profileId: profile._id,
-        userId: user._id,
-        hardSkills: skills.hardSkills,
-        softSkills: skills.softSkills,
-      });
-
-      revalidatePath("/dashboard/profile");
-
-      return JSON.parse(JSON.stringify(newJobSkills));
-    }
-
-    // UPDATE
-    const updatedSkills = await JobSkills.findOneAndUpdate(
+    await JobSkills.findOneAndUpdate(
       {
         userId: user._id,
         profileId: user.currentProfile,
@@ -63,66 +36,46 @@ export const addSkills = async (skills: UserSkills) => {
           softSkills: { $each: skills.softSkills },
         },
       },
-      { new: true } // return the modified document instead of original
+      {
+        new: true, // return the modified document instead of original
+        upsert: true, // create a new document if no match is found
+      }
     );
 
     revalidatePath("/dashboard/profile");
-
-    return JSON.parse(JSON.stringify(updatedSkills));
   } catch (error) {
-    handleError(error);
+    console.error(error);
+    throw new Error("Error adding skills");
   }
 };
 
-export const getSkills = async () => {
+export const getSkills = async (): Promise<UserSkills> => {
   try {
-    await connectToDatabase();
+    const user = await getUser();
 
-    const { userId }: { userId: string | null } = auth();
-
-    if (!userId) {
-      throw new Error("User not authorized");
-    }
-
-    const user = await User.findOne({ clerkId: userId });
-
-    if (!user) {
-      throw new Error(`User not found with Clerk Id: ${userId}`);
-    }
-
-    const jobSkills = await JobSkills.findOne({
+    const jobSkills = await JobSkills.findOne<UserSkills>({
       userId: user._id,
       profileId: user.currentProfile,
     });
 
-    if (!jobSkills) {
-      return {
-        hardSkills: [],
-        softSkills: [],
-      };
-    }
+    const returnValue = {
+      hardSkills: jobSkills?.hardSkills ?? [],
+      softSkills: jobSkills?.softSkills ?? [],
+    };
 
-    return JSON.parse(JSON.stringify(jobSkills));
+    return returnValue;
   } catch (error) {
-    handleError(error);
+    console.error(error);
+    throw new Error("Error getting skills");
   }
 };
 
-export const deleteOneSkill = async (skill: string, type: string) => {
+export const deleteOneSkill = async (
+  skill: string,
+  type: string
+): Promise<void> => {
   try {
-    await connectToDatabase();
-
-    const { userId }: { userId: string | null } = auth();
-
-    if (!userId) {
-      throw new Error("User not authorized");
-    }
-
-    const user = await User.findOne({ clerkId: userId });
-
-    if (!user) {
-      throw new Error(`User not found with Clerk Id: ${userId}`);
-    }
+    const user = await getUser();
 
     const updatdSkills = await JobSkills.updateOne(
       { userId: user._id, profileId: user.currentProfile },
@@ -131,6 +84,7 @@ export const deleteOneSkill = async (skill: string, type: string) => {
 
     revalidatePath("/dashboard");
   } catch (error) {
-    handleError(error);
+    console.error(error);
+    throw new Error("Error deleting the skill");
   }
 };
