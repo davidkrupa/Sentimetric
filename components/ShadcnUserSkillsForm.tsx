@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -30,6 +31,8 @@ import { addSkills } from "@/lib/actions/skills.actions";
 import { UserSkills } from "@/types";
 
 export function ShadcnUserSkillsForm() {
+  const [error, setError] = useState<string | null>(null);
+
   const form = useForm<z.infer<typeof UserSkillsFormSchema>>({
     resolver: zodResolver(UserSkillsFormSchema),
     defaultValues: {
@@ -53,7 +56,12 @@ export function ShadcnUserSkillsForm() {
       skills.softSkills = [skill.toLowerCase().trim()];
     }
 
-    await addSkills(skills);
+    try {
+      await addSkills(skills);
+      form.setValue("skill", ""); // clear skill input after submit
+    } catch (error) {
+      setError((error as Error).message);
+    }
   }
 
   return (
@@ -104,6 +112,10 @@ export function ShadcnUserSkillsForm() {
           )}
         />
         <Button type="submit">Add Skill</Button>
+        {/* Improve UI of an error or change to alert */}
+        {error && (
+          <p className="text-sm font-medium text-destructive">{error}</p>
+        )}
       </form>
     </Form>
   );
