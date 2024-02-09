@@ -23,7 +23,7 @@ import ShowAllDialog from "@/components/ShowAllDialog";
 const MAX_CHARS = 80;
 
 const Page = async () => {
-  const { hardSkills, softSkills }: UserSkills = await getSkills();
+  const { hardSkills, softSkills } = await getSkills();
   const profiles = await getAllProfiles();
   const currentId = await getCurrentProfileId();
 

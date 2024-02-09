@@ -10,6 +10,10 @@ export type CreateUserParams = {
   currentProfile: string | null;
 };
 
+export type UserParams = CreateUserParams & {
+  _id: string;
+};
+
 export type UpdateUserParams = {
   username: string;
   firstName: string;

@@ -1,10 +1,11 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+
 import { CreateUserParams, UpdateUserParams } from "@/types";
 import { connectToDatabase } from "../database";
 import User from "../database/models/user.model";
 import { handleError } from "../utils";
-import { revalidatePath } from "next/cache";
 
 export const createUser = async (user: CreateUserParams) => {
   try {
