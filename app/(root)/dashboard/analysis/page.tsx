@@ -5,7 +5,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -17,6 +16,8 @@ import {
 import { columns } from "@/lib/tables/columns";
 
 const Page = async () => {
+  await new Promise<void>((resolve) => setTimeout(resolve, 3000));
+
   const data = await getAllAnalysis();
   const currentAnalysis = await getCurrentAnalysis();
 

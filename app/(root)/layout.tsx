@@ -1,6 +1,9 @@
+import { Suspense } from "react";
+
 import DashboardNavbar from "@/components/DashboardNavbar";
 import Sidebar from "@/components/Sidebar";
 import ThemeProvider from "../../contexts/ThemeProvider";
+import SkeletonNavbar from "@/components/SkeletonNavbar";
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -13,7 +16,9 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       <div className="flex h-screen overflow-y-hidden bg-background">
         <Sidebar />
         <div className="flex flex-col flex-1 overflow-y-auto w-full">
-          <DashboardNavbar />
+          <Suspense fallback={<SkeletonNavbar />}>
+            <DashboardNavbar />
+          </Suspense>
           <main className="flex-1 p-4">{children}</main>
         </div>
       </div>
