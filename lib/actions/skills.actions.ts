@@ -77,7 +77,7 @@ export const deleteOneSkill = async (
   try {
     const user = await getUser();
 
-    const updatdSkills = await JobSkills.updateOne(
+    await JobSkills.updateOne(
       { userId: user._id, profileId: user.currentProfile },
       { $pull: { [type]: skill } }
     );
