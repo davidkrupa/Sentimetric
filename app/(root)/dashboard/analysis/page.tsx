@@ -1,6 +1,7 @@
-import { DataTable } from "@/components/DataTable";
+import AnalysisTable from "@/components/AnalysisTable";
 import DialogWithText from "@/components/DialogWithText";
 import { ShadcnCustomAnalysisForm } from "@/components/ShadcnCustomAnalysisForm";
+import ShowAnalysisCard from "@/components/ShowAnalysisCard";
 import {
   Card,
   CardContent,
@@ -8,28 +9,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  getAllAnalysis,
-  getCurrentAnalysis,
-} from "@/lib/actions/analysis.actions";
-import { columns } from "@/lib/tables/columns";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Suspense } from "react";
 
 const Page = async () => {
-  await new Promise<void>((resolve) => setTimeout(resolve, 3000));
-
-  const data = await getAllAnalysis();
-  const currentAnalysis = await getCurrentAnalysis();
-
-  const formattedContent = currentAnalysis?.content
-    .split("\n")
-    .map((line: string, i: number) => (
-      <p key={`line-${i}`}>
-        {line}
-        <br />
-      </p>
-    ));
-
   return (
     <main className="grid gap-6">
       <div className="grid grid-cols-2 gap-6">
@@ -45,24 +28,15 @@ const Page = async () => {
             <ShadcnCustomAnalysisForm />
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Your Analysis</CardTitle>
-            <CardDescription>{currentAnalysis?.topic}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ScrollArea className="h-72 text-sm text-muted-foreground leading-normal">
-              {formattedContent || "No analysis yet"}
-            </ScrollArea>
-          </CardContent>
-        </Card>
+
+        <Suspense fallback={<Skeleton />}>
+          <ShowAnalysisCard />
+        </Suspense>
       </div>
 
-      <DataTable
-        columns={columns}
-        data={data}
-        currentId={currentAnalysis?._id}
-      />
+      <Suspense fallback={<Skeleton className="h-32" />}>
+        <AnalysisTable />
+      </Suspense>
     </main>
   );
 };
