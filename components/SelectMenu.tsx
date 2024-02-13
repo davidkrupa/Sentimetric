@@ -11,8 +11,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { updateCurrentProfile } from "@/lib/actions/profile.actions";
-import { ProfilePickerProps } from "@/types";
-const ProfilePicker = ({ data, current }: ProfilePickerProps) => {
+import { SelectMenuProps } from "@/types";
+const SelectMenu = ({ data, current }: SelectMenuProps) => {
   const currentProfile = data.find((profile) => profile._id === current);
 
   const handleChange = async (e: string) => {
@@ -48,4 +48,4 @@ const ProfilePicker = ({ data, current }: ProfilePickerProps) => {
   );
 };
 
-export default ProfilePicker;
+export default SelectMenu;
