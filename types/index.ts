@@ -68,7 +68,7 @@ export type ProfileData = {
   createdAt: string;
 };
 
-export type ProfilePickerProps = {
+export type SelectMenuProps = {
   data: ProfileData[];
   current: string;
 };
@@ -76,4 +76,9 @@ export type ProfilePickerProps = {
 export type DeleteBadgeButtonProps = {
   skill: string;
   type: string;
+};
+
+export type ProfileDetailsProps = {
+  showCompany: boolean;
+  showIndustry: boolean;
 };
