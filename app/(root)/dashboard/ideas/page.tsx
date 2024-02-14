@@ -13,12 +13,6 @@ const Page = async () => {
     <main className="rounded-lg border shadow-sm p-6 space-y-6">
       <div className="space-y-6">
         <div className="grid grid-cols-3 gap-4">
-          <div className="grid col-span-3 gap-4">
-            <Suspense fallback={<Skeleton className="h-10 max-w-[600px]" />}>
-              <ProfileDetails showCompany showIndustry />
-            </Suspense>
-            <Separator />
-          </div>
           <div className="col-span-2">
             <Suspense fallback={<Skeleton className="h-36" />}>
               <SkillsViewer chars={MAX_CHARS} />

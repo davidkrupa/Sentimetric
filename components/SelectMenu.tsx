@@ -10,13 +10,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { updateCurrentProfile } from "@/lib/actions/profile.actions";
+import { updateUserCurrentProfile } from "@/lib/actions/user.actions";
 import { SelectMenuProps } from "@/types";
-const SelectMenu = ({ data, current }: SelectMenuProps) => {
-  const currentProfile = data.find((profile) => profile._id === current);
-
+const SelectMenu = ({ data, currentProfile }: SelectMenuProps) => {
   const handleChange = async (e: string) => {
-    await updateCurrentProfile(e);
+    await updateUserCurrentProfile(e);
   };
 
   return (

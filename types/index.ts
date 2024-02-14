@@ -59,18 +59,22 @@ export type BarChartProps = {
   data: BarChartItem[];
 };
 
-export type ProfileData = {
+export type SingleProfileData = {
   jobTitle: string;
   company: string;
   industry: string;
   _id: string;
   userId: string;
-  createdAt: string;
+};
+
+export type ProfilesData = {
+  currentProfileId: string | null;
+  profiles: SingleProfileData[];
 };
 
 export type SelectMenuProps = {
-  data: ProfileData[];
-  current: string;
+  data: SingleProfileData[];
+  currentProfile: SingleProfileData | undefined;
 };
 
 export type DeleteBadgeButtonProps = {

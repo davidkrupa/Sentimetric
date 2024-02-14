@@ -1,13 +1,15 @@
 import { UserButton } from "@clerk/nextjs";
 
 import { ThemeDropdown } from "./ThemeDropdown";
-import ProfileSelectMenu from "./ProfileSelectMenu";
+import ProfileDetails from "./ProfileDetails";
 const DashboardNavbar = async () => {
   return (
-    <div className="flex justify-end items-center gap-4 py-2 pr-6">
-      <ProfileSelectMenu />
-      <ThemeDropdown />
-      <UserButton afterSignOutUrl="/" />
+    <div className="flex justify-between items-center px-4 pt-4">
+      <ProfileDetails showCompany={true} showIndustry={true} />
+      <div className="flex items-center ml-auto gap-4">
+        <ThemeDropdown />
+        <UserButton afterSignOutUrl="/" />
+      </div>
     </div>
   );
 };
