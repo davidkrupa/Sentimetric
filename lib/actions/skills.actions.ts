@@ -1,31 +1,19 @@
 "use server";
 
-import { auth } from "@clerk/nextjs";
 import { revalidatePath } from "next/cache";
 
-import { UserParams, UserSkills } from "@/types";
+import { UserSkills } from "@/types";
 import { connectToDatabase } from "../database";
 import JobSkills from "../database/models/skills.model";
-import User from "../database/models/user.model";
+import { getCurrentUser } from "./user.actions";
 
-const getUser = async (): Promise<UserParams> => {
-  await connectToDatabase();
-
-  const { userId }: { userId: string | null } = auth();
-
-  if (!userId) throw new Error("User not authorized");
-
-  const user = await User.findOne({ clerkId: userId });
-
-  if (!user) throw new Error(`User not found with Clerk Id: ${userId}`);
-
-  return user;
-};
 export const addSkills = async (skills: UserSkills): Promise<void> => {
   try {
-    const user = await getUser();
+    await connectToDatabase();
 
-    await JobSkills.findOneAndUpdate(
+    const user = await getCurrentUser();
+
+    const updatedSkills = await JobSkills.findOneAndUpdate(
       {
         userId: user._id,
         profileId: user.currentProfile,
@@ -42,6 +30,8 @@ export const addSkills = async (skills: UserSkills): Promise<void> => {
       }
     );
 
+    if (!updatedSkills) throw new Error("Error updating skills document");
+
     revalidatePath("/dashboard/profile");
   } catch (error) {
     console.error(error);
@@ -51,7 +41,9 @@ export const addSkills = async (skills: UserSkills): Promise<void> => {
 
 export const getSkills = async (): Promise<UserSkills> => {
   try {
-    const user = await getUser();
+    await connectToDatabase();
+
+    const user = await getCurrentUser();
 
     const jobSkills = await JobSkills.findOne<UserSkills>({
       userId: user._id,
@@ -75,12 +67,16 @@ export const deleteOneSkill = async (
   type: string
 ): Promise<void> => {
   try {
-    const user = await getUser();
+    await connectToDatabase();
 
-    await JobSkills.updateOne(
+    const user = await getCurrentUser();
+
+    const skills = await JobSkills.findOneAndUpdate(
       { userId: user._id, profileId: user.currentProfile },
       { $pull: { [type]: skill } }
     );
+
+    if (!skills) throw new Error("Error deleting one skill in skills document");
 
     revalidatePath("/dashboard");
   } catch (error) {
