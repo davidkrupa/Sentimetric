@@ -1,160 +1,78 @@
 "use server";
 
-import { auth } from "@clerk/nextjs";
+import { revalidatePath } from "next/cache";
+
 import { connectToDatabase } from "../database";
 import User from "../database/models/user.model";
 import Profile from "../database/models/profile.models";
-import { ProfileData, ProfileParams } from "@/types";
-import { handleError } from "../utils";
-import { revalidatePath } from "next/cache";
+import { ProfilesData, ProfileParams } from "@/types";
+import { getCurrentUser } from "./user.actions";
 
-export const addProfile = async (data: ProfileParams) => {
+export const addProfile = async (data: ProfileParams): Promise<void> => {
   try {
     await connectToDatabase();
 
-    const { userId }: { userId: string | null } = auth();
-
-    if (!userId) {
-      throw new Error("User not authorized");
-    }
-
-    const user = await User.findOne({ clerkId: userId });
-
-    if (!user) {
-      throw new Error(`User not found with Clerk Id: ${userId}`);
-    }
+    const user = await getCurrentUser();
 
     const profile = await Profile.create({
       ...data,
       userId: user._id,
     });
 
-    await User.findOneAndUpdate(
-      { clerkId: userId },
+    if (!profile) throw new Error("Error creating profile");
+
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: user._id },
       { currentProfile: profile._id }
     );
 
+    if (!updatedUser) throw new Error("Error updating currentProfile property");
+
     revalidatePath("/dashboard/profile");
   } catch (error) {
-    handleError(error);
+    console.error(error);
+    throw new Error("Error creating profile");
   }
 };
 
-export const getAllProfiles = async (): Promise<ProfileData[]> => {
+export const getAllProfiles = async (): Promise<ProfilesData> => {
   try {
-    await connectToDatabase();
+    connectToDatabase();
 
-    const { userId }: { userId: string | null } = auth();
-
-    if (!userId) {
-      throw new Error("User not authorized");
-    }
-
-    const user = await User.findOne({ clerkId: userId });
-
-    if (!user) {
-      throw new Error(`User not found with Clerk Id: ${userId}`);
-    }
+    const user = await getCurrentUser();
 
     const profiles = await Profile.find({ userId: user._id });
 
-    if (!profiles) {
-      const emptyProfile: ProfileData[] = [
-        {
-          jobTitle: "",
-          company: "",
-          industry: "",
-          _id: "",
-          userId: "",
-          createdAt: "",
-        },
-      ];
-      return emptyProfile;
-    }
+    if (profiles.length === 0) throw new Error("No profiles created yet");
 
-    return JSON.parse(JSON.stringify(profiles));
+    const profilesData = {
+      currentProfileId: user.currentProfile,
+      profiles: profiles,
+    };
+
+    return JSON.parse(JSON.stringify(profilesData));
   } catch (error) {
-    handleError(error);
-  }
-
-  return [];
-};
-
-export const updateCurrentProfile = async (id: string) => {
-  try {
-    await connectToDatabase();
-
-    const { userId }: { userId: string | null } = auth();
-
-    if (!userId) {
-      throw new Error("User not authorized");
-    }
-
-    const updatedUser = await User.findOneAndUpdate(
-      { clerkId: userId },
-      { currentProfile: id }
-    );
-
-    if (!updatedUser) {
-      throw new Error("User not updated");
-    }
-
-    revalidatePath("/dashboard");
-  } catch (error) {
-    handleError(error);
+    console.error(error);
+    throw new Error("Error geting profiles");
   }
 };
 
-export const updateProfileCurrentAnalysis = async (id: string) => {
+export const updateProfileCurrentAnalysis = async (
+  id: string
+): Promise<void> => {
   try {
-    await connectToDatabase();
-
-    const { userId }: { userId: string | null } = auth();
-
-    if (!userId) {
-      throw new Error("User not authorized");
-    }
-
-    const user = await User.findOne({ clerkId: userId });
-
-    if (!user) {
-      throw new Error(`User not found with Clerk Id: ${userId}`);
-    }
+    const user = await getCurrentUser();
 
     const updatedProfile = await Profile.findOneAndUpdate(
       { _id: user.currentProfile, userId: user._id },
       { currentAnalysis: id }
     );
 
-    if (!updatedProfile) {
-      throw new Error("Profile not updated");
-    }
+    if (!updatedProfile) throw new Error("Error updating profile");
 
     revalidatePath("/dashboard/analysis");
   } catch (error) {
-    handleError(error);
-  }
-};
-
-export const getCurrentProfileId = async (): Promise<string> => {
-  try {
-    await connectToDatabase();
-
-    const { userId }: { userId: string | null } = auth();
-
-    if (!userId) {
-      throw new Error("User not authorized");
-    }
-
-    const user = await User.findOne({ clerkId: userId });
-
-    if (!user) {
-      throw new Error(`User not found with Clerk Id: ${userId}`);
-    }
-
-    return JSON.parse(JSON.stringify(user.currentProfile));
-  } catch (error) {
-    handleError(error);
-    return "";
+    console.error(error);
+    throw new Error("Error updating current analysis");
   }
 };
