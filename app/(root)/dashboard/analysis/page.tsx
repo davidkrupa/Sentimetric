@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+
 import AnalysisTable from "@/components/AnalysisTable";
 import DialogWithText from "@/components/DialogWithText";
 import { ShadcnCustomAnalysisForm } from "@/components/ShadcnCustomAnalysisForm";
@@ -10,32 +12,31 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Suspense } from "react";
 
 const Page = async () => {
   return (
-    <main className="grid gap-6">
-      <div className="grid grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Custom Analysis</CardTitle>
-            <CardDescription className="flex items-start gap-4">
-              Analyze the company's goals, problems and opportunities.
-              <DialogWithText />
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ShadcnCustomAnalysisForm />
-          </CardContent>
-        </Card>
+    <main className="grid md:grid-cols-2 gap-6">
+      <Card>
+        <CardHeader>
+          <CardTitle>Custom Analysis</CardTitle>
+          <CardDescription className="flex items-start gap-4">
+            Analyze the company's goals, problems and opportunities.
+            <DialogWithText />
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ShadcnCustomAnalysisForm />
+        </CardContent>
+      </Card>
 
-        <Suspense fallback={<Skeleton />}>
-          <ShowAnalysisCard />
-        </Suspense>
-      </div>
+      <Suspense fallback={<Skeleton />}>
+        <ShowAnalysisCard />
+      </Suspense>
 
       <Suspense fallback={<Skeleton className="h-32" />}>
-        <AnalysisTable />
+        <div className="overflow-x-hidden md:col-span-2">
+          <AnalysisTable />
+        </div>
       </Suspense>
     </main>
   );
