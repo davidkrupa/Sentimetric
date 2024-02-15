@@ -13,7 +13,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       enableSystem
       disableTransitionOnChange
     >
-      <div className="flex h-screen overflow-y-hidden bg-background">
+      <div className="flex overflow-y-hidden bg-background">
         <Sidebar />
         <div className="flex flex-col flex-1 overflow-y-auto w-full">
           <Suspense fallback={<SkeletonNavbar />}>
