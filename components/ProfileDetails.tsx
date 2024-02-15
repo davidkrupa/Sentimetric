@@ -15,18 +15,22 @@ const ProfileDetails = async ({
   );
 
   return (
-    <div className="grid grid-cols-3 max-w-[600px] gap-4 place-content-start content-stretch">
-      <SelectMenu data={profiles} currentProfile={currentProfile} />
-      {showCompany && (
-        <div className="grid place-content-center">
-          <p className="line-clamp-1">{currentProfile?.company}</p>
-        </div>
-      )}
-      {showIndustry && (
-        <div className="grid place-content-center">
-          <p className="line-clamp-1">{currentProfile?.industry}</p>
-        </div>
-      )}
+    <div className="flex items-center gap-8 xl:gap-12 max-w-[600px]">
+      <div>
+        <SelectMenu data={profiles} currentProfile={currentProfile} />
+      </div>
+      <div className="flex xl:gap-12">
+        {showCompany && (
+          <p className="hidden md:block md:max-w-36 xl:max-w-48 truncate">
+            {currentProfile?.company}
+          </p>
+        )}
+        {showIndustry && (
+          <p className="hidden xl:block xl:max-w-48 truncate">
+            {currentProfile?.industry}
+          </p>
+        )}
+      </div>
     </div>
   );
 };
