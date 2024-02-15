@@ -86,3 +86,12 @@ export type ProfileDetailsProps = {
   showCompany: boolean;
   showIndustry: boolean;
 };
+
+type LineChartSingleElement = {
+  day: string;
+  activities: number;
+};
+
+export type LineChartProps = {
+  data: LineChartSingleElement[];
+};

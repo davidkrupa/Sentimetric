@@ -9,17 +9,18 @@ export function RechartsBarChart({ data }: BarChartProps) {
       <BarChart data={data}>
         <XAxis
           dataKey="name"
-          stroke="#888888"
           fontSize={12}
           tickLine={false}
           axisLine={false}
+          className="fill-muted-foreground"
+          tick={{ fill: "muted-foreground" }}
         />
         <YAxis
-          stroke="#888888"
           fontSize={12}
           tickLine={false}
           axisLine={false}
-          tickFormatter={(value) => value}
+          className="fill-muted-foreground"
+          tick={{ fill: "muted-foreground" }}
         />
         <Bar
           dataKey="total"

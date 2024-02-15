@@ -2,6 +2,7 @@
 
 import { deleteOneSkill } from "@/lib/actions/skills.actions";
 import { DeleteBadgeButtonProps } from "@/types";
+import { IoTrashOutline } from "react-icons/io5";
 
 const DeleteBadgeButton = ({ skill, type }: DeleteBadgeButtonProps) => {
   const handleDelete = async () => {
@@ -13,7 +14,7 @@ const DeleteBadgeButton = ({ skill, type }: DeleteBadgeButtonProps) => {
       onClick={() => handleDelete()}
       className="absolute right-0 top-0 h-full w-full rounded-lg bg-muted/50 text-primary opacity-0 group-hover:opacity-100 transition-opacity"
     >
-      X
+      <IoTrashOutline className="text-sm text-primary mx-auto" />
     </button>
   );
 };

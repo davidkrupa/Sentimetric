@@ -1,10 +1,10 @@
+import { Suspense } from "react";
+
 import AnalysisTitlesScrollable from "@/components/AnalysisTitlesScrollable";
 import IdeasSummary from "@/components/IdeasSummary";
-import ProfileDetails from "@/components/ProfileDetails";
 import SkillsViewer from "@/components/SkillsViewer";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Suspense } from "react";
 
 const MAX_CHARS = 80;
 
@@ -12,8 +12,8 @@ const Page = async () => {
   return (
     <main className="rounded-lg border shadow-sm p-6 space-y-6">
       <div className="space-y-6">
-        <div className="grid grid-cols-3 gap-4">
-          <div className="col-span-2">
+        <div className="grid sm:grid-cols-3 gap-6">
+          <div className="sm:col-span-2 ml-6 mr-4 sm:ml-0 sm:mr-0">
             <Suspense fallback={<Skeleton className="h-36" />}>
               <SkillsViewer chars={MAX_CHARS} />
             </Suspense>

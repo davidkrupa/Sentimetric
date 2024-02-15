@@ -4,8 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { RiMenuFoldLine, RiMenuUnfoldLine, RiOpenaiFill } from "react-icons/ri";
-import logo from "../lib/assets/logo-first.png";
 import { usePathname } from "next/navigation";
+
+import logo from "../lib/assets/logo-first.png";
+import { FaChartBar, FaRegLightbulb, FaSearchPlus } from "react-icons/fa";
+import { BsPersonVcardFill } from "react-icons/bs";
+import { GrSearchAdvanced } from "react-icons/gr";
+import { HiOutlinePencilSquare } from "react-icons/hi2";
 
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -16,70 +21,30 @@ const Sidebar = () => {
         {
           title: "Summary",
           path: "/dashboard",
-          icon: <RiOpenaiFill />,
+          icon: <FaChartBar />,
         },
         {
           title: "Profile",
           path: "/dashboard/profile",
-          icon: <RiOpenaiFill />,
+          icon: <BsPersonVcardFill />,
         },
         {
           title: "Analysis",
           path: "/dashboard/analysis",
-          icon: <RiOpenaiFill />,
+          icon: <GrSearchAdvanced />,
         },
         {
           title: "Ideas",
           path: "/dashboard/ideas",
-          icon: <RiOpenaiFill />,
+          icon: <FaRegLightbulb />,
         },
         {
           title: "Project",
           path: "/dashboard/project",
-          icon: <RiOpenaiFill />,
+          icon: <HiOutlinePencilSquare />,
         },
       ],
     },
-    // {
-    //   title: "Results",
-    //   list: [
-    //     {
-    //       title: "Line",
-    //       path: "/dashboard/line",
-    //       icon: <RiOpenaiFill />,
-    //     },
-    //     {
-    //       title: "Area",
-    //       path: "/dashboard/area",
-    //       icon: <RiOpenaiFill />,
-    //     },
-    //     {
-    //       title: "Bar",
-    //       path: "/dashboard/bar",
-    //       icon: <RiOpenaiFill />,
-    //     },
-    //   ],
-    // },
-    // {
-    //   title: "Creating Project",
-    //   list: [
-    //     {
-    //       title: "Introduction",
-    //       path: "/dashboard/introduction",
-    //       icon: <RiOpenaiFill />,
-    //     },
-    //     {
-    //       title: "Presentation",
-    //       path: "/dashboard/presentation",
-    //       icon: <RiOpenaiFill />,
-    //     },
-    //     {
-    //       title: "Summary",
-    //       path: "/dashboard/summary",
-    //       icon: <RiOpenaiFill />,
-    //     },
-    //   ],
-    // },
   ];
 
   const path = usePathname();
@@ -88,9 +53,9 @@ const Sidebar = () => {
     <>
       {/* opened sidebar */}
       {isSidebarOpen && (
-        <div className="w-60 h-screen pb-10 md:overflow-hidden overflow-auto md:hover:overflow-auto border-r border-r-border">
-          <div className="flex justify-between items-center px-2 pt-3">
-            <div className="flex justify-start items-center gap-3">
+        <aside className="w-52 min-h-screen pb-10 md:overflow-hidden overflow-auto md:hover:overflow-auto border-r border-r-border">
+          <div className="flex justify-between items-center p-4">
+            <div className="flex justify-start items-center gap-2">
               <Image src={logo} alt="Sentimetric logo" width={25} height={25} />
               <span>Sentimetric</span>
             </div>
@@ -98,35 +63,37 @@ const Sidebar = () => {
               <RiMenuFoldLine />
             </button>
           </div>
-          <div>
+          <div className="flex flex-col px-4 pt-4">
             {menuItems.map((item) => (
               <div key={item.title}>
-                <p className="text-foreground m-3 mt-4 uppercase">
+                {/* grouping sidebar routes for the future */}
+                {/* <p className="text-muted-foreground text-sm uppercase">
                   {item.title}
-                </p>
-                {item.list.map((tool) => (
-                  <div key={tool.title} className="flex">
+                </p> */}
+                <div className="flex flex-col gap-3">
+                  {item.list.map((tool) => (
                     <Link
+                      key={tool.title}
                       href={tool.path}
-                      className={`flex items-center justify-start gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-muted-foreground hover:text-foreground text-md m-2 w-full hover:bg-muted/50 transition-colors ${
+                      className={`flex items-center justify-start gap-5 py-3 px-2 rounded-lg text-muted-foreground hover:text-foreground text-md w-full hover:bg-muted/50 transition-colors ${
                         tool.path === path && "bg-muted/50"
                       }`}
                     >
                       {tool.icon}
                       <span className="capitalize">{tool.title}</span>
                     </Link>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             ))}
           </div>
-        </div>
+        </aside>
       )}
 
       {/* closed sidebar */}
       {!isSidebarOpen && (
         <button
-          className="flex justify-center items-center fixed top-5 left-0 p-2 border-r border-t border-b border-input rounded-e-full"
+          className="flex justify-center items-center fixed z-10 bottom-2 left-2 p-2 border-r border-t border-b border-input rounded-full bg-primary text-white"
           onClick={() => setIsSidebarOpen(true)}
         >
           <RiMenuUnfoldLine />

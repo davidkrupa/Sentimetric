@@ -1,21 +1,18 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { FaRegLightbulb, FaChartBar } from "react-icons/fa";
 import { IoDocumentTextOutline, IoNotificationsOutline } from "react-icons/io5";
+import { FaRegLightbulb, FaChartBar } from "react-icons/fa";
+
+import LastActivitiesCard from "@/components/LastActivitiesCard";
+import LineChartCard from "@/components/LineChartCard";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const Page = () => {
   return (
     <main className="space-y-4">
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Skills Added</CardTitle>
-            <FaRegLightbulb className="text-white text-lg" />
+            <FaRegLightbulb className="text-foreground text-lg" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">+34</div>
@@ -27,7 +24,7 @@ const Page = () => {
             <CardTitle className="text-sm font-medium">
               Analyzes created
             </CardTitle>
-            <FaChartBar className="text-white text-lg" />
+            <FaChartBar className="text-foreground text-lg" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">+18</div>
@@ -39,7 +36,7 @@ const Page = () => {
             <CardTitle className="text-sm font-medium">
               Project proposals
             </CardTitle>
-            <IoDocumentTextOutline className="text-white text-lg" />
+            <IoDocumentTextOutline className="text-foreground text-lg" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">+11</div>
@@ -51,7 +48,7 @@ const Page = () => {
             <CardTitle className="text-sm font-medium">
               Activities last 30 days
             </CardTitle>
-            <IoNotificationsOutline className="text-white text-lg" />
+            <IoNotificationsOutline className="text-foreground text-lg" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">+73</div>
@@ -59,23 +56,9 @@ const Page = () => {
           </CardContent>
         </Card>
       </div>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-        <Card className="col-span-4">
-          <CardHeader>
-            <CardTitle>Summary</CardTitle>
-          </CardHeader>
-          <CardContent className="pl-2">Analysis chart here</CardContent>
-        </Card>
-
-        <Card className="col-span-3">
-          <CardHeader>
-            <CardTitle>Recent Activities</CardTitle>
-            <CardDescription>
-              You had 23 activities in the last 7 days.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>Analysis coponent here</CardContent>
-        </Card>
+      <div className="grid gap-4 lg:grid-cols-7">
+        <LineChartCard />
+        <LastActivitiesCard />
       </div>
     </main>
   );
