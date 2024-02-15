@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+
 import { ShadcnJobDataForm } from "@/components/ShadcnJobDataForm";
 import {
   Card,
@@ -7,13 +9,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ShadcnUserSkillsForm } from "@/components/ShadcnUserSkillsForm";
-import { Suspense } from "react";
 import ProfileSummaryCard from "@/components/ProfileSummaryCard";
-import SkeletonFullWidth from "@/components/SkeletonFullWidth";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Page = async () => {
   return (
-    <div className="grid grid-cols-2 gap-6">
+    <main className="grid md:grid-cols-2 gap-6">
       <Card>
         <CardHeader>
           <CardTitle>Target Job Data</CardTitle>
@@ -38,10 +39,12 @@ const Page = async () => {
         </CardContent>
       </Card>
 
-      <Suspense fallback={<SkeletonFullWidth />}>
+      <Suspense
+        fallback={<Skeleton className="h-40 md:col-span-2 rounded-sm" />}
+      >
         <ProfileSummaryCard />
       </Suspense>
-    </div>
+    </main>
   );
 };
 
