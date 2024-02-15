@@ -20,7 +20,7 @@ const SelectMenu = ({ data, currentProfile }: SelectMenuProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="capitalize block truncate w-40">
+        <Button variant="outline" className="capitalize block truncate w-48">
           {currentProfile?.jobTitle}
         </Button>
       </DropdownMenuTrigger>
