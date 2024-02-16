@@ -37,7 +37,7 @@ export const addProfile = async (data: ProfileParams): Promise<void> => {
 
 export const getAllProfiles = async (): Promise<ProfilesData> => {
   try {
-    connectToDatabase();
+    await connectToDatabase();
 
     const user = await getCurrentUser();
 

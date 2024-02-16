@@ -58,7 +58,7 @@ const LastActivitiesCard = () => {
         {data?.map((activity, i) => (
           <div
             key={`activity-${i}`}
-            className="flex items-center justify-between gap-4"
+            className="flex items-center justify-between gap-4 px-5"
           >
             <div className="flex items-center gap-5">
               <div className="relative flex justify-center items-center h-10 w-10">

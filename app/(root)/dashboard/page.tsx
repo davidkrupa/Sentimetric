@@ -5,9 +5,9 @@ import LastActivitiesCard from "@/components/LastActivitiesCard";
 import LineChartCard from "@/components/LineChartCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-const Page = () => {
+const Page = async () => {
   return (
-    <main className="space-y-4">
+    <div className="space-y-4">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -60,7 +60,7 @@ const Page = () => {
         <LineChartCard />
         <LastActivitiesCard />
       </div>
-    </main>
+    </div>
   );
 };
 

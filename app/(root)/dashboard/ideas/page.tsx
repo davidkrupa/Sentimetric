@@ -14,7 +14,7 @@ const Page = async () => {
       <div className="space-y-6">
         <div className="grid sm:grid-cols-3 gap-6">
           <div className="sm:col-span-2 ml-6 mr-4 sm:ml-0 sm:mr-0">
-            <Suspense fallback={<Skeleton className="h-36" />}>
+            <Suspense fallback={<Skeleton className="h-48" />} key={Date.now()}>
               <SkillsViewer chars={MAX_CHARS} />
             </Suspense>
           </div>
@@ -22,9 +22,9 @@ const Page = async () => {
             <AnalysisTitlesScrollable />
           </Suspense>
         </div>
-        <Separator className="my-4" />
+        <Separator className="" />
       </div>
-      <Suspense fallback={<Skeleton className="h-36" />}>
+      <Suspense fallback={<Skeleton className="h-44" />} key={Date.now()}>
         <IdeasSummary />
       </Suspense>
     </main>
