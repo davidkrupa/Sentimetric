@@ -15,7 +15,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const Page = async () => {
   return (
-    <main className="grid md:grid-cols-2 gap-6">
+    <div className="grid md:grid-cols-2 gap-6">
       <Card>
         <CardHeader>
           <CardTitle>Custom Analysis</CardTitle>
@@ -29,16 +29,16 @@ const Page = async () => {
         </CardContent>
       </Card>
 
-      <Suspense fallback={<Skeleton />}>
+      <Suspense fallback={<Skeleton />} key={Date.now()}>
         <ShowAnalysisCard />
       </Suspense>
 
-      <Suspense fallback={<Skeleton className="h-32" />}>
+      <Suspense fallback={<Skeleton className="h-32 md:col-span-2" />}>
         <div className="overflow-x-hidden md:col-span-2">
           <AnalysisTable />
         </div>
       </Suspense>
-    </main>
+    </div>
   );
 };
 
