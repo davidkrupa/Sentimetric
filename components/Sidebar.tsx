@@ -3,13 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { RiMenuFoldLine, RiMenuUnfoldLine, RiOpenaiFill } from "react-icons/ri";
+import { RiMenuFoldLine, RiMenuUnfoldLine } from "react-icons/ri";
+import { FaChartBar, FaRegLightbulb } from "react-icons/fa";
+import { BsPersonVcardFill } from "react-icons/bs";
+import { GrSearchAdvanced } from "react-icons/gr";
 import { usePathname } from "next/navigation";
 
 import logo from "../lib/assets/logo-first.png";
-import { FaChartBar, FaRegLightbulb, FaSearchPlus } from "react-icons/fa";
-import { BsPersonVcardFill } from "react-icons/bs";
-import { GrSearchAdvanced } from "react-icons/gr";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 
 const Sidebar = () => {
