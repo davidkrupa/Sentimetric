@@ -2,18 +2,21 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { RiMenuFoldLine, RiMenuUnfoldLine } from "react-icons/ri";
 import { FaChartBar, FaRegLightbulb } from "react-icons/fa";
 import { BsPersonVcardFill } from "react-icons/bs";
+import { HiOutlinePencilSquare } from "react-icons/hi2";
 import { GrSearchAdvanced } from "react-icons/gr";
-import { usePathname } from "next/navigation";
 
 import logo from "../lib/assets/logo-first.png";
-import { HiOutlinePencilSquare } from "react-icons/hi2";
+
+const MIN_WIDTH = 768;
 
 const Sidebar = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const menuItems = [
     {
       title: "Research",
@@ -47,19 +50,33 @@ const Sidebar = () => {
     },
   ];
 
+  useEffect(() => {
+    if (window.innerWidth >= MIN_WIDTH) {
+      setIsOpen(true);
+    } else {
+      setIsMobile(true);
+    }
+  }, []);
+
   const path = usePathname();
+
+  const handleLinkClick = () => {
+    if (isMobile) {
+      setIsOpen(false);
+    }
+  };
 
   return (
     <>
       {/* opened sidebar */}
-      {isSidebarOpen && (
-        <aside className="w-52 min-h-screen pb-10 md:overflow-hidden overflow-auto md:hover:overflow-auto border-r border-r-border">
+      {isOpen && (
+        <aside className="md:static fixed top-0 left-0 z-20 bg-card w-52 min-h-screen pb-10 md:overflow-hidden overflow-auto md:hover:overflow-auto border-r border-r-border">
           <div className="flex justify-between items-center p-4">
             <div className="flex justify-start items-center gap-2">
               <Image src={logo} alt="Sentimetric logo" width={25} height={25} />
               <span>Sentimetric</span>
             </div>
-            <button onClick={() => setIsSidebarOpen(false)}>
+            <button onClick={() => setIsOpen(false)}>
               <RiMenuFoldLine />
             </button>
           </div>
@@ -75,6 +92,7 @@ const Sidebar = () => {
                     <Link
                       key={tool.title}
                       href={tool.path}
+                      onClick={() => handleLinkClick()}
                       className={`flex items-center justify-start gap-5 py-3 px-2 rounded-lg text-muted-foreground hover:text-foreground text-md w-full hover:bg-muted/50 transition-colors ${
                         tool.path === path && "bg-muted/50"
                       }`}
@@ -91,10 +109,10 @@ const Sidebar = () => {
       )}
 
       {/* closed sidebar */}
-      {!isSidebarOpen && (
+      {!isOpen && (
         <button
           className="flex justify-center items-center fixed z-10 bottom-2 left-2 p-2 border-r border-t border-b border-input rounded-full bg-primary text-white"
-          onClick={() => setIsSidebarOpen(true)}
+          onClick={() => setIsOpen(true)}
         >
           <RiMenuUnfoldLine />
         </button>
