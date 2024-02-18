@@ -18,7 +18,7 @@ const AnalysisTitlesScrollable = async () => {
                 <IoTrashOutline className="text-sm text-primary" />
               </button>
               <p className="text-sm text-muted-foreground leading-loose line-clamp-1 ml-6">
-                {item.topic}
+                {item?.topic}
               </p>
             </div>
           </div>

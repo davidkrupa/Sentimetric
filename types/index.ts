@@ -33,10 +33,11 @@ export type SkillBadgesProps = {
   children?: ReactNode;
 };
 
-export type CustomAnalysisParams = {
+export type SingleAnalysisData = {
   topic: string;
   content: string;
   _id: string;
+  createdAt: string;
 };
 
 export type SaveAnalysisParams = {

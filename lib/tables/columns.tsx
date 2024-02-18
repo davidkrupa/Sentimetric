@@ -1,9 +1,9 @@
 "use client";
 
-import { CustomAnalysisParams } from "@/types";
+import { SingleAnalysisData } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 
-export const columns: ColumnDef<CustomAnalysisParams>[] = [
+export const columns: ColumnDef<SingleAnalysisData>[] = [
   {
     accessorKey: "topic",
     header: "Topic",
