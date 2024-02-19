@@ -5,7 +5,6 @@ import CustomAnalysis from "../database/models/analysis.model";
 import Profile from "../database/models/profile.models";
 import { connectToDatabase } from "../database";
 import { getAiResponse } from "./openai.actions";
-import { handleError } from "../utils";
 import { updateProfileCurrentAnalysis } from "./profile.actions";
 import { getCurrentUser } from "./user.actions";
 
@@ -17,8 +16,9 @@ export const getAnalysisAndSave = async (
 
     const user = await getCurrentUser();
 
-    // later combine other user data to get better response
-    const prompt = `Prepare analysis of provided content which is company about page and make list of 3-6 project ideas for a frontend developer that will show skills that company looks for. Content: ${data.content}`;
+    const profile = await Profile.findOne({ _id: user.currentProfile });
+
+    const prompt = `Based on user experience and interest in the ${profile.jobTitle}, prepare the brief content analysis provided at the end of this prompt. The company this content is about: ${profile.company}. Industry: ${profile.industry}. The analysis should contain a maximum of 200 words. The goal is to identify problems, challenges, and ways to improve something that may have business value to that company. Later, this knowledge will be used to offer a product or service that meets these needs. Content source: "${data.topic}". Content for analysis: "${data.content}"`;
 
     const openAiResponse = await getAiResponse(prompt);
 
