@@ -18,6 +18,8 @@ export const getAnalysisAndSave = async (
 
     const profile = await Profile.findOne({ _id: user.currentProfile });
 
+    if (!profile) throw new Error("Profile not found");
+
     const prompt = `Based on user experience and interest in the ${profile.jobTitle}, prepare the brief content analysis provided at the end of this prompt. The company this content is about: ${profile.company}. Industry: ${profile.industry}. The analysis should contain a maximum of 200 words. The goal is to identify problems, challenges, and ways to improve something that may have business value to that company. Later, this knowledge will be used to offer a product or service that meets these needs. Content source: "${data.topic}". Content for analysis: "${data.content}"`;
 
     const openAiResponse = await getAiResponse(prompt);
