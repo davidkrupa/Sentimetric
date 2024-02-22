@@ -9,6 +9,7 @@ const ProfileDetails = async ({
   const { currentProfileId, profiles } = await getAllProfiles();
 
   if (!currentProfileId) return;
+  if (profiles.length === 0) return;
 
   const currentProfile = profiles.find(
     (profile) => profile._id === currentProfileId
