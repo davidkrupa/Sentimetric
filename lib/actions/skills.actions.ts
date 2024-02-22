@@ -13,6 +13,9 @@ export const addSkills = async (skills: UserSkills): Promise<void> => {
 
     const user = await getCurrentUser();
 
+    if (!user.currentProfile)
+      throw new Error("You need to create profile first");
+
     const updatedSkills = await JobSkills.findOneAndUpdate(
       {
         userId: user._id,
@@ -35,7 +38,7 @@ export const addSkills = async (skills: UserSkills): Promise<void> => {
     revalidatePath("/dashboard/profile");
   } catch (error) {
     console.error(error);
-    throw new Error("Error adding skills");
+    throw new Error((error as Error)?.message);
   }
 };
 

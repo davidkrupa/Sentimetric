@@ -43,8 +43,6 @@ export const getAllProfiles = async (): Promise<ProfilesData> => {
 
     const profiles = await Profile.find({ userId: user._id });
 
-    if (profiles.length === 0) throw new Error("No profiles created yet");
-
     const profilesData = {
       currentProfileId: user.currentProfile,
       profiles: profiles,

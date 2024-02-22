@@ -43,7 +43,7 @@ export function ShadcnJobDataForm() {
           name="jobTitle"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Target Job Title</FormLabel>
+              <FormLabel>Job Title / Area of Interest</FormLabel>
               <FormControl>
                 <Input placeholder="Scrum Master" {...field} />
               </FormControl>

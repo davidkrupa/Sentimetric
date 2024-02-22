@@ -17,9 +17,9 @@ const Page = async () => {
     <div className="grid md:grid-cols-2 gap-6">
       <Card>
         <CardHeader>
-          <CardTitle>Target Job Data</CardTitle>
+          <CardTitle>Create Profile</CardTitle>
           <CardDescription>
-            Enter basic data to get a personalized analysis.
+            Enter basic data about your new profile.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -29,9 +29,9 @@ const Page = async () => {
 
       <Card>
         <CardHeader>
-          <CardTitle>Your Skills</CardTitle>
+          <CardTitle>Add Your Skills</CardTitle>
           <CardDescription>
-            Enter your skills related to the new job position.
+            Enter your skills that will be used in the analysis.
           </CardDescription>
         </CardHeader>
         <CardContent>
