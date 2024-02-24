@@ -9,46 +9,51 @@ import { FaChartBar, FaRegLightbulb } from "react-icons/fa";
 import { BsPersonVcardFill } from "react-icons/bs";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 import { GrSearchAdvanced } from "react-icons/gr";
+import { ImSpinner2 } from "react-icons/im";
 
 import logo from "../lib/assets/logo-first.png";
 
 const MIN_WIDTH = 768;
 
+const menuItems = [
+  {
+    title: "Research",
+    list: [
+      {
+        title: "Summary",
+        path: "/dashboard",
+        icon: <FaChartBar />,
+      },
+      {
+        title: "Profile",
+        path: "/dashboard/profile",
+        icon: <BsPersonVcardFill />,
+      },
+      {
+        title: "Analysis",
+        path: "/dashboard/analysis",
+        icon: <GrSearchAdvanced />,
+      },
+      {
+        title: "Ideas",
+        path: "/dashboard/ideas",
+        icon: <FaRegLightbulb />,
+      },
+      {
+        title: "Project",
+        path: "/dashboard/project",
+        icon: <HiOutlinePencilSquare />,
+      },
+    ],
+  },
+];
+
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const menuItems = [
-    {
-      title: "Research",
-      list: [
-        {
-          title: "Summary",
-          path: "/dashboard",
-          icon: <FaChartBar />,
-        },
-        {
-          title: "Profile",
-          path: "/dashboard/profile",
-          icon: <BsPersonVcardFill />,
-        },
-        {
-          title: "Analysis",
-          path: "/dashboard/analysis",
-          icon: <GrSearchAdvanced />,
-        },
-        {
-          title: "Ideas",
-          path: "/dashboard/ideas",
-          icon: <FaRegLightbulb />,
-        },
-        {
-          title: "Project",
-          path: "/dashboard/project",
-          icon: <HiOutlinePencilSquare />,
-        },
-      ],
-    },
-  ];
+  const [isLoading, setIsLoading] = useState(false);
+  const [chosenPath, setChosenPath] = useState("");
+  const path = usePathname();
 
   useEffect(() => {
     if (window.innerWidth >= MIN_WIDTH) {
@@ -58,9 +63,13 @@ const Sidebar = () => {
     }
   }, []);
 
-  const path = usePathname();
+  useEffect(() => {
+    setIsLoading(false);
+  }, [path]);
 
-  const handleLinkClick = () => {
+  const handleLinkClick = (clickedPath: string) => {
+    setIsLoading(true);
+    setChosenPath(clickedPath);
     if (isMobile) {
       setIsOpen(false);
     }
@@ -92,13 +101,16 @@ const Sidebar = () => {
                     <Link
                       key={tool.title}
                       href={tool.path}
-                      onClick={() => handleLinkClick()}
-                      className={`flex items-center justify-start gap-5 py-3 px-2 rounded-lg text-muted-foreground hover:text-foreground text-md w-full hover:bg-muted/50 transition-colors ${
+                      onClick={() => handleLinkClick(tool.path)}
+                      className={`flex items-center justify-start relative gap-5 py-3 px-2 rounded-lg text-muted-foreground hover:text-foreground text-md w-full hover:bg-muted/50 transition-colors ${
                         tool.path === path && "bg-muted/50"
                       }`}
                     >
                       {tool.icon}
                       <span className="capitalize">{tool.title}</span>
+                      {isLoading && tool.path === chosenPath && (
+                        <ImSpinner2 className="animate-spin-slow h-5 w-5 mr-3 text-primary absolute right-0 top-0 bottom-0 my-auto" />
+                      )}
                     </Link>
                   ))}
                 </div>
