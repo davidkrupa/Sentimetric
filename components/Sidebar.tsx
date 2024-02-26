@@ -126,7 +126,8 @@ const Sidebar = () => {
           className="flex justify-center items-center fixed z-10 bottom-2 left-2 p-2 border-r border-t border-b border-input rounded-full bg-primary text-white"
           onClick={() => setIsOpen(true)}
         >
-          <RiMenuUnfoldLine />
+          {!isLoading && <RiMenuUnfoldLine />}
+          {isLoading && <ImSpinner2 className="animate-spin-slow text-white" />}
         </button>
       )}
     </>
