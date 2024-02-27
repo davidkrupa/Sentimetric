@@ -68,6 +68,8 @@ const Sidebar = () => {
   }, [path]);
 
   const handleLinkClick = (clickedPath: string) => {
+    if (chosenPath === clickedPath) return;
+
     setIsLoading(true);
     setChosenPath(clickedPath);
     if (isMobile) {
