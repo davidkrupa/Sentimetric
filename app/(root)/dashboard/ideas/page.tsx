@@ -5,6 +5,7 @@ import IdeasSummary from "@/components/IdeasSummary";
 import SkillsViewer from "@/components/SkillsViewer";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
+import ListOfIdeas from "@/components/ListOfIdeas";
 
 const MAX_CHARS = 80;
 
@@ -27,6 +28,8 @@ const Page = async () => {
       <Suspense fallback={<Skeleton className="h-44" />} key={Date.now()}>
         <IdeasSummary />
       </Suspense>
+
+      <ListOfIdeas />
     </main>
   );
 };
