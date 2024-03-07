@@ -90,3 +90,22 @@ export const getIdeas = async () => {
     throw new Error((error as Error).message);
   }
 };
+
+export const deleteOneProject = async (id: string): Promise<void> => {
+  try {
+    await connectToDatabase();
+
+    const user = await getCurrentUser();
+
+    const ideas = Ideas.findOneAndUpdate(
+      { userId: user._id, profileId: user.currentProfile },
+      { $pull: { projects: id } }
+    );
+
+    if (!ideas) throw new Error("Error deleting one project");
+
+    revalidatePath("/dashboard");
+  } catch (error) {
+    throw new Error("Error updating projcts");
+  }
+};
