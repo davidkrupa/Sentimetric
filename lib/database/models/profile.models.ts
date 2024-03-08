@@ -11,6 +11,11 @@ const ProfileSchema = new Schema({
     ref: "Analysis",
     default: null,
   },
+  currentProject: {
+    type: Schema.Types.ObjectId,
+    ref: "Project",
+    default: null,
+  },
 });
 
 const Profile = models.Profile || model("Profile", ProfileSchema);
