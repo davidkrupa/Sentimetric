@@ -49,17 +49,16 @@ export const createIdeasFromProfile = async (): Promise<void> => {
 
     const aiResponse = await getAiResponse(prompt);
 
-    const regex = /\b\d+\.\s+(.*)/g;
+    // const regex = /\b\d+\.\s+(.*)/g;
 
-    const projects = [];
-    let match;
-    while ((match = regex.exec(aiResponse)) !== null) {
-      projects.push(match[1]);
-    }
+    // const projects = [];
+    // let match;
+    // while ((match = regex.exec(aiResponse)) !== null) {
+    //   projects.push(match[1]);
+    // }
 
     const ideas = await Ideas.create({
       content: aiResponse,
-      projects,
       userId: user._id,
       profileId: user.currentProfile,
     });
