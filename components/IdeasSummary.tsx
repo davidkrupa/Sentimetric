@@ -1,5 +1,4 @@
-import { createIdeasFromProfile, getIdeas } from "@/lib/actions/ideas.actions";
-import { Button } from "./ui/button";
+import { getIdeas } from "@/lib/actions/ideas.actions";
 import GetIdeasButton from "./GetIdeasButton";
 
 const IdeasSummary = async () => {

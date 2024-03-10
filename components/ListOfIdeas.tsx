@@ -1,4 +1,4 @@
-import { getIdeas } from "@/lib/actions/ideas.actions";
+import { getProjects } from "@/lib/actions/project.actions";
 import {
   Card,
   CardContent,
@@ -8,17 +8,9 @@ import {
 } from "./ui/card";
 
 const ListOfIdeas = async () => {
-  const { content } = await getIdeas();
+  const projects = await getProjects();
 
-  if (!content) return;
-
-  const regex = /\b\d+\.\s+(.*)/g;
-
-  const points = [];
-  let match;
-  while ((match = regex.exec(content)) !== null) {
-    points.push(match[1]);
-  }
+  if (!projects) return;
 
   return (
     <div>
@@ -26,13 +18,14 @@ const ListOfIdeas = async () => {
         <CardHeader>
           <CardTitle>Choose Your Projects</CardTitle>
           <CardDescription>
-            Remove or add to the list the projects that interest you most.
+            The list below was generated from the content above. Delete, edit or
+            add new projects to the list.
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {points.map((point, i) => (
+          {projects.map((project, i) => (
             <div key={`point-${i}}`}>
-              <p>{`${i + 1}. ${point}`}</p>
+              <p>{`${i + 1}. ${project.name}`}</p>
             </div>
           ))}
         </CardContent>

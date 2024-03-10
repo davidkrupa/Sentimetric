@@ -49,14 +49,6 @@ export const createIdeasFromProfile = async (): Promise<void> => {
 
     const aiResponse = await getAiResponse(prompt);
 
-    // const regex = /\b\d+\.\s+(.*)/g;
-
-    // const projects = [];
-    // let match;
-    // while ((match = regex.exec(aiResponse)) !== null) {
-    //   projects.push(match[1]);
-    // }
-
     const ideas = await Ideas.create({
       content: aiResponse,
       userId: user._id,
@@ -87,24 +79,5 @@ export const getIdeas = async () => {
     return JSON.parse(JSON.stringify(ideas));
   } catch (error) {
     throw new Error((error as Error).message);
-  }
-};
-
-export const deleteOneProject = async (id: string): Promise<void> => {
-  try {
-    await connectToDatabase();
-
-    const user = await getCurrentUser();
-
-    const ideas = Ideas.findOneAndUpdate(
-      { userId: user._id, profileId: user.currentProfile },
-      { $pull: { projects: id } }
-    );
-
-    if (!ideas) throw new Error("Error deleting one project");
-
-    revalidatePath("/dashboard");
-  } catch (error) {
-    throw new Error("Error updating projcts");
   }
 };
