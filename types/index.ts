@@ -96,3 +96,11 @@ type LineChartSingleElement = {
 export type LineChartProps = {
   data: LineChartSingleElement[];
 };
+
+export type ProjectsData = {
+  name: string;
+  topic: string;
+  content: string;
+  userId: string;
+  createdAt: Date;
+};
