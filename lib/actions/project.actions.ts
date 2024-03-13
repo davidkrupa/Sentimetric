@@ -5,6 +5,9 @@ import { connectToDatabase } from "../database";
 import Project from "../database/models/project.model";
 import { getCurrentUser } from "./user.actions";
 import { ProjectsData } from "@/types";
+import { getAiResponse } from "./openai.actions";
+import JobSkills from "../database/models/skills.model";
+import Profile from "../database/models/profile.models";
 
 export const createProjectsTopicsFromContent = async (
   content: string
@@ -73,5 +76,36 @@ export const deleteOneProject = async (id: string): Promise<void> => {
     revalidatePath("/dashboard");
   } catch (error) {
     throw new Error("Error deleting one project");
+  }
+};
+
+export const createProject = async () => {
+  try {
+    await connectToDatabase();
+
+    const user = await getCurrentUser();
+
+    const skills = await JobSkills.findOne({
+      userId: user._id,
+      profileId: user.currentProfile,
+    });
+
+    const profile = await Profile.findOne({
+      userId: user._id,
+      _id: user.currentProfile,
+    });
+
+    const prompt = "";
+
+    const response = await getAiResponse(prompt);
+
+    const project = await Project.findOneAndUpdate(
+      { userId: user._id, profileId: user.currentProfile },
+      { content: response }
+    );
+
+    revalidatePath("/dashboard/project");
+  } catch (error) {
+    throw new Error("Error creating project");
   }
 };
