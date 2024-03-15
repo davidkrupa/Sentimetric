@@ -59,6 +59,28 @@ export const getProjects = async (): Promise<ProjectsData[] | undefined> => {
   }
 };
 
+export const updateCurrentProject = async (
+  projectId: string
+): Promise<void> => {
+  try {
+    await connectToDatabase();
+
+    const user = await getCurrentUser();
+
+    const profile = Profile.findOneAndUpdate(
+      { _id: user.currentProfile, userId: user._id },
+      { currentProject: projectId }
+    );
+
+    if (!profile) throw new Error("Error updating current project");
+
+    revalidatePath("/dashboard/project");
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error updating current project");
+  }
+};
+
 export const deleteOneProject = async (id: string): Promise<void> => {
   try {
     await connectToDatabase();
