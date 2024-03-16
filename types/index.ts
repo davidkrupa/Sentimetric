@@ -104,3 +104,8 @@ export type ProjectsData = {
   userId: string;
   createdAt: Date;
 };
+
+export type IdeasData = {
+  content: string;
+  createdAt: string;
+};
