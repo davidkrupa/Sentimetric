@@ -8,6 +8,7 @@ import Profile from "../database/models/profile.models";
 import { getAiResponse } from "./openai.actions";
 import { getCurrentUser } from "./user.actions";
 import JobSkills from "../database/models/skills.model";
+import { IdeasData } from "@/types";
 
 export const createIdeasFromProfile = async (): Promise<void> => {
   try {
@@ -59,7 +60,7 @@ export const createIdeasFromProfile = async (): Promise<void> => {
   } catch (error) {}
 };
 
-export const getIdeas = async () => {
+export const getIdeas = async (): Promise<IdeasData | undefined> => {
   try {
     await connectToDatabase();
 
@@ -74,7 +75,7 @@ export const getIdeas = async () => {
       profileId: profile._id,
     });
 
-    if (!ideas) return "";
+    if (!ideas) return;
 
     return JSON.parse(JSON.stringify(ideas));
   } catch (error) {
