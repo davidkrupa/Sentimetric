@@ -35,13 +35,17 @@ export const addProfile = async (data: ProfileParams): Promise<void> => {
   }
 };
 
-export const getAllProfiles = async (): Promise<ProfilesData> => {
+export const getAllProfiles = async (): Promise<ProfilesData | undefined> => {
   try {
     await connectToDatabase();
 
     const user = await getCurrentUser();
 
+    if (!user.currentProfile) return;
+
     const profiles = await Profile.find({ userId: user._id });
+
+    if (profiles.length === 0) return;
 
     const profilesData = {
       currentProfileId: user.currentProfile,
