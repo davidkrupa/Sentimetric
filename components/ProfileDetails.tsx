@@ -6,10 +6,11 @@ const ProfileDetails = async ({
   showCompany,
   showIndustry,
 }: ProfileDetailsProps) => {
-  const { currentProfileId, profiles } = await getAllProfiles();
+  const profilesData = await getAllProfiles();
 
-  if (!currentProfileId) return;
-  if (profiles.length === 0) return;
+  if (!profilesData) return;
+
+  const { currentProfileId, profiles } = profilesData;
 
   const currentProfile = profiles.find(
     (profile) => profile._id === currentProfileId
