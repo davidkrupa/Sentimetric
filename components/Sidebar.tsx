@@ -123,7 +123,7 @@ const Sidebar = () => {
       )}
 
       {/* closed sidebar */}
-      {!isOpen && (
+      {!isOpen && isMobile && (
         <button
           className="flex justify-center items-center fixed z-10 bottom-2 left-2 p-2 border-r border-t border-b border-input rounded-full bg-primary text-white"
           onClick={() => setIsOpen(true)}
