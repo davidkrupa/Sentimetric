@@ -6,7 +6,7 @@ import { connectToDatabase } from "../database";
 import User from "../database/models/user.model";
 import Profile from "../database/models/profile.models";
 import { ProfilesData, ProfileParams } from "@/types";
-import { getCurrentUser } from "./user.actions";
+import { getCurrentUser, updateUserCurrentProfile } from "./user.actions";
 
 export const addProfile = async (data: ProfileParams): Promise<void> => {
   try {
@@ -100,5 +100,30 @@ export const updateProfileCurrentProject = async (
   } catch (error) {
     console.error(error);
     throw new Error("Error updating current project");
+  }
+};
+
+export const deleteProfile = async (id: string) => {
+  try {
+    await connectToDatabase();
+
+    const user = await getCurrentUser();
+
+    const deletedProfile = await Profile.deleteOne({ _id: id });
+
+    if (!deleteProfile) throw new Error("Error deleting project");
+
+    const firstProfile = await Profile.findOne({ userId: user._id });
+
+    if (firstProfile) {
+      await updateUserCurrentProfile(firstProfile._id);
+    } else if (firstProfile === null) {
+      await updateUserCurrentProfile(null);
+    } else throw new Error("Error getting first profile");
+
+    revalidatePath("/dashboard/project");
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error deleting profile");
   }
 };
