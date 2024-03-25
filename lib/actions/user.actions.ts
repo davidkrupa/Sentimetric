@@ -36,7 +36,9 @@ export const updateUser = async (clerkId: string, user: UpdateUserParams) => {
   }
 };
 
-export const updateUserCurrentProfile = async (id: string): Promise<void> => {
+export const updateUserCurrentProfile = async (
+  id: string | null
+): Promise<void> => {
   try {
     await connectToDatabase();
 
