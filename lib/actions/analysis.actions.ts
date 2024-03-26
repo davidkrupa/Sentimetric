@@ -7,8 +7,9 @@ import { connectToDatabase } from "../database";
 import { getAiResponse } from "./openai.actions";
 import { updateProfileCurrentAnalysis } from "./profile.actions";
 import { getCurrentUser } from "./user.actions";
+import { revalidatePath } from "next/cache";
 
-export const getAnalysisAndSave = async (
+export const createAnalysisAndSave = async (
   data: SaveAnalysisParams
 ): Promise<void> => {
   try {
@@ -86,5 +87,25 @@ export const getCurrentAnalysis = async (): Promise<SingleAnalysisData> => {
   } catch (error) {
     console.error(error);
     throw new Error("Error getting current analysis");
+  }
+};
+
+export const deleteAnalysis = async (id: string): Promise<void> => {
+  try {
+    await connectToDatabase();
+
+    const user = await getCurrentUser();
+
+    const deletedAnalysis = await CustomAnalysis.deleteOne({
+      userId: user._id,
+      _id: id,
+    });
+
+    if (!deletedAnalysis) throw new Error("Error deleting analysis");
+
+    revalidatePath("/dashboard/analysis");
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error deleting analysis");
   }
 };
