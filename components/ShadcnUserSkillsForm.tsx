@@ -29,6 +29,7 @@ import {
 } from "@/lib/formSchemas/input.schemas";
 import { addSkills } from "@/lib/actions/skills.actions";
 import { UserSkills } from "@/types";
+import { createActivity } from "@/lib/actions/activities.actions";
 
 export function ShadcnUserSkillsForm() {
   const [error, setError] = useState<string | null>(null);
@@ -58,6 +59,7 @@ export function ShadcnUserSkillsForm() {
 
     try {
       await addSkills(skills);
+      await createActivity("skill", "added");
       form.setValue("skill", ""); // clear skill input after submit
     } catch (error) {
       setError((error as Error).message);
