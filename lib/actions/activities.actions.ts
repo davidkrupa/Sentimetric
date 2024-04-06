@@ -96,3 +96,20 @@ export const getActivitiesCount = async (daysAmount: number) => {
     throw new Error("No activities found in the last 7 days");
   }
 };
+
+export const getLastActivities = async () => {
+  try {
+    await connectToDatabase();
+
+    const user = await getCurrentUser();
+
+    const activities = await Activities.find({ userId: user._id })
+      .sort({ createdAt: -1 })
+      .limit(5);
+
+    return activities.reverse();
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error getting activities");
+  }
+};
