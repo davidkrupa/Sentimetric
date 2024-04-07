@@ -1,10 +1,14 @@
 "use server";
 
+import { ActionOptions, NameOptions } from "@/types";
 import { connectToDatabase } from "../database";
 import Activities from "../database/models/activities.model";
 import { getCurrentUser } from "./user.actions";
 
-export const createActivity = async (name: string, action: string) => {
+export const createActivity = async (
+  name: NameOptions,
+  action: ActionOptions
+) => {
   try {
     await connectToDatabase();
 

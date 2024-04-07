@@ -18,6 +18,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { CompanyAnalysisFormSchema } from "@/lib/formSchemas/input.schemas";
 import { createAnalysisAndSave } from "@/lib/actions/analysis.actions";
+import { createActivity } from "@/lib/actions/activities.actions";
 
 export function ShadcnCustomAnalysisForm() {
   const form = useForm<z.infer<typeof CompanyAnalysisFormSchema>>({
@@ -29,7 +30,8 @@ export function ShadcnCustomAnalysisForm() {
   });
 
   async function onSubmit(data: z.infer<typeof CompanyAnalysisFormSchema>) {
-    createAnalysisAndSave(data);
+    await createAnalysisAndSave(data);
+    await createActivity("analysis", "added");
   }
 
   return (

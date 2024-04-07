@@ -17,6 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { JobDetailsFormSchema } from "@/lib/formSchemas/input.schemas";
 import { addProfile } from "@/lib/actions/profile.actions";
+import { createActivity } from "@/lib/actions/activities.actions";
 
 export function ShadcnJobDataForm() {
   const form = useForm<z.infer<typeof JobDetailsFormSchema>>({
@@ -30,6 +31,7 @@ export function ShadcnJobDataForm() {
 
   async function onSubmit(data: z.infer<typeof JobDetailsFormSchema>) {
     await addProfile(data);
+    await createActivity("profile", "added");
   }
 
   return (
