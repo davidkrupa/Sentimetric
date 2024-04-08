@@ -6,46 +6,11 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
+import { getLastActivities } from "@/lib/actions/activities.actions";
 
-// dummy data
-const data = [
-  {
-    type: "skill",
-    action: "added",
-    amount: 3,
-    date: "15 Feb 2024",
-  },
-  {
-    type: "skill",
-    action: "removed",
-    amount: 1,
-    date: "14 Feb 2024",
-  },
-  {
-    type: "profile",
-    action: "added",
-    amount: 1,
-    date: "12 Feb 2024",
-  },
-  {
-    type: "analysis",
-    action: "added",
-    amount: 2,
-    date: "11 Feb 2024",
-  },
-];
+const LastActivitiesCard = async () => {
+  const activities = await getLastActivities();
 
-type LastActivitiesCardElement = {
-  type: string;
-  action: string;
-  amount: number;
-  date: string;
-};
-type LastActivitiesCardProps = {
-  data: LastActivitiesCardElement[];
-};
-
-const LastActivitiesCard = () => {
   return (
     <Card className="lg:col-span-3">
       <CardHeader>
@@ -55,10 +20,10 @@ const LastActivitiesCard = () => {
         </CardDescription>
       </CardHeader>
       <CardContent className="grid md:grid-cols-2 lg:grid-cols-1 gap-3">
-        {data?.map((activity, i) => (
+        {activities?.map((activity, i) => (
           <div
             key={`activity-${i}`}
-            className="flex items-center justify-between gap-4 px-5"
+            className="flex items-center justify-between gap-4 px-2"
           >
             <div className="flex items-center gap-5">
               <div className="relative flex justify-center items-center h-10 w-10">
@@ -71,11 +36,11 @@ const LastActivitiesCard = () => {
                 )}
               </div>
               <div>
-                <p className="text-md text-muted-foreground tracking-wide">{`${activity?.amount} ${activity?.type} ${activity?.action}`}</p>
+                <p className="text-md text-muted-foreground tracking-wide">{`${activity?.total} ${activity?.name} ${activity?.action}`}</p>
               </div>
             </div>
             <div>
-              <p className="text-muted-foreground">{activity?.date}</p>
+              <p className="text-muted-foreground">{activity?.createdAt}</p>
             </div>
           </div>
         ))}
