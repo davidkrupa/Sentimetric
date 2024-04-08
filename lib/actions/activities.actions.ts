@@ -111,7 +111,16 @@ export const getLastActivities = async () => {
       .sort({ createdAt: -1 })
       .limit(5);
 
-    return activities.reverse();
+    const formattedActivities = activities.map((activity) => ({
+      ...activity.toObject(), // to get a plain JavaScript object without mongoose stuff
+      createdAt: new Date(activity.createdAt).toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      }),
+    }));
+
+    return formattedActivities.reverse();
   } catch (error) {
     console.error(error);
     throw new Error("Error getting activities");
