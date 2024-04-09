@@ -1,6 +1,6 @@
 "use server";
 
-import { ActionOptions, NameOptions } from "@/types";
+import { ActionOptions, ActivitiesAmountByDay, NameOptions } from "@/types";
 import { connectToDatabase } from "../database";
 import Activities from "../database/models/activities.model";
 import { getCurrentUser } from "./user.actions";
@@ -43,64 +43,6 @@ export const createActivity = async (
   }
 };
 
-export const getActivities = async () => {
-  try {
-    await connectToDatabase();
-
-    const user = await getCurrentUser();
-
-    const activities = await Activities.find({ userId: user._id });
-
-    if (activities.length === 0) return;
-
-    return JSON.parse(JSON.stringify(activities));
-  } catch (error) {
-    console.error(error);
-    throw new Error("Error creating activity");
-  }
-};
-
-export const getActivitiesCount = async (daysAmount: number) => {
-  const sevenDaysAgo = new Date();
-  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - daysAmount);
-
-  try {
-    await connectToDatabase();
-
-    const user = await getCurrentUser();
-
-    const result = await Activities.aggregate([
-      {
-        $match: {
-          createdAt: { $gte: sevenDaysAgo },
-          userId: user._id,
-        },
-      },
-      {
-        $group: {
-          _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
-          count: { $sum: 1 },
-        },
-      },
-      {
-        $project: {
-          _id: 0,
-          date: "$_id",
-          count: 1,
-        },
-      },
-    ]);
-
-    if (result.length === 0)
-      throw new Error("No activities found in the last 7 days");
-
-    return result;
-  } catch (error) {
-    console.error(error);
-    throw new Error("No activities found in the last 7 days");
-  }
-};
-
 export const getLastActivities = async () => {
   try {
     await connectToDatabase();
@@ -120,9 +62,57 @@ export const getLastActivities = async () => {
       }),
     }));
 
-    return formattedActivities.reverse();
+    return formattedActivities;
   } catch (error) {
     console.error(error);
     throw new Error("Error getting activities");
+  }
+};
+
+export const getActivitiesAmountByDay = async (
+  daysAmount: number
+): Promise<ActivitiesAmountByDay[]> => {
+  const dayShort = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+
+  try {
+    await connectToDatabase();
+
+    const user = await getCurrentUser();
+
+    const result = await Activities.aggregate([
+      {
+        $match: {
+          userId: user._id,
+          createdAt: {
+            $gte: new Date(
+              new Date().setDate(new Date().getDate() - daysAmount)
+            ),
+          },
+        },
+      },
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+          total: { $sum: "$total" },
+        },
+      },
+    ]);
+
+    const currentDate = new Date();
+
+    const activitiesHistory = Array.from({ length: daysAmount }, (_, index) => {
+      const date = new Date(currentDate);
+      date.setDate(date.getDate() - index);
+      const formattedDate = date.toISOString().split("T")[0]; // Format the date as "YYYY-MM-DD"
+      const dayName = dayShort[date.getDay()]; // Get the day name abbreviation
+      const activity = result.find((item) => item._id === formattedDate);
+      const total = activity ? activity.total : 0; // For days with no activities, fill 0
+      return { day: dayName, activities: total };
+    });
+
+    return activitiesHistory.reverse();
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error getting activities amounts");
   }
 };

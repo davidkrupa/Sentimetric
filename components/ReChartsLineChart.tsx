@@ -11,6 +11,8 @@ import {
 } from "recharts";
 
 const ReChartsLineChart = ({ data }: LineChartProps) => {
+  if (!data) return;
+
   return (
     <ResponsiveContainer width="100%" height={250}>
       <LineChart data={data}>
