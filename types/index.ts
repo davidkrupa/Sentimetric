@@ -113,3 +113,8 @@ export type IdeasData = {
 export type NameOptions = "skill" | "project" | "analysis" | "profile";
 
 export type ActionOptions = "added" | "removed";
+
+export type ActivitiesAmountByDay = {
+  day: string;
+  activities: number;
+};
