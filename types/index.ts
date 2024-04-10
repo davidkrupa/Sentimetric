@@ -110,7 +110,7 @@ export type IdeasData = {
   createdAt: string;
 };
 
-export type NameOptions = "skill" | "project" | "analysis" | "profile";
+export type NameOptions = "skill" | "project" | "analysis" | "profile" | "idea";
 
 export type ActionOptions = "added" | "removed";
 
