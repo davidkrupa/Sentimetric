@@ -1,11 +1,5 @@
 import { FaMinus, FaPlus, FaRegLightbulb } from "react-icons/fa";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "./ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { getLastActivities } from "@/lib/actions/activities.actions";
 
 const LastActivitiesCard = async () => {
@@ -15,9 +9,6 @@ const LastActivitiesCard = async () => {
     <Card className="lg:col-span-3">
       <CardHeader>
         <CardTitle>Recent Activities</CardTitle>
-        <CardDescription>
-          You had 23 activities in the last 7 days.
-        </CardDescription>
       </CardHeader>
       <CardContent className="grid md:grid-cols-2 lg:grid-cols-1 gap-3">
         {activities?.map((activity, i) => (

@@ -116,3 +116,30 @@ export const getActivitiesAmountByDay = async (
     throw new Error("Error getting activities amounts");
   }
 };
+
+export const getActivitiesAmountByName = async () => {
+  try {
+    await connectToDatabase();
+
+    const user = await getCurrentUser();
+
+    const result = await Activities.aggregate([
+      {
+        $match: {
+          userId: user._id,
+        },
+      },
+      {
+        $group: {
+          _id: { name: "$name", action: "$action" },
+          total: { $sum: "$total" },
+        },
+      },
+    ]);
+
+    return result;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error getting activities amounts");
+  }
+};
