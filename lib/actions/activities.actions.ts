@@ -14,21 +14,38 @@ export const createActivity = async (
 
     const user = await getCurrentUser();
 
+    const currentDate = new Date();
+    const currentDateString = currentDate.toISOString().split("T")[0]; // yyyy-mm-dd format
+
     const lastActivity = await Activities.findOne(
       { userId: user._id },
       {},
       { sort: { createdAt: -1 } }
     );
 
-    // If the last activity is the same as the current one, increment the total
+    // If there is no activity yet, create a new document
+    if (!lastActivity) {
+      const newActivity = new Activities({
+        userId: user._id,
+        name,
+        action,
+      });
+      await newActivity.save();
+      return;
+    }
+
+    const lastActivityDate = lastActivity.createdAt.toISOString().split("T")[0]; // yyyy-mm-dd format
+
+    // If the last activity is the same as the current one,
+    // and the last activity was today, increment the total
     if (
-      lastActivity &&
       lastActivity.name === name &&
-      lastActivity.action === action
+      lastActivity.action === action &&
+      lastActivityDate === currentDateString
     ) {
       lastActivity.total += 1;
       await lastActivity.save();
-      // If the last activity is different, create a new document
+      // Otherwise create a new document
     } else {
       const newActivity = new Activities({
         userId: user._id,
@@ -51,7 +68,7 @@ export const getLastActivities = async () => {
 
     const activities = await Activities.find({ userId: user._id })
       .sort({ createdAt: -1 })
-      .limit(5);
+      .limit(6);
 
     const formattedActivities = activities.map((activity) => ({
       ...activity.toObject(), // to get a plain JavaScript object without mongoose stuff
