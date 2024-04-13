@@ -1,10 +1,12 @@
 import { getAllAnalysis } from "@/lib/actions/analysis.actions";
 import { ScrollArea } from "./ui/scroll-area";
 import { Separator } from "./ui/separator";
-import { IoTrashOutline } from "react-icons/io5";
+import DeleteButton from "./DeleteButton";
 
 const AnalysisTitlesScrollable = async () => {
   const analysis = await getAllAnalysis();
+
+  if (!analysis) return;
 
   return (
     <div className="space-y-3 relative">
@@ -14,9 +16,7 @@ const AnalysisTitlesScrollable = async () => {
           <div className="space-y-1 py-1 relative group" key={`analysis-${i}`}>
             {i !== 0 && <Separator />}
             <div className="group-hover:bg-muted/50 rounded-md">
-              <button className="absolute left-1 bottom-2 hidden group-hover:block rounded-sm p-0.5">
-                <IoTrashOutline className="text-sm text-primary" />
-              </button>
+              <DeleteButton id={item._id} />
               <p className="text-sm text-muted-foreground leading-loose line-clamp-1 ml-6">
                 {item?.topic}
               </p>
