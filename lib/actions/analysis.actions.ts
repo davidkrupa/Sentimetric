@@ -41,7 +41,9 @@ export const createAnalysisAndSave = async (
   }
 };
 
-export const getAllAnalysis = async (): Promise<SingleAnalysisData[]> => {
+export const getAllAnalysis = async (): Promise<
+  SingleAnalysisData[] | undefined
+> => {
   try {
     await connectToDatabase();
 
@@ -51,6 +53,8 @@ export const getAllAnalysis = async (): Promise<SingleAnalysisData[]> => {
       userId: user._id,
       profileId: user.currentProfile,
     });
+
+    if (allAnalysis.length === 0) return;
 
     const formattedAnalysis = allAnalysis.map((analysis) => ({
       ...analysis.toObject(), // to get a plain JavaScript object without mongoose stuff
@@ -103,7 +107,7 @@ export const deleteAnalysis = async (id: string): Promise<void> => {
 
     if (!deletedAnalysis) throw new Error("Error deleting analysis");
 
-    revalidatePath("/dashboard/analysis");
+    revalidatePath("/dashboard");
   } catch (error) {
     console.error(error);
     throw new Error("Error deleting analysis");
