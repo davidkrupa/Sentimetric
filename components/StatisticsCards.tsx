@@ -22,7 +22,7 @@ const StatisticsCards = async () => {
       icon: <IoDocumentTextOutline className="text-foreground text-lg" />,
     },
     {
-      name: "analyzis",
+      name: "analysis",
       title: "Analyzes",
       icon: <FaChartBar className="text-foreground text-lg" />,
     },
