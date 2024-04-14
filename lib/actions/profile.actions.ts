@@ -111,7 +111,7 @@ export const deleteProfile = async (id: string) => {
 
     const deletedProfile = await Profile.deleteOne({ _id: id });
 
-    if (!deleteProfile) throw new Error("Error deleting project");
+    if (!deleteProfile) throw new Error("Error deleting profile");
 
     const firstProfile = await Profile.findOne({ userId: user._id });
 
@@ -121,7 +121,7 @@ export const deleteProfile = async (id: string) => {
       await updateUserCurrentProfile(null);
     } else throw new Error("Error getting first profile");
 
-    revalidatePath("/dashboard/project");
+    revalidatePath("/dashboard");
   } catch (error) {
     console.error(error);
     throw new Error("Error deleting profile");
