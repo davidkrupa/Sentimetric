@@ -1,6 +1,6 @@
 import { getActivitiesAmountByName } from "@/lib/actions/activities.actions";
-import { FaChartBar, FaRegLightbulb } from "react-icons/fa";
-import { IoDocumentTextOutline, IoNotificationsOutline } from "react-icons/io5";
+import { FaChartBar, FaRegLightbulb, FaWrench } from "react-icons/fa";
+import { IoDocumentTextOutline } from "react-icons/io5";
 import {
   Card,
   CardContent,
@@ -14,7 +14,7 @@ const StatisticsCards = async () => {
     {
       name: "skill",
       title: "Skills",
-      icon: <FaRegLightbulb className="text-foreground text-lg" />,
+      icon: <FaWrench className="text-foreground text-lg" />,
     },
     {
       name: "profile",
