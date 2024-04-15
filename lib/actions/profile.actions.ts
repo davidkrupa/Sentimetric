@@ -111,7 +111,7 @@ export const deleteProfile = async (id: string) => {
 
     const deletedProfile = await Profile.deleteOne({ _id: id });
 
-    if (!deleteProfile) throw new Error("Error deleting profile");
+    if (!deletedProfile) throw new Error("Error deleting profile");
 
     const firstProfile = await Profile.findOne({ userId: user._id });
 
