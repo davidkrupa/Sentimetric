@@ -8,20 +8,26 @@ import { ProjectsData } from "@/types";
 import { getAiResponse } from "./openai.actions";
 import JobSkills from "../database/models/skills.model";
 import Profile from "../database/models/profile.models";
+import Ideas from "../database/models/ideas.model";
 
-export const createProjectsTopicsFromContent = async (
-  content: string
-): Promise<void> => {
+export const createProjectsTopicsFromContent = async (): Promise<void> => {
   try {
     await connectToDatabase();
 
     const user = await getCurrentUser();
 
-    const regex = /\b\d+\.\s+(.*)/g;
+    const ideas = await Ideas.findOne({
+      userId: user._id,
+      profileId: user.currentProfile,
+    });
+
+    if (!ideas) throw new Error("No ideas found");
+
+    const regex = /\b\d+\.\s+([^.!?\n]+\.)\s*/g;
 
     const projects = [];
     let match;
-    while ((match = regex.exec(content)) !== null) {
+    while ((match = regex.exec(ideas.content)) !== null) {
       projects.push({
         name: match[1],
         topic: match[1],
