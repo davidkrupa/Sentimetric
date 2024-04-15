@@ -41,9 +41,7 @@ export const createAnalysisAndSave = async (
   }
 };
 
-export const getAllAnalysis = async (): Promise<
-  SingleAnalysisData[] | undefined
-> => {
+export const getAllAnalysis = async (): Promise<SingleAnalysisData[]> => {
   try {
     await connectToDatabase();
 
@@ -53,8 +51,6 @@ export const getAllAnalysis = async (): Promise<
       userId: user._id,
       profileId: user.currentProfile,
     });
-
-    if (allAnalysis.length === 0) return;
 
     const formattedAnalysis = allAnalysis.map((analysis) => ({
       ...analysis.toObject(), // to get a plain JavaScript object without mongoose stuff
