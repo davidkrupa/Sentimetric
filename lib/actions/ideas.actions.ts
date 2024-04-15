@@ -50,7 +50,7 @@ export const createIdeasFromProfile = async (): Promise<void> => {
 
     const aiResponse = await getAiResponse(prompt);
 
-    const ideas = await Ideas.create({
+    await Ideas.create({
       content: aiResponse,
       userId: user._id,
       profileId: user.currentProfile,
