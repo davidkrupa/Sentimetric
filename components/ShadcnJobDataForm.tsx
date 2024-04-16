@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -18,8 +17,10 @@ import { Input } from "@/components/ui/input";
 import { JobDetailsFormSchema } from "@/lib/formSchemas/input.schemas";
 import { addProfile } from "@/lib/actions/profile.actions";
 import { createActivity } from "@/lib/actions/activities.actions";
+import { useState } from "react";
 
 export function ShadcnJobDataForm() {
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof JobDetailsFormSchema>>({
     resolver: zodResolver(JobDetailsFormSchema),
     defaultValues: {
@@ -29,10 +30,19 @@ export function ShadcnJobDataForm() {
     },
   });
 
-  async function onSubmit(data: z.infer<typeof JobDetailsFormSchema>) {
+  const resetFormValues = async () => {
+    form.setValue("jobTitle", "");
+    form.setValue("company", "");
+    form.setValue("industry", "");
+  };
+
+  const onSubmit = async (data: z.infer<typeof JobDetailsFormSchema>) => {
+    setIsLoading(true);
     await addProfile(data);
     await createActivity("profile", "added");
-  }
+    await resetFormValues();
+    setIsLoading(false);
+  };
 
   return (
     <Form {...form}>
@@ -80,7 +90,9 @@ export function ShadcnJobDataForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Create New Profile</Button>
+        <Button type="submit" disabled={isLoading}>
+          Create New Profile
+        </Button>
       </form>
     </Form>
   );
