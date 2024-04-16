@@ -5,7 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { RiMenuFoldLine, RiMenuUnfoldLine } from "react-icons/ri";
-import { FaChartBar, FaRegLightbulb } from "react-icons/fa";
+import { FaRegLightbulb } from "react-icons/fa";
+import { FaChartBar } from "react-icons/fa6";
 import { BsPersonVcardFill } from "react-icons/bs";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 import { GrSearchAdvanced } from "react-icons/gr";
@@ -15,34 +16,29 @@ import logo from "../lib/assets/logo-first.png";
 
 const menuItems = [
   {
-    title: "Research",
-    list: [
-      {
-        title: "Summary",
-        path: "/dashboard",
-        icon: <FaChartBar />,
-      },
-      {
-        title: "Profile",
-        path: "/dashboard/profile",
-        icon: <BsPersonVcardFill />,
-      },
-      {
-        title: "Analysis",
-        path: "/dashboard/analysis",
-        icon: <GrSearchAdvanced />,
-      },
-      {
-        title: "Ideas",
-        path: "/dashboard/ideas",
-        icon: <FaRegLightbulb />,
-      },
-      {
-        title: "Project",
-        path: "/dashboard/project",
-        icon: <HiOutlinePencilSquare />,
-      },
-    ],
+    title: "Summary",
+    path: "/dashboard",
+    icon: <FaChartBar />,
+  },
+  {
+    title: "Profile",
+    path: "/dashboard/profile",
+    icon: <BsPersonVcardFill />,
+  },
+  {
+    title: "Analysis",
+    path: "/dashboard/analysis",
+    icon: <GrSearchAdvanced />,
+  },
+  {
+    title: "Ideas",
+    path: "/dashboard/ideas",
+    icon: <FaRegLightbulb />,
+  },
+  {
+    title: "Project",
+    path: "/dashboard/project",
+    icon: <HiOutlinePencilSquare />,
   },
 ];
 
@@ -97,26 +93,22 @@ const Sidebar = () => {
             <RiMenuFoldLine />
           </button>
         </div>
-        <div className="flex flex-col px-4 pt-4">
-          {menuItems.map((item) => (
-            <div className="flex flex-col gap-3" key={item.title}>
-              {item.list.map((tool) => (
-                <Link
-                  key={tool.title}
-                  href={tool.path}
-                  onClick={() => handleLinkClick(tool.path)}
-                  className={`flex items-center justify-start relative gap-5 py-3 px-2 rounded-lg text-muted-foreground hover:text-foreground text-md w-full hover:bg-muted/50 transition-colors ${
-                    tool.path === path && "bg-muted/50"
-                  }`}
-                >
-                  {tool.icon}
-                  <span className="capitalize">{tool.title}</span>
-                  {isLoading && tool.path === chosenPath && (
-                    <ImSpinner2 className="animate-spin-slow h-5 w-5 mr-3 text-primary absolute right-0 top-0 bottom-0 my-auto" />
-                  )}
-                </Link>
-              ))}
-            </div>
+        <div className="flex flex-col px-4 pt-4 gap-3">
+          {menuItems.map((tool, i) => (
+            <Link
+              key={`tool-${i}`}
+              href={tool.path}
+              onClick={() => handleLinkClick(tool.path)}
+              className={`flex items-center justify-start relative gap-5 py-3 px-2 rounded-lg text-muted-foreground hover:text-foreground text-md w-full hover:bg-muted/50 transition-colors ${
+                tool.path === path && "bg-muted/50"
+              }`}
+            >
+              {tool.icon}
+              <span className="capitalize">{tool.title}</span>
+              {isLoading && tool.path === chosenPath && (
+                <ImSpinner2 className="animate-spin-slow h-5 w-5 mr-3 text-primary absolute right-0 top-0 bottom-0 my-auto" />
+              )}
+            </Link>
           ))}
         </div>
       </aside>
