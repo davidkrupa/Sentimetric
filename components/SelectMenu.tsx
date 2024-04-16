@@ -78,9 +78,13 @@ const SelectMenu = ({ data, currentProfile }: SelectMenuProps) => {
 export default SelectMenu;
 
 const DeleteProfileDialog = ({ id }: { id: string }) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleDelete = async () => {
+    setIsLoading(true);
     await deleteProfile(id);
     await createActivity("profile", "removed");
+    setIsLoading(false);
   };
   return (
     <div
@@ -115,9 +119,16 @@ const DeleteProfileDialog = ({ id }: { id: string }) => {
                 Close
               </Button>
             </DialogClose>
-            <Button type="button" variant="destructive" onClick={handleDelete}>
-              Delete Profile
-            </Button>
+            <DialogClose asChild>
+              <Button
+                type="button"
+                variant="destructive"
+                onClick={handleDelete}
+                disabled={isLoading}
+              >
+                Delete Profile
+              </Button>
+            </DialogClose>
           </DialogFooter>
         </DialogContent>
       </Dialog>
