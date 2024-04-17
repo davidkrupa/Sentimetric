@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ImSpinner2 } from "react-icons/im";
 import { FaXmark } from "react-icons/fa6";
 
 import { Button } from "@/components/ui/button";
@@ -27,6 +26,7 @@ import {
 } from "./ui/dialog";
 import { deleteProfile } from "@/lib/actions/profile.actions";
 import { createActivity } from "@/lib/actions/activities.actions";
+import LoadingSpinner from "./ui/LoadingSpinner";
 const SelectMenu = ({ data, currentProfile }: SelectMenuProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -48,7 +48,7 @@ const SelectMenu = ({ data, currentProfile }: SelectMenuProps) => {
         >
           <p className="truncate">{currentProfile?.jobTitle}</p>
           {isLoading && (
-            <ImSpinner2 className="animate-spin-slow h-5 w-5 mr-3 text-primary absolute right-0 top-0 bottom-0 my-auto" />
+            <LoadingSpinner className="mr-3 h-4 w-4 absolute right-0 top-0 bottom-0 my-auto" />
           )}
         </Button>
       </DropdownMenuTrigger>
