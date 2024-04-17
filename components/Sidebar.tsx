@@ -10,9 +10,9 @@ import { FaChartBar } from "react-icons/fa6";
 import { BsPersonVcardFill } from "react-icons/bs";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 import { GrSearchAdvanced } from "react-icons/gr";
-import { ImSpinner2 } from "react-icons/im";
 
 import logo from "../lib/assets/logo-first.png";
+import LoadingSpinner from "./ui/LoadingSpinner";
 
 const menuItems = [
   {
@@ -106,7 +106,7 @@ const Sidebar = () => {
               {tool.icon}
               <span className="capitalize">{tool.title}</span>
               {isLoading && tool.path === chosenPath && (
-                <ImSpinner2 className="animate-spin-slow h-5 w-5 mr-3 text-primary absolute right-0 top-0 bottom-0 my-auto" />
+                <LoadingSpinner className="mr-3 absolute right-0 top-0 bottom-0 my-auto" />
               )}
             </Link>
           ))}
@@ -119,7 +119,7 @@ const Sidebar = () => {
         onClick={() => setSidebarState("opened")}
       >
         {!isLoading && <RiMenuUnfoldLine />}
-        {isLoading && <ImSpinner2 className="animate-spin-slow text-white" />}
+        {isLoading && <LoadingSpinner className="text-white h-auto w-auto" />}
       </button>
     </>
   );
