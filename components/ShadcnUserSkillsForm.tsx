@@ -30,9 +30,11 @@ import {
 import { addSkills } from "@/lib/actions/skills.actions";
 import { UserSkills } from "@/types";
 import { createActivity } from "@/lib/actions/activities.actions";
+import LoadingSpinner from "./ui/LoadingSpinner";
 
 export function ShadcnUserSkillsForm() {
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof UserSkillsFormSchema>>({
     resolver: zodResolver(UserSkillsFormSchema),
@@ -43,6 +45,7 @@ export function ShadcnUserSkillsForm() {
   });
 
   async function onSubmit(data: z.infer<typeof UserSkillsFormSchema>) {
+    setIsLoading(true);
     const { skillGroup, skill } = data;
 
     const skills: UserSkills = {
@@ -63,6 +66,8 @@ export function ShadcnUserSkillsForm() {
       form.setValue("skill", ""); // clear skill input after submit
     } catch (error) {
       setError((error as Error).message);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -113,7 +118,10 @@ export function ShadcnUserSkillsForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Add Skill</Button>
+        <div className="flex items-center gap-3">
+          <Button type="submit">Add Skill</Button>
+          {isLoading && <LoadingSpinner />}
+        </div>
         {/* Improve UI of an error or change to alert */}
         {error && (
           <p className="text-sm font-medium text-destructive">{error}</p>
