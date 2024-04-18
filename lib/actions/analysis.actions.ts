@@ -101,7 +101,23 @@ export const deleteAnalysis = async (id: string): Promise<void> => {
       _id: id,
     });
 
-    if (!deletedAnalysis) throw new Error("Error deleting analysis");
+    if (deletedAnalysis.deletedCount === 0)
+      throw new Error("Error deleting analysis. No matching document found");
+
+    const profile = await Profile.findOne({ _id: user.currentProfile });
+
+    if (!profile) throw new Error("Profile not found");
+
+    // check if currently displayed analysis is the one being deleted
+    if (profile.currentAnalysis?.toString() === id) {
+      const firstAnalysis = await CustomAnalysis.findOne({
+        userId: user._id,
+        profileId: user.currentProfile,
+      });
+      // if more analyses exist, calls with first found _id
+      // if deleted analysis was the last one, calls with null
+      await updateProfileCurrentAnalysis(firstAnalysis?._id || null);
+    }
 
     revalidatePath("/dashboard");
   } catch (error) {
