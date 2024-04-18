@@ -18,6 +18,7 @@ import { JobDetailsFormSchema } from "@/lib/formSchemas/input.schemas";
 import { addProfile } from "@/lib/actions/profile.actions";
 import { createActivity } from "@/lib/actions/activities.actions";
 import { useState } from "react";
+import LoadingSpinner from "./ui/LoadingSpinner";
 
 export function ShadcnJobDataForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -90,9 +91,12 @@ export function ShadcnJobDataForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={isLoading}>
-          Create New Profile
-        </Button>
+        <div className="flex items-center gap-3">
+          <Button type="submit" disabled={isLoading}>
+            Create New Profile
+          </Button>
+          {isLoading && <LoadingSpinner />}
+        </div>
       </form>
     </Form>
   );
