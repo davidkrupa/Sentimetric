@@ -97,7 +97,10 @@ export function DataTable<TData extends SingleAnalysisData, TValue>({
                       size="xs"
                       variant="outline"
                       className="p-0 hover:bg-background border-none"
-                      onClick={() => handleDelete(row.original._id)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDelete(row.original._id);
+                      }}
                     >
                       <FaXmark className="text-destructive" />
                     </Button>
