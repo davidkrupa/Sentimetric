@@ -60,7 +60,7 @@ export const getAllProfiles = async (): Promise<ProfilesData | undefined> => {
 };
 
 export const updateProfileCurrentAnalysis = async (
-  id: string
+  id: string | null
 ): Promise<void> => {
   try {
     await connectToDatabase();
@@ -111,15 +111,16 @@ export const deleteProfile = async (id: string) => {
 
     const deletedProfile = await Profile.deleteOne({ _id: id });
 
-    if (!deletedProfile) throw new Error("Error deleting profile");
+    if (deletedProfile.deletedCount === 0)
+      throw new Error("Error deleting profile. No matching document found");
 
-    const firstProfile = await Profile.findOne({ userId: user._id });
-
-    if (firstProfile) {
-      await updateUserCurrentProfile(firstProfile._id);
-    } else if (firstProfile === null) {
-      await updateUserCurrentProfile(null);
-    } else throw new Error("Error getting first profile");
+    // check if currently displayed profile is the one being deleted
+    if (user.currentProfile?.toString() === id) {
+      const firstProfile = await Profile.findOne({ userId: user._id });
+      // if more profiles exist, calls with first found _id
+      // if deleted profile was the last one, calls with null
+      await updateUserCurrentProfile(firstProfile?._id || null);
+    }
 
     revalidatePath("/dashboard");
   } catch (error) {
