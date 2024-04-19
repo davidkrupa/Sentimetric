@@ -19,8 +19,12 @@ import { Input } from "@/components/ui/input";
 import { CompanyAnalysisFormSchema } from "@/lib/formSchemas/input.schemas";
 import { createAnalysisAndSave } from "@/lib/actions/analysis.actions";
 import { createActivity } from "@/lib/actions/activities.actions";
+import { useState } from "react";
+import LoadingSpinner from "./ui/LoadingSpinner";
 
 export function ShadcnCustomAnalysisForm() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const form = useForm<z.infer<typeof CompanyAnalysisFormSchema>>({
     resolver: zodResolver(CompanyAnalysisFormSchema),
     defaultValues: {
@@ -29,10 +33,18 @@ export function ShadcnCustomAnalysisForm() {
     },
   });
 
-  async function onSubmit(data: z.infer<typeof CompanyAnalysisFormSchema>) {
+  const resetFormValues = async () => {
+    form.setValue("topic", "");
+    form.setValue("content", "");
+  };
+
+  const onSubmit = async (data: z.infer<typeof CompanyAnalysisFormSchema>) => {
+    setIsLoading(true);
     await createAnalysisAndSave(data);
     await createActivity("analysis", "added");
-  }
+    await resetFormValues();
+    setIsLoading(false);
+  };
 
   return (
     <Form {...form}>
@@ -70,7 +82,12 @@ export function ShadcnCustomAnalysisForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Generate Analysis</Button>
+        <div className="flex items-center gap-3">
+          <Button type="submit" disabled={isLoading}>
+            Generate Analysis
+          </Button>
+          {isLoading && <LoadingSpinner />}
+        </div>
       </form>
     </Form>
   );
