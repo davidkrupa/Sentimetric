@@ -42,6 +42,24 @@ export const addSkills = async (skills: UserSkills): Promise<void> => {
   }
 };
 
+export const getDoSkillsExist = async (): Promise<boolean> => {
+  try {
+    await connectToDatabase();
+
+    const user = await getCurrentUser();
+
+    const skills = await JobSkills.findOne({
+      userId: user._id,
+      profileId: user.currentProfile,
+    });
+
+    return !!skills;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error getting skills");
+  }
+};
+
 export const getSkills = async (): Promise<UserSkills> => {
   try {
     await connectToDatabase();

@@ -4,15 +4,19 @@ import { createIdeasFromProfile } from "@/lib/actions/ideas.actions";
 import { Button } from "./ui/button";
 import { createProjectsTopicsFromContent } from "@/lib/actions/project.actions";
 
-const GetIdeasButton = () => {
+const GetIdeasButton = ({ isDisabled }: { isDisabled: boolean }) => {
   const handleClick = async () => {
     await createIdeasFromProfile();
     await createProjectsTopicsFromContent();
   };
 
   return (
-    <Button className="bg-primary text-white" onClick={() => handleClick()}>
-      Analyze Profile
+    <Button
+      disabled={isDisabled}
+      className="bg-primary text-white"
+      onClick={() => handleClick()}
+    >
+      Create Company Summary
     </Button>
   );
 };

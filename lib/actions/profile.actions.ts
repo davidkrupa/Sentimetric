@@ -35,6 +35,19 @@ export const addProfile = async (data: ProfileParams): Promise<void> => {
   }
 };
 
+export const getDoesProfileExist = async (): Promise<boolean> => {
+  try {
+    await connectToDatabase();
+
+    const user = await getCurrentUser();
+
+    return !!user.currentProfile;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error getting profile");
+  }
+};
+
 export const getAllProfiles = async (): Promise<ProfilesData | undefined> => {
   try {
     await connectToDatabase();
