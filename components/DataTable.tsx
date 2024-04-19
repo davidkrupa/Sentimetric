@@ -43,7 +43,9 @@ export function DataTable<TData extends SingleAnalysisData, TValue>({
   });
 
   const handleRowClick = async (row: TData) => {
+    setIsLoading(true);
     await updateProfileCurrentAnalysis(row._id);
+    setIsLoading(false);
   };
 
   const handleDelete = async (id: string) => {
