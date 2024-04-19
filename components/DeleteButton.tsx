@@ -1,21 +1,35 @@
 "use client";
 
+import { useState } from "react";
+import { FaXmark } from "react-icons/fa6";
+
 import { createActivity } from "@/lib/actions/activities.actions";
 import { deleteAnalysis } from "@/lib/actions/analysis.actions";
-import { IoTrashOutline } from "react-icons/io5";
+import { Button } from "./ui/button";
+import LoadingSpinner from "./ui/LoadingSpinner";
 
 const DeleteButton = ({ id }: { id: string }) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleDelete = async () => {
+    setIsLoading(true);
     await deleteAnalysis(id);
     await createActivity("analysis", "removed");
+    setIsLoading(false);
   };
   return (
-    <button
+    <Button
       onClick={() => handleDelete()}
-      className="absolute left-1 bottom-2 hidden group-hover:block rounded-sm p-0.5"
+      size="xs"
+      variant="outline"
+      className="px-1 hover:bg-background hidden group-hover:block"
     >
-      <IoTrashOutline className="text-sm text-primary" />
-    </button>
+      {isLoading ? (
+        <LoadingSpinner className="size-3" />
+      ) : (
+        <FaXmark className="text-sm text-destructive" />
+      )}
+    </Button>
   );
 };
 

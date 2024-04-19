@@ -6,24 +6,28 @@ import DeleteButton from "./DeleteButton";
 const AnalysisTitlesScrollable = async () => {
   const analysis = await getAllAnalysis();
 
-  if (!analysis) return;
-
   return (
     <div className="space-y-3 relative">
-      <p className="ml-6">Analysis</p>
-      <ScrollArea className="h-40">
-        {analysis.map((item, i) => (
-          <div className="space-y-1 py-1 relative group" key={`analysis-${i}`}>
-            {i !== 0 && <Separator />}
-            <div className="group-hover:bg-muted/50 rounded-md">
-              <DeleteButton id={item._id} />
-              <p className="text-sm text-muted-foreground leading-loose line-clamp-1 ml-6">
-                {item?.topic}
-              </p>
-            </div>
-          </div>
-        ))}
-      </ScrollArea>
+      {analysis.length > 0 ? (
+        <>
+          <p className="px-2">Analysis</p>
+          <ScrollArea className="h-40">
+            {analysis.map((item, i) => (
+              <div className="group" key={`analysis-${i}`}>
+                {i !== 0 && <Separator />}
+                <div className="flex justify-between items-center px-2 py-1 my-1 group-hover:bg-muted/50 rounded-md">
+                  <p className="text-sm text-muted-foreground leading-loose line-clamp-1">
+                    {item?.topic}
+                  </p>
+                  <DeleteButton id={item._id} />
+                </div>
+              </div>
+            ))}
+          </ScrollArea>
+        </>
+      ) : (
+        <p className="px-2">No analysis yet.</p>
+      )}
     </div>
   );
 };
