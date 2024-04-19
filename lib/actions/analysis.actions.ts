@@ -41,6 +41,24 @@ export const createAnalysisAndSave = async (
   }
 };
 
+export const getDoesAnalysisExist = async (): Promise<boolean> => {
+  try {
+    await connectToDatabase();
+
+    const user = await getCurrentUser();
+
+    const analysis = await CustomAnalysis.findOne({
+      userId: user._id,
+      profileId: user.currentProfile,
+    });
+
+    return !!analysis;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error getting analysis");
+  }
+};
+
 export const getAllAnalysis = async (): Promise<SingleAnalysisData[]> => {
   try {
     await connectToDatabase();
