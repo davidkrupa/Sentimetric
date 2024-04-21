@@ -2,6 +2,8 @@ import DashboardNavbar from "@/components/DashboardNavbar";
 import Sidebar from "@/components/Sidebar";
 import ThemeProvider from "../../contexts/ThemeProvider";
 
+import "./dashboard.css";
+
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <ThemeProvider
