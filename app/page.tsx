@@ -1,9 +1,13 @@
-import Header from "@/components/Header";
+import BackgroundGradient from "@/components/BackgroundGradient";
+import Hero from "@/components/Hero";
+import PricingCards from "@/components/PricingCards";
 
 export default function Home() {
   return (
     <main>
-      <Header />
+      <BackgroundGradient />
+      <Hero />
+      <PricingCards />
     </main>
   );
 }
