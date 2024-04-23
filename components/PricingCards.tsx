@@ -47,7 +47,7 @@ const PricingCards = () => {
   ];
 
   return (
-    <section className="flex justify-center items-center h-full max-w-[1200px] mx-auto">
+    <section className="flex justify-center items-center h-full mx-auto">
       <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
         <div className="mx-auto max-w-screen-md text-center mb-8 lg:mb-12">
           <h2 className="mb-6 text-4xl tracking-tight font-bold text-muted">
