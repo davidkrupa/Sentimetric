@@ -9,19 +9,19 @@ import smilingWoman from "../lib/assets/smiling-woman.webp";
 const Timeline = () => {
   const list = [
     {
-      title: "Create Profile",
+      title: "Customer Profiles",
       description:
-        "Create profiles for potential clients, adding your or your team's skills. Our AI tool will utilize this data to recommend tailored solutions suitable for your company's requirements.",
+        "Create profiles for potential clients, add your or your team's skills. Our AI tool will utilize this data to recommend tailored solutions suitable for your company's requirements.",
       content: null,
     },
     {
-      title: "Analyse Company",
+      title: "Company Analysis",
       description:
         "Streamline the analysis process by simply pasting key information such as the 'About Us' page, company news, or relevant job postings. Let us handle the rest.",
       content: "Content",
     },
     {
-      title: "Get Inspired",
+      title: "Inspirations",
       description:
         "Leverage the collected data to inspire custom business ideas that resonate with the target company's values and goals. Provide solutions tailored to address their specific challenges, empowering you to offer your services effectively.",
       content: "Content",
@@ -29,7 +29,7 @@ const Timeline = () => {
     {
       title: "Business Proposals",
       description:
-        "The final step involves crafting personalized business proposals with the assistance of AI-generated suggestions. Target the company's unique needs and objectives effectively.",
+        "Craft personalized business proposals with the assistance of AI-generated suggestions. Target the company's unique needs and objectives effectively.",
       content: null,
     },
   ];
@@ -40,7 +40,6 @@ const Timeline = () => {
         {list.map((item) => (
           <li key={item.title} className=" ms-12 max-w-[600px]">
             <span className="absolute flex items-center justify-center w-6 h-6 bg-muted rounded-full -start-3 ring-4 ring-muted">
-              {/* <FaXmark className="text-destructive" /> */}
               <FaChevronRight className="text-primary" />
             </span>
             <h3 className="flex items-center mb-1 text-lg font-medium text-muted">
@@ -54,7 +53,7 @@ const Timeline = () => {
         ))}
       </ol>
       <div className="hidden lg:flex flex-1 min-h-screen flex-col justify-start items-center w-1/33 my-10">
-        <div className="size-48 rounded-2xl rotate-45 overflow-hidden shadow-gray-400/50 shadow-2xl">
+        <div className="size-48 rounded-2xl rotate-45 overflow-hidden shadow-gray-400/50 shadow-2xl hover:-translate-y-4 transition-all">
           <Image
             alt="man looking to the left"
             width={250}
@@ -63,7 +62,7 @@ const Timeline = () => {
             src={lookingMan}
           />
         </div>
-        <div className="size-48 rounded-2xl rotate-45 overflow-hidden shadow-gray-400/50 shadow-2xl">
+        <div className="size-48 rounded-2xl rotate-45 overflow-hidden shadow-gray-400/50 shadow-2xl hover:-translate-y-4 transition-all">
           <Image
             alt="woman looking to the left"
             width={250}
@@ -72,7 +71,7 @@ const Timeline = () => {
             src={lookingWoman}
           />
         </div>
-        <div className="size-48 rounded-2xl rotate-45 overflow-hidden shadow-amber-200/30 shadow-2xl">
+        <div className="size-48 rounded-2xl rotate-45 overflow-hidden shadow-amber-200/30 shadow-2xl hover:-translate-y-4 transition-all">
           <Image
             alt="smiling woman"
             width={250}
