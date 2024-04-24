@@ -4,6 +4,7 @@ import { ActionOptions, ActivitiesAmountByDay, NameOptions } from "@/types";
 import { connectToDatabase } from "../database";
 import Activities from "../database/models/activities.model";
 import { getCurrentUser } from "./user.actions";
+import { revalidatePath } from "next/cache";
 
 export const createActivity = async (
   name: NameOptions,
@@ -54,6 +55,8 @@ export const createActivity = async (
       });
       await newActivity.save();
     }
+
+    revalidatePath("/dashboard");
   } catch (error) {
     console.error(error);
     throw new Error("Error creating activity");
