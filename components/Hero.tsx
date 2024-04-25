@@ -4,7 +4,7 @@ import { buttonVariants } from "./ui/button";
 
 const Hero = () => {
   return (
-    <div className="relative">
+    <div className="relative w-full">
       <Header />
       <div className="flex items-center justify-center h-screen">
         <div className="text-center w-[750px] px-3 sm:px-6">
