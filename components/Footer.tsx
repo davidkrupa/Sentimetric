@@ -1,7 +1,7 @@
-import React from "react";
-
 const Footer = () => {
-  return <div>Footer</div>;
+  return (
+    <footer className="mx-auto text-muted py-6">©Sentimetric 2024</footer>
+  );
 };
 
 export default Footer;
