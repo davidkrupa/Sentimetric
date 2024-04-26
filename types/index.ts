@@ -118,3 +118,5 @@ export type ActivitiesAmountByDay = {
   day: string;
   activities: number;
 };
+
+export type ErrorMessage = string | null;
