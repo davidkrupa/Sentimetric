@@ -21,7 +21,19 @@ export const createAnalysisAndSave = async (
 
     if (!profile) throw new Error("Profile not found");
 
-    const prompt = `Based on user experience and interest in the ${profile.jobTitle}, prepare the brief content analysis provided at the end of this prompt. The company this content is about: ${profile.company}. Industry: ${profile.industry}. The analysis should contain a maximum of 200 words. The goal is to identify problems, challenges, and ways to improve something that may have business value to that company. Later, this knowledge will be used to offer a product or service that meets these needs. Content source: "${data.topic}". Content for analysis: "${data.content}"`;
+    const prompt = `
+      Based on user experience and interest in the ${profile.jobTitle}, 
+      prepare the brief content analysis provided at the end of this prompt. 
+      The company this content is about: ${profile.company}. 
+      Industry: ${profile.industry}. 
+      The analysis should contain a maximum of 200 words. 
+      The goal is to identify problems, challenges, and ways to improve 
+      something that may have business value to that company. 
+      Later, this knowledge will be used to offer a product or service 
+      that meets these needs. 
+      Content source: "${data.topic}". 
+      Content for analysis: "${data.content}"
+    `;
 
     const openAiResponse = await getAiResponse(prompt);
 
@@ -52,6 +64,7 @@ export const getDoesAnalysisExist = async (): Promise<boolean> => {
       profileId: user.currentProfile,
     });
 
+    // return true if analysis exists, false otherwise
     return !!analysis;
   } catch (error) {
     console.error(error);
@@ -70,6 +83,7 @@ export const getAllAnalysis = async (): Promise<SingleAnalysisData[]> => {
       profileId: user.currentProfile,
     });
 
+    // format the analysis data
     const formattedAnalysis = allAnalysis.map((analysis) => ({
       ...analysis.toObject(), // to get a plain JavaScript object without mongoose stuff
       createdAt: new Date(analysis.createdAt).toLocaleDateString("en-US", {
@@ -79,6 +93,7 @@ export const getAllAnalysis = async (): Promise<SingleAnalysisData[]> => {
       }),
     }));
 
+    // convert formatted analysis to plain JavaScript objects
     return JSON.parse(JSON.stringify(formattedAnalysis));
   } catch (error) {
     console.error(error);
@@ -101,6 +116,10 @@ export const getCurrentAnalysis = async (): Promise<SingleAnalysisData> => {
       _id: profile.currentAnalysis,
     });
 
+    if (!analysis) {
+      throw new Error("Analysis not found");
+    }
+
     return JSON.parse(JSON.stringify(analysis));
   } catch (error) {
     console.error(error);
@@ -119,6 +138,7 @@ export const deleteAnalysis = async (id: string): Promise<void> => {
       _id: id,
     });
 
+    // check if analysis was deleted
     if (deletedAnalysis.deletedCount === 0)
       throw new Error("Error deleting analysis. No matching document found");
 

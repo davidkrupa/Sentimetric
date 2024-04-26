@@ -20,8 +20,8 @@ export const createIdeasFromProfile = async (): Promise<void> => {
 
     if (allAnalysis.length === 0) throw new Error("No analysis yet");
 
+    // prepare analysis prompt
     let analysisPrompt = "";
-
     for (let i = 0; i < allAnalysis.length; i++) {
       analysisPrompt += `
       Topic of the analysis: "${allAnalysis[i].topic}",
@@ -31,22 +31,33 @@ export const createIdeasFromProfile = async (): Promise<void> => {
 
     const profile = await Profile.findOne({ _id: user.currentProfile });
 
+    if (!profile) throw new Error("Profile not found.");
+
     const skills = await JobSkills.findOne({ profileId: user.currentProfile });
 
-    if (allAnalysis.length === 0) throw new Error("No analysis yet.");
-    if (!profile) throw new Error("No profile yet.");
+    if (!skills) throw new Error("Skills not found.");
 
-    const prompt = `Below is the user profile containing analyzes of the company selected by the user. Please analyze the provided data and, based on it, present a list of 3-6 project ideas that the user can make to provide the selected company with real business value. Ideas should be within the user's experience and skills. The project may go slightly beyond the skills the user currently has.
+    const prompt = `
+      Below is the user profile containing analyses of the selected company. 
+      Please analyze the provided data and, based on it, present a list of 
+      3-6 project ideas that the user can undertake to provide real business value 
+      to the selected company. Ideas should be within the user's experience and skills. 
+      The project may go slightly beyond the skills the user currently has.
 
-    Your answer should consist of two parts: first - a short conclusion from the analysis list containing the most important information and suggestions, especially if they may have business value for the company; second - a numbered list of project ideas that may have real value for the company and that can be made by the user, based on user profile (experience and skills).
+      Your answer should consist of two parts: 
+      - A short conclusion from the analysis list containing the most important 
+      information and suggestions, especially if they may have business value for the company.
+      - A numbered list of project ideas that may have real value for the company 
+      and that can be undertaken by the user, based on their profile (experience and skills).
 
-    User profile:
-    user area of experience: "${profile.jobTitle}";
-    analyzed company: "${profile.company}";
-    industry: "${profile.industry}";
-    user hard skills: "${skills?.hardSkills}";
-    user soft skills: "${skills?.softSkills}";
-    list of brief analysis of the company: ${analysisPrompt}`;
+      User profile:
+      - User area of experience: "${profile.jobTitle}";
+      - Analyzed company: "${profile.company}";
+      - Industry: "${profile.industry}";
+      - User hard skills: "${skills.hardSkills || "N/A"}";
+      - User soft skills: "${skills.softSkills || "N/A"}";
+      - List of brief analyses of the company: ${analysisPrompt}
+    `;
 
     const aiResponse = await getAiResponse(prompt);
 
@@ -57,10 +68,13 @@ export const createIdeasFromProfile = async (): Promise<void> => {
     });
 
     revalidatePath("/dashboard/ideas");
-  } catch (error) {}
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error creating ideas");
+  }
 };
 
-export const getIdeas = async (): Promise<IdeasData | undefined> => {
+export const getIdeas = async (): Promise<IdeasData | null> => {
   try {
     await connectToDatabase();
 
@@ -75,7 +89,7 @@ export const getIdeas = async (): Promise<IdeasData | undefined> => {
       profileId: profile._id,
     });
 
-    if (!ideas) return;
+    if (!ideas) return null;
 
     return JSON.parse(JSON.stringify(ideas));
   } catch (error) {
