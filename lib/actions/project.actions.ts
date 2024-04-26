@@ -21,12 +21,14 @@ export const createProjectsTopicsFromContent = async (): Promise<void> => {
       profileId: user.currentProfile,
     });
 
-    if (!ideas) throw new Error("No ideas found");
+    if (!ideas) throw new Error("No ideas found for the current profile");
 
+    // regular expression to extract project topics
     const regex = /\b\d+\.\s+([^.!?\n]+\.)\s*/g;
 
     const projects = [];
     let match;
+    // extract project topics from the ideas content
     while ((match = regex.exec(ideas.content)) !== null) {
       projects.push({
         name: match[1],
@@ -73,12 +75,13 @@ export const updateCurrentProject = async (
 
     const user = await getCurrentUser();
 
-    const profile = Profile.findOneAndUpdate(
+    const profile = await Profile.findOneAndUpdate(
       { _id: user.currentProfile, userId: user._id },
       { currentProject: projectId }
     );
 
-    if (!profile) throw new Error("Error updating current project");
+    if (!profile)
+      throw new Error("Error updating current project. Profile update failed");
 
     revalidatePath("/dashboard/project");
   } catch (error) {
@@ -99,7 +102,8 @@ export const deleteOneProject = async (id: string): Promise<void> => {
       _id: id,
     });
 
-    if (!project) throw new Error("Error deleting one project");
+    if (!project)
+      throw new Error("Error deleting one project. Project not found");
 
     revalidatePath("/dashboard");
   } catch (error) {
@@ -113,24 +117,35 @@ export const createProject = async () => {
 
     const user = await getCurrentUser();
 
-    const skills = await JobSkills.findOne({
-      userId: user._id,
-      profileId: user.currentProfile,
-    });
-
     const profile = await Profile.findOne({
       userId: user._id,
       _id: user.currentProfile,
     });
 
-    const prompt = "";
+    if (!profile) throw new Error("No profile found for the current user");
+
+    const skills = await JobSkills.findOne({
+      userId: user._id,
+      profileId: user.currentProfile,
+    });
+
+    if (!skills) throw new Error("No skills found for the current profile");
+
+    const prompt = `Based on your skills (${skills?.hardSkills}) 
+      and profile (${profile?.jobTitle}, ${profile?.company}, 
+      ${profile?.industry}), generate a project idea that aligns 
+      with your expertise and interests.
+    `;
 
     const response = await getAiResponse(prompt);
 
     const project = await Project.findOneAndUpdate(
       { userId: user._id, profileId: user.currentProfile },
-      { content: response }
+      { content: response },
+      { upsert: true, new: true }
     );
+
+    if (!project) throw new Error("Error creating project");
 
     revalidatePath("/dashboard/project");
   } catch (error) {

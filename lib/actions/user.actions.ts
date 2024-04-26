@@ -51,7 +51,7 @@ export const updateUserCurrentProfile = async (
       { currentProfile: id }
     );
 
-    if (!updatedUser) throw new Error("User not updated");
+    if (!updatedUser) throw new Error("Error updating user");
 
     revalidatePath("/dashboard");
   } catch (error) {

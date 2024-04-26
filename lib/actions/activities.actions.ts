@@ -5,6 +5,7 @@ import { connectToDatabase } from "../database";
 import Activities from "../database/models/activities.model";
 import { getCurrentUser } from "./user.actions";
 import { revalidatePath } from "next/cache";
+import { handleError } from "../utils";
 
 export const createActivity = async (
   name: NameOptions,
@@ -58,8 +59,7 @@ export const createActivity = async (
 
     revalidatePath("/dashboard");
   } catch (error) {
-    console.error(error);
-    throw new Error("Error creating activity");
+    throw handleError(error, "Error creating activity");
   }
 };
 
@@ -84,8 +84,7 @@ export const getLastActivities = async () => {
 
     return formattedActivities;
   } catch (error) {
-    console.error(error);
-    throw new Error("Error getting activities");
+    throw handleError(error, "Error getting activities");
   }
 };
 
@@ -132,8 +131,7 @@ export const getActivitiesAmountByDay = async (
 
     return activitiesHistory.reverse();
   } catch (error) {
-    console.error(error);
-    throw new Error("Error getting activities amounts");
+    throw handleError(error, "Error getting activities amount by day");
   }
 };
 
@@ -159,7 +157,6 @@ export const getActivitiesAmountByName = async () => {
 
     return result;
   } catch (error) {
-    console.error(error);
-    throw new Error("Error getting activities amounts");
+    throw handleError(error, "Error getting activities amount");
   }
 };

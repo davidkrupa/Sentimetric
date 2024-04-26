@@ -19,14 +19,18 @@ export const addProfile = async (data: ProfileParams): Promise<void> => {
       userId: user._id,
     });
 
-    if (!profile) throw new Error("Error creating profile");
+    if (!profile)
+      throw new Error("Error creating profile. Profile creation failed.");
 
     const updatedUser = await User.findOneAndUpdate(
       { _id: user._id },
       { currentProfile: profile._id }
     );
 
-    if (!updatedUser) throw new Error("Error updating currentProfile property");
+    if (!updatedUser)
+      throw new Error(
+        "Profile creation succeeded, but updating user's currentProfile failed"
+      );
 
     revalidatePath("/dashboard/profile");
   } catch (error) {
@@ -41,6 +45,7 @@ export const getDoesProfileExist = async (): Promise<boolean> => {
 
     const user = await getCurrentUser();
 
+    // return true if user has a currentProfile, false otherwise
     return !!user.currentProfile;
   } catch (error) {
     console.error(error);
@@ -85,7 +90,10 @@ export const updateProfileCurrentAnalysis = async (
       { currentAnalysis: id }
     );
 
-    if (!updatedProfile) throw new Error("Error updating profile");
+    if (!updatedProfile)
+      throw new Error(
+        "Error updating user's current analysis. Profile update failed"
+      );
 
     revalidatePath("/dashboard/analysis");
   } catch (error) {
@@ -107,7 +115,10 @@ export const updateProfileCurrentProject = async (
       { currentProject: id }
     );
 
-    if (!updatedProfile) throw new Error("Error updating profile");
+    if (!updatedProfile)
+      throw new Error(
+        "Error updating user's current project. Profile update failed"
+      );
 
     revalidatePath("/dashboard/project");
   } catch (error) {
@@ -125,7 +136,7 @@ export const deleteProfile = async (id: string) => {
     const deletedProfile = await Profile.deleteOne({ _id: id });
 
     if (deletedProfile.deletedCount === 0)
-      throw new Error("Error deleting profile. No matching document found");
+      throw new Error("Error deleting profile. No matching profile found");
 
     // check if currently displayed profile is the one being deleted
     if (user.currentProfile?.toString() === id) {
