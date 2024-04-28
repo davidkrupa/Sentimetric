@@ -114,7 +114,7 @@ export type NameOptions = "skill" | "project" | "analysis" | "profile" | "idea";
 
 export type ActionOptions = "added" | "removed";
 
-export type ActivitiesAmountByDay = {
+export type ActivitiesAmountByDayData = {
   day: string;
   activities: number;
 };
@@ -128,4 +128,24 @@ export type Result<Data> = {
 
 export type GetDoSkillsExist = Result<boolean>;
 
-export type GetSkills = Result<UserSkills>;
+export type GetSkills = Result<UserSkills | null>;
+
+export type ActivitiesData = {
+  name: NameOptions;
+  action: ActionOptions;
+  total: number;
+  createdAt: string;
+};
+
+export type GetLastActivities = Result<ActivitiesData[] | null>;
+
+export type GetActivitiesAmountByDay = Result<
+  ActivitiesAmountByDayData[] | null
+>;
+
+export type ActivitiesAmountData = {
+  _id: { name: NameOptions; action: ActionOptions };
+  total: number;
+};
+
+export type GetActivitiesAmountByName = Result<ActivitiesAmountData[] | null>;
