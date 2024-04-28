@@ -5,19 +5,20 @@ import { getSkills } from "@/lib/actions/skills.actions";
 import NoDataOrError from "./NoDataOrError";
 
 const SkillsViewer = async ({ chars }: { chars: number }) => {
-  const {
-    data: { hardSkills, softSkills },
-    error,
-  } = await getSkills();
+  const { data, error } = await getSkills();
 
-  const isListEmpty = hardSkills.length === 0 && softSkills.length === 0;
+  const isAllowed = !error && data;
+  let shortenedHardSkills: string[] = [];
+  let shortenedSoftSkills: string[] = [];
 
-  const shortenedHardSkills = getShortenedList(hardSkills, chars);
-  const shortenedSoftSkills = getShortenedList(softSkills, chars);
+  if (data) {
+    shortenedHardSkills = getShortenedList(data.hardSkills, chars);
+    shortenedSoftSkills = getShortenedList(data.softSkills, chars);
+  }
 
   return (
     <>
-      {isListEmpty ? (
+      {!isAllowed ? (
         <NoDataOrError defaultText="No skills yet." error={error} />
       ) : (
         <div className="space-y-3">
@@ -26,10 +27,10 @@ const SkillsViewer = async ({ chars }: { chars: number }) => {
             <SkillsBadges
               skills={shortenedHardSkills}
               type="hardSkills"
-              hasMore={hardSkills.length > shortenedHardSkills.length}
+              hasMore={data.hardSkills.length > shortenedHardSkills.length}
             >
               <ShowAllDialog
-                skills={hardSkills}
+                skills={data.hardSkills}
                 type="hardSkills"
                 hasMore={false}
               />
@@ -40,10 +41,10 @@ const SkillsViewer = async ({ chars }: { chars: number }) => {
             <SkillsBadges
               skills={shortenedSoftSkills}
               type="softSkills"
-              hasMore={softSkills.length > shortenedSoftSkills.length}
+              hasMore={data.softSkills.length > shortenedSoftSkills.length}
             >
               <ShowAllDialog
-                skills={softSkills}
+                skills={data.softSkills}
                 type="softSkills"
                 hasMore={false}
               />

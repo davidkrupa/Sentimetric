@@ -33,22 +33,22 @@ const StatisticsCards = async () => {
     },
   ];
 
-  const activitiesAmounts = await getActivitiesAmountByName();
+  const { data } = await getActivitiesAmountByName();
 
   const activities = options.map((option) => {
-    const addedAmount = activitiesAmounts.find(
+    const addedAmount = data?.find(
       (activity) =>
         activity._id.name === option.name && activity._id.action === "added"
     );
-    const removedAmount = activitiesAmounts.find(
+    const removedAmount = data?.find(
       (activity) =>
         activity._id.name === option.name && activity._id.action === "removed"
     );
     return {
       ...option,
       actions: {
-        added: addedAmount?.total || 0,
-        removed: removedAmount?.total || 0,
+        added: addedAmount?.total ?? 0,
+        removed: removedAmount?.total ?? 0,
       },
     };
   });

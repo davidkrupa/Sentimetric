@@ -10,11 +10,11 @@ const ProfileSummaryCard = async () => {
   const data = [
     {
       name: "Hard Skills",
-      total: skills.data.hardSkills.length,
+      total: skills?.data?.hardSkills.length ?? 0,
     },
     {
       name: "Soft Skills",
-      total: skills.data.softSkills.length,
+      total: skills?.data?.softSkills.length ?? 0,
     },
   ];
 
