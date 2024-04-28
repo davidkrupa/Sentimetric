@@ -84,10 +84,17 @@ export const getSkills = async (): Promise<GetSkills> => {
       profileId: user.currentProfile,
     });
 
-    const returnValue = {
-      hardSkills: jobSkills?.hardSkills ?? [],
-      softSkills: jobSkills?.softSkills ?? [],
-    };
+    let returnValue = null;
+
+    if (
+      jobSkills?.hardSkills?.length > 0 ||
+      jobSkills?.softSkills?.length > 0
+    ) {
+      returnValue = {
+        hardSkills: jobSkills.hardSkills,
+        softSkills: jobSkills.softSkills,
+      };
+    }
 
     return {
       error: null,
@@ -96,7 +103,7 @@ export const getSkills = async (): Promise<GetSkills> => {
   } catch (error) {
     return {
       error: getErrorMessage(error),
-      data: { hardSkills: [], softSkills: [] },
+      data: null,
     };
   }
 };
