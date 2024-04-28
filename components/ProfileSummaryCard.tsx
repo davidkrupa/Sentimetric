@@ -5,15 +5,16 @@ import ProfileDetails from "./ProfileDetails";
 
 const MAX_CHARS = 80;
 const ProfileSummaryCard = async () => {
-  const { hardSkills, softSkills } = await getSkills();
+  const skills = await getSkills();
+
   const data = [
     {
       name: "Hard Skills",
-      total: hardSkills.length,
+      total: skills.data.hardSkills.length,
     },
     {
       name: "Soft Skills",
-      total: softSkills.length,
+      total: skills.data.softSkills.length,
     },
   ];
 
