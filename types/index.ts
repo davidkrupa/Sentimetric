@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 export type CreateUserParams = {
   clerkId: string;
   email: string;
-  username: string;
+  // username: string;
   firstName: string;
   lastName: string;
   photo: string;
@@ -15,7 +15,7 @@ export type UserParams = CreateUserParams & {
 };
 
 export type UpdateUserParams = {
-  username: string;
+  // username: string;
   firstName: string;
   lastName: string;
   photo: string;
@@ -149,3 +149,7 @@ export type ActivitiesAmountData = {
 };
 
 export type GetActivitiesAmountByName = Result<ActivitiesAmountData[] | null>;
+
+export type GetDoesProfileExist = Result<boolean>;
+
+export type GetAllProfiles = Result<ProfilesData | null>;

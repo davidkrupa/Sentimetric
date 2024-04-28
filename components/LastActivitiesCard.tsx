@@ -6,7 +6,7 @@ import NoDataOrError from "./NoDataOrError";
 const LastActivitiesCard = async () => {
   const { data, error } = await getLastActivities();
 
-  const isAllowed = data && !error;
+  const isAllowed = data && data.length > 0 && !error;
 
   return (
     <Card className="lg:col-span-3">

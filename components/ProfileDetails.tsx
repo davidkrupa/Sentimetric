@@ -6,20 +6,18 @@ const ProfileDetails = async ({
   showCompany,
   showIndustry,
 }: ProfileDetailsProps) => {
-  const profilesData = await getAllProfiles();
+  const { data, error } = await getAllProfiles();
 
-  if (!profilesData) return;
+  if (!data) return;
 
-  const { currentProfileId, profiles } = profilesData;
-
-  const currentProfile = profiles.find(
-    (profile) => profile._id === currentProfileId
+  const currentProfile = data?.profiles?.find(
+    (profile) => profile._id === data.currentProfileId
   );
 
   return (
     <div className="flex items-center gap-8 xl:gap-12 max-w-[600px]">
       <div>
-        <SelectMenu data={profiles} currentProfile={currentProfile} />
+        <SelectMenu data={data.profiles} currentProfile={currentProfile} />
       </div>
       <div className="flex xl:gap-12">
         {showCompany && (

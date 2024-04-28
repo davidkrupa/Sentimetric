@@ -6,14 +6,14 @@ import { getGetDoSkillsExist } from "@/lib/actions/skills.actions";
 import NoDataOrError from "./NoDataOrError";
 
 const IdeasSummary = async () => {
-  const [ideas, isProfile, isSkill, isAnalysis] = await Promise.all([
+  const [ideas, profile, skills, analysis] = await Promise.all([
     getIdeas(),
     getDoesProfileExist(),
     getGetDoSkillsExist(),
     getDoesAnalysisExist(),
   ]);
 
-  const isAllowed = isProfile && isSkill.data && isAnalysis;
+  const isAllowed = profile.data && skills.data && analysis;
 
   return (
     <div className="space-y-3 px-5 w-full">
@@ -23,9 +23,14 @@ const IdeasSummary = async () => {
       {!isAllowed && !ideas && (
         <p className="text-center">
           You first need to add:
-          {!isProfile && <NoDataOrError error="You need to create profile." />}
-          <NoDataOrError error={isSkill.error} />
-          {!isAnalysis && (
+          {!profile.data && (
+            <NoDataOrError
+              error={profile.error}
+              defaultText="You need to create profile."
+            />
+          )}
+          <NoDataOrError error={skills.error} />
+          {!analysis && (
             <NoDataOrError error="You need create analysis first." />
           )}
         </p>
