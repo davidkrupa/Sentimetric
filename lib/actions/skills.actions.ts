@@ -2,10 +2,11 @@
 
 import { revalidatePath } from "next/cache";
 
-import { UserSkills } from "@/types";
+import { GetDoSkillsExist, GetSkills, UserSkills } from "@/types";
 import { connectToDatabase } from "../database";
 import JobSkills from "../database/models/skills.model";
 import { getCurrentUser } from "./user.actions";
+import { getErrorMessage, handleError } from "../utils";
 
 export const addSkills = async (skills: UserSkills): Promise<void> => {
   try {
@@ -33,40 +34,52 @@ export const addSkills = async (skills: UserSkills): Promise<void> => {
       }
     );
 
-    if (!updatedSkills) throw new Error("Error updating skills document");
+    if (!updatedSkills) throw new Error("Error adding skill to the list");
 
     revalidatePath("/dashboard/profile");
   } catch (error) {
-    console.error(error);
-    throw new Error((error as Error)?.message);
+    throw handleError(error);
   }
 };
 
-export const getDoSkillsExist = async (): Promise<boolean> => {
+export const getGetDoSkillsExist = async (): Promise<GetDoSkillsExist> => {
   try {
     await connectToDatabase();
 
     const user = await getCurrentUser();
+
+    if (!user.currentProfile)
+      throw new Error("Profile not found. Please create a profile first.");
 
     const skills = await JobSkills.findOne({
       userId: user._id,
       profileId: user.currentProfile,
     });
 
-    return !!skills;
+    if (!skills) throw new Error("Please add skills to your profile first.");
+
+    return {
+      error: null,
+      data: !!skills,
+    };
   } catch (error) {
-    console.error(error);
-    throw new Error("Error getting skills");
+    return {
+      error: getErrorMessage(error),
+      data: false,
+    };
   }
 };
 
-export const getSkills = async (): Promise<UserSkills> => {
+export const getSkills = async (): Promise<GetSkills> => {
   try {
     await connectToDatabase();
 
     const user = await getCurrentUser();
 
-    const jobSkills = await JobSkills.findOne<UserSkills>({
+    if (!user.currentProfile)
+      throw new Error("You need to create profile first");
+
+    const jobSkills = await JobSkills.findOne({
       userId: user._id,
       profileId: user.currentProfile,
     });
@@ -76,10 +89,15 @@ export const getSkills = async (): Promise<UserSkills> => {
       softSkills: jobSkills?.softSkills ?? [],
     };
 
-    return returnValue;
+    return {
+      error: null,
+      data: returnValue,
+    };
   } catch (error) {
-    console.error(error);
-    throw new Error("Error getting skills");
+    return {
+      error: getErrorMessage(error),
+      data: { hardSkills: [], softSkills: [] },
+    };
   }
 };
 
@@ -92,16 +110,18 @@ export const deleteOneSkill = async (
 
     const user = await getCurrentUser();
 
+    if (!user.currentProfile)
+      throw new Error("You need to create profile first");
+
     const skills = await JobSkills.findOneAndUpdate(
       { userId: user._id, profileId: user.currentProfile },
       { $pull: { [type]: skill } }
     );
 
-    if (!skills) throw new Error("Error deleting one skill in skills document");
+    if (!skills) throw new Error("Error deleting the skill");
 
     revalidatePath("/dashboard");
   } catch (error) {
-    console.error(error);
-    throw new Error("Error deleting the skill");
+    throw handleError(error);
   }
 };

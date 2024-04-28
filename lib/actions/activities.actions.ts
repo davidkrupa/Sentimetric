@@ -59,7 +59,7 @@ export const createActivity = async (
 
     revalidatePath("/dashboard");
   } catch (error) {
-    throw handleError(error, "Error creating activity");
+    throw handleError(error);
   }
 };
 
@@ -84,7 +84,7 @@ export const getLastActivities = async () => {
 
     return formattedActivities;
   } catch (error) {
-    throw handleError(error, "Error getting activities");
+    throw handleError(error);
   }
 };
 
@@ -131,7 +131,7 @@ export const getActivitiesAmountByDay = async (
 
     return activitiesHistory.reverse();
   } catch (error) {
-    throw handleError(error, "Error getting activities amount by day");
+    throw handleError(error);
   }
 };
 
@@ -157,6 +157,6 @@ export const getActivitiesAmountByName = async () => {
 
     return result;
   } catch (error) {
-    throw handleError(error, "Error getting activities amount");
+    throw handleError(error);
   }
 };
