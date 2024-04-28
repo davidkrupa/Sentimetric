@@ -1,11 +1,17 @@
 "use server";
 
-import { ActionOptions, ActivitiesAmountByDay, NameOptions } from "@/types";
+import {
+  ActionOptions,
+  GetActivitiesAmountByDay,
+  GetActivitiesAmountByName,
+  GetLastActivities,
+  NameOptions,
+} from "@/types";
 import { connectToDatabase } from "../database";
 import Activities from "../database/models/activities.model";
 import { getCurrentUser } from "./user.actions";
 import { revalidatePath } from "next/cache";
-import { handleError } from "../utils";
+import { getErrorMessage, handleError } from "../utils";
 
 export const createActivity = async (
   name: NameOptions,
@@ -63,7 +69,7 @@ export const createActivity = async (
   }
 };
 
-export const getLastActivities = async () => {
+export const getLastActivities = async (): Promise<GetLastActivities> => {
   try {
     await connectToDatabase();
 
@@ -82,15 +88,21 @@ export const getLastActivities = async () => {
       }),
     }));
 
-    return formattedActivities;
+    return {
+      error: null,
+      data: formattedActivities,
+    };
   } catch (error) {
-    throw handleError(error);
+    return {
+      error: getErrorMessage(error),
+      data: null,
+    };
   }
 };
 
 export const getActivitiesAmountByDay = async (
   daysAmount: number
-): Promise<ActivitiesAmountByDay[]> => {
+): Promise<GetActivitiesAmountByDay> => {
   const dayShort = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
   try {
@@ -129,34 +141,49 @@ export const getActivitiesAmountByDay = async (
       return { day: dayName, activities: total };
     });
 
-    return activitiesHistory.reverse();
+    return {
+      error: null,
+      data: activitiesHistory.reverse(),
+    };
   } catch (error) {
-    throw handleError(error);
+    return {
+      error: getErrorMessage(error),
+      data: null,
+    };
   }
 };
 
-export const getActivitiesAmountByName = async () => {
-  try {
-    await connectToDatabase();
+export const getActivitiesAmountByName =
+  async (): Promise<GetActivitiesAmountByName> => {
+    try {
+      await connectToDatabase();
 
-    const user = await getCurrentUser();
+      const user = await getCurrentUser();
 
-    const result = await Activities.aggregate([
-      {
-        $match: {
-          userId: user._id,
+      const result = await Activities.aggregate([
+        {
+          $match: {
+            userId: user._id,
+          },
         },
-      },
-      {
-        $group: {
-          _id: { name: "$name", action: "$action" },
-          total: { $sum: "$total" },
+        {
+          $group: {
+            _id: { name: "$name", action: "$action" },
+            total: { $sum: "$total" },
+          },
         },
-      },
-    ]);
+      ]);
 
-    return result;
-  } catch (error) {
-    throw handleError(error);
-  }
-};
+      console.log(result);
+
+      return {
+        error: null,
+        data: result,
+      };
+    } catch (error) {
+      return {
+        error: getErrorMessage(error),
+        data: null,
+      };
+    }
+  };
