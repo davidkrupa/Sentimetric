@@ -120,3 +120,12 @@ export type ActivitiesAmountByDay = {
 };
 
 export type ErrorMessage = string | null;
+
+export type Result<Data> = {
+  error: ErrorMessage;
+  data: Data;
+};
+
+export type GetDoSkillsExist = Result<boolean>;
+
+export type GetSkills = Result<UserSkills>;
