@@ -5,8 +5,9 @@ import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "../database";
 import User from "../database/models/user.model";
 import Profile from "../database/models/profile.models";
-import { ProfilesData, ProfileParams } from "@/types";
+import { ProfileParams, GetDoesProfileExist, GetAllProfiles } from "@/types";
 import { getCurrentUser, updateUserCurrentProfile } from "./user.actions";
+import { getErrorMessage } from "../utils";
 
 export const addProfile = async (data: ProfileParams): Promise<void> => {
   try {
@@ -39,41 +40,50 @@ export const addProfile = async (data: ProfileParams): Promise<void> => {
   }
 };
 
-export const getDoesProfileExist = async (): Promise<boolean> => {
+export const getDoesProfileExist = async (): Promise<GetDoesProfileExist> => {
   try {
     await connectToDatabase();
 
     const user = await getCurrentUser();
 
-    // return true if user has a currentProfile, false otherwise
-    return !!user.currentProfile;
+    return {
+      error: null,
+      data: !!user.currentProfile,
+    };
   } catch (error) {
-    console.error(error);
-    throw new Error("Error getting profile");
+    return {
+      error: getErrorMessage(error),
+      data: false,
+    };
   }
 };
 
-export const getAllProfiles = async (): Promise<ProfilesData | undefined> => {
+export const getAllProfiles = async (): Promise<GetAllProfiles> => {
   try {
     await connectToDatabase();
 
     const user = await getCurrentUser();
 
-    if (!user.currentProfile) return;
+    if (!user.currentProfile) throw new Error("No current profile found");
 
     const profiles = await Profile.find({ userId: user._id });
 
-    if (profiles.length === 0) return;
+    if (profiles.length === 0) throw new Error("No profiles found");
 
     const profilesData = {
       currentProfileId: user.currentProfile,
       profiles: profiles,
     };
 
-    return JSON.parse(JSON.stringify(profilesData));
+    return {
+      error: null,
+      data: JSON.parse(JSON.stringify(profilesData)),
+    };
   } catch (error) {
-    console.error(error);
-    throw new Error("Error geting profiles");
+    return {
+      error: getErrorMessage(error),
+      data: null,
+    };
   }
 };
 
