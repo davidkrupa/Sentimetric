@@ -22,7 +22,7 @@ const LineChartCard = async () => {
           {!data && (
             <NoDataOrError error={error} defaultText="No activities yet" />
           )}
-          {amount && `You had ${amount} activities in the last 7 days.`}
+          {amount != null && `You had ${amount} activities in the last 7 days.`}
         </CardDescription>
       </CardHeader>
       <CardContent className="pl-2">
