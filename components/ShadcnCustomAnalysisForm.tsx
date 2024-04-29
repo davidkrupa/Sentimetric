@@ -22,6 +22,7 @@ import { createActivity } from "@/lib/actions/activities.actions";
 import { useState } from "react";
 import LoadingSpinner from "./ui/LoadingSpinner";
 import NoDataOrError from "./NoDataOrError";
+import { toast } from "./ui/use-toast";
 
 export function ShadcnCustomAnalysisForm() {
   const [error, setError] = useState<string | null>(null);
@@ -42,15 +43,17 @@ export function ShadcnCustomAnalysisForm() {
 
   const onSubmit = async (data: z.infer<typeof CompanyAnalysisFormSchema>) => {
     setIsLoading(true);
-    try {
-      await createAnalysisAndSave(data);
+    const analysis = await createAnalysisAndSave(data);
+    if (analysis?.error) {
+      toast({
+        title: "Something went wrong!",
+        description: analysis.error,
+      });
+    } else {
       await createActivity("analysis", "added");
       await resetFormValues();
-    } catch (error) {
-      setError((error as Error).message);
-    } finally {
-      setIsLoading(false);
     }
+    setIsLoading(false);
   };
 
   return (
