@@ -5,7 +5,7 @@ import {
   GetCurrentAnalysis,
   GetDoesAnalysisExist,
   SaveAnalysisParams,
-  SingleAnalysisData,
+  VoidOrError,
 } from "@/types";
 import CustomAnalysis from "../database/models/analysis.model";
 import Profile from "../database/models/profile.models";
@@ -18,7 +18,7 @@ import { getErrorMessage } from "../utils";
 
 export const createAnalysisAndSave = async (
   data: SaveAnalysisParams
-): Promise<void> => {
+): Promise<VoidOrError> => {
   try {
     await connectToDatabase();
 
@@ -26,7 +26,7 @@ export const createAnalysisAndSave = async (
 
     const profile = await Profile.findOne({ _id: user.currentProfile });
 
-    if (!profile) throw new Error("Profile not found");
+    if (!profile) throw new Error("You need to create profile first");
 
     const prompt = `
       Based on user experience and interest in the ${profile.jobTitle}, 
@@ -55,8 +55,7 @@ export const createAnalysisAndSave = async (
 
     await updateProfileCurrentAnalysis(analysis._id);
   } catch (error) {
-    console.error(error);
-    throw new Error("Error creating analysis");
+    return { error: getErrorMessage(error) };
   }
 };
 
