@@ -10,9 +10,9 @@ const Page = () => {
 
       <div className="space-y-3 px-5">
         <h3 className="text-center text-2xl font-semibold leading-none tracking-tight p-3">
-          Title of Chosen Project
+          Not implemented yet
         </h3>
-        <p className="whitespace-pre-line">Content of the project draft</p>
+        {/* <p className="whitespace-pre-line">Content of the project draft</p> */}
       </div>
     </div>
   );
