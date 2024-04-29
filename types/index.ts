@@ -3,7 +3,6 @@ import { ReactNode } from "react";
 export type CreateUserParams = {
   clerkId: string;
   email: string;
-  // username: string;
   firstName: string;
   lastName: string;
   photo: string;
@@ -15,7 +14,6 @@ export type UserParams = CreateUserParams & {
 };
 
 export type UpdateUserParams = {
-  // username: string;
   firstName: string;
   lastName: string;
   photo: string;
@@ -161,3 +159,5 @@ export type GetCurrentAnalysis = Result<SingleAnalysisData | null>;
 export type GetAllAnalysis = Result<SingleAnalysisData[] | []>;
 
 export type GetIdeas = Result<IdeasData | null>;
+
+export type VoidOrError = void | { error: string };
