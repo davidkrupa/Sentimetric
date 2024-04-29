@@ -39,7 +39,9 @@ const IdeasSummary = async () => {
           )}
         </p>
       )}
-      <p className="whitespace-pre-line">{ideas.data?.content}</p>
+      <p className="whitespace-pre-line max-w-4xl mx-auto text-muted-foreground">
+        {ideas.data?.content}
+      </p>
       <div className="flex justify-center">
         {ideas.data == null && <GetIdeasButton isDisabled={!isAllowed} />}
       </div>
