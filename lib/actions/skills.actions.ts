@@ -56,8 +56,6 @@ export const getGetDoSkillsExist = async (): Promise<GetDoSkillsExist> => {
       profileId: user.currentProfile,
     });
 
-    if (!skills) throw new Error("Please add skills to your profile first.");
-
     return {
       error: null,
       data: !!skills,

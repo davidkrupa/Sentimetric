@@ -174,8 +174,6 @@ export const getActivitiesAmountByName =
         },
       ]);
 
-      console.log(result);
-
       return {
         error: null,
         data: result,
