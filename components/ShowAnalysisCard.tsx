@@ -7,12 +7,13 @@ import {
   CardTitle,
 } from "./ui/card";
 import { ScrollArea } from "./ui/scroll-area";
+import NoDataOrError from "./NoDataOrError";
 
 const ShowAnalysisCard = async () => {
-  const currentAnalysis = await getCurrentAnalysis();
+  const { data, error } = await getCurrentAnalysis();
 
-  const formattedContent = currentAnalysis?.content
-    .split("\n")
+  const formattedContent = data?.content
+    ?.split("\n")
     .map((line: string, i: number) => (
       <p key={`line-${i}`}>
         {line}
@@ -24,11 +25,15 @@ const ShowAnalysisCard = async () => {
     <Card>
       <CardHeader>
         <CardTitle>Your Analysis</CardTitle>
-        <CardDescription>{currentAnalysis?.topic}</CardDescription>
+        <CardDescription>{data?.topic}</CardDescription>
       </CardHeader>
       <CardContent>
         <ScrollArea className="h-72 text-sm text-muted-foreground leading-normal">
-          {formattedContent || "No analysis yet"}
+          {!data ? (
+            <NoDataOrError defaultText="No analysis yet" />
+          ) : (
+            formattedContent
+          )}
         </ScrollArea>
       </CardContent>
     </Card>
