@@ -19,6 +19,7 @@ import { addProfile } from "@/lib/actions/profile.actions";
 import { createActivity } from "@/lib/actions/activities.actions";
 import { useState } from "react";
 import LoadingSpinner from "./ui/LoadingSpinner";
+import { toast } from "./ui/use-toast";
 
 export function ShadcnJobDataForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -39,9 +40,16 @@ export function ShadcnJobDataForm() {
 
   const onSubmit = async (data: z.infer<typeof JobDetailsFormSchema>) => {
     setIsLoading(true);
-    await addProfile(data);
-    await createActivity("profile", "added");
-    await resetFormValues();
+    const profile = await addProfile(data);
+    if (profile?.error) {
+      toast({
+        title: "Something went wrong!",
+        description: profile.error,
+      });
+    } else {
+      await createActivity("profile", "added");
+      await resetFormValues();
+    }
     setIsLoading(false);
   };
 

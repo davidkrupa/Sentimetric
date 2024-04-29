@@ -3,6 +3,7 @@ import Sidebar from "@/components/Sidebar";
 import ThemeProvider from "../../contexts/ThemeProvider";
 
 import "./dashboard.css";
+import { Toaster } from "@/components/ui/toaster";
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -16,7 +17,10 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <Sidebar />
         <div className="flex flex-col flex-1 overflow-y-auto w-full">
           <DashboardNavbar />
-          <main className="flex-1 p-4">{children}</main>
+          <main className="flex-1 p-4">
+            {children}
+            <Toaster />
+          </main>
         </div>
       </div>
     </ThemeProvider>
