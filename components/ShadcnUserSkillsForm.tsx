@@ -31,10 +31,11 @@ import { addSkills } from "@/lib/actions/skills.actions";
 import { UserSkills } from "@/types";
 import { createActivity } from "@/lib/actions/activities.actions";
 import LoadingSpinner from "./ui/LoadingSpinner";
+import { useToast } from "./ui/use-toast";
 
 export function ShadcnUserSkillsForm() {
-  const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof UserSkillsFormSchema>>({
     resolver: zodResolver(UserSkillsFormSchema),
@@ -60,15 +61,17 @@ export function ShadcnUserSkillsForm() {
       skills.softSkills = [skill.toLowerCase().trim()];
     }
 
-    try {
-      await addSkills(skills);
+    const skillsData = await addSkills(skills);
+    if (skillsData?.error) {
+      toast({
+        title: "Something went wrong!",
+        description: skillsData.error,
+      });
+    } else {
       await createActivity("skill", "added");
       form.setValue("skill", ""); // clear skill input after submit
-    } catch (error) {
-      setError((error as Error).message);
-    } finally {
-      setIsLoading(false);
     }
+    setIsLoading(false);
   }
 
   return (
@@ -122,10 +125,6 @@ export function ShadcnUserSkillsForm() {
           <Button type="submit">Add Skill</Button>
           {isLoading && <LoadingSpinner />}
         </div>
-        {/* Improve UI of an error or change to alert */}
-        {error && (
-          <p className="text-sm font-medium text-destructive">{error}</p>
-        )}
       </form>
     </Form>
   );
