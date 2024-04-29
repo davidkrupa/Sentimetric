@@ -1,6 +1,12 @@
 "use server";
 
-import { SaveAnalysisParams, SingleAnalysisData } from "@/types";
+import {
+  GetAllAnalysis,
+  GetCurrentAnalysis,
+  GetDoesAnalysisExist,
+  SaveAnalysisParams,
+  SingleAnalysisData,
+} from "@/types";
 import CustomAnalysis from "../database/models/analysis.model";
 import Profile from "../database/models/profile.models";
 import { connectToDatabase } from "../database";
@@ -8,6 +14,7 @@ import { getAiResponse } from "./openai.actions";
 import { updateProfileCurrentAnalysis } from "./profile.actions";
 import { getCurrentUser } from "./user.actions";
 import { revalidatePath } from "next/cache";
+import { getErrorMessage } from "../utils";
 
 export const createAnalysisAndSave = async (
   data: SaveAnalysisParams
@@ -53,7 +60,7 @@ export const createAnalysisAndSave = async (
   }
 };
 
-export const getDoesAnalysisExist = async (): Promise<boolean> => {
+export const getDoesAnalysisExist = async (): Promise<GetDoesAnalysisExist> => {
   try {
     await connectToDatabase();
 
@@ -64,15 +71,19 @@ export const getDoesAnalysisExist = async (): Promise<boolean> => {
       profileId: user.currentProfile,
     });
 
-    // return true if analysis exists, false otherwise
-    return !!analysis;
+    return {
+      error: null,
+      data: !!analysis, // return true if analysis exists, false otherwise
+    };
   } catch (error) {
-    console.error(error);
-    throw new Error("Error getting analysis");
+    return {
+      error: getErrorMessage(error),
+      data: false,
+    };
   }
 };
 
-export const getAllAnalysis = async (): Promise<SingleAnalysisData[]> => {
+export const getAllAnalysis = async (): Promise<GetAllAnalysis> => {
   try {
     await connectToDatabase();
 
@@ -93,15 +104,20 @@ export const getAllAnalysis = async (): Promise<SingleAnalysisData[]> => {
       }),
     }));
 
-    // convert formatted analysis to plain JavaScript objects
-    return JSON.parse(JSON.stringify(formattedAnalysis));
+    return {
+      error: null,
+      // convert formatted analysis to plain JavaScript objects
+      data: JSON.parse(JSON.stringify(formattedAnalysis)),
+    };
   } catch (error) {
-    console.error(error);
-    throw new Error("Error getting all analysis");
+    return {
+      error: getErrorMessage(error),
+      data: [],
+    };
   }
 };
 
-export const getCurrentAnalysis = async (): Promise<SingleAnalysisData> => {
+export const getCurrentAnalysis = async (): Promise<GetCurrentAnalysis> => {
   try {
     await connectToDatabase();
 
@@ -109,7 +125,7 @@ export const getCurrentAnalysis = async (): Promise<SingleAnalysisData> => {
 
     const profile = await Profile.findOne({ _id: user.currentProfile });
 
-    if (!profile) throw new Error("Profile not found");
+    if (!profile) throw new Error("You need to create profile first");
 
     const analysis = await CustomAnalysis.findOne({
       userId: user._id,
@@ -120,10 +136,15 @@ export const getCurrentAnalysis = async (): Promise<SingleAnalysisData> => {
       throw new Error("Analysis not found");
     }
 
-    return JSON.parse(JSON.stringify(analysis));
+    return {
+      error: null,
+      data: JSON.parse(JSON.stringify(analysis)),
+    };
   } catch (error) {
-    console.error(error);
-    throw new Error("Error getting current analysis");
+    return {
+      error: getErrorMessage(error),
+      data: null,
+    };
   }
 };
 
