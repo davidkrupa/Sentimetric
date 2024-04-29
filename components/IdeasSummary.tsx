@@ -13,31 +13,35 @@ const IdeasSummary = async () => {
     getDoesAnalysisExist(),
   ]);
 
-  const isAllowed = profile.data && skills.data && analysis;
+  const isAllowed = profile.data && skills.data && analysis.data;
 
   return (
     <div className="space-y-3 px-5 w-full">
       <h3 className="text-center text-2xl font-semibold leading-none tracking-tight p-3">
         Company Summary
       </h3>
-      {!isAllowed && !ideas && (
+      {!isAllowed && !ideas.data && (
         <p className="text-center">
-          You first need to add:
           {!profile.data && (
             <NoDataOrError
               error={profile.error}
-              defaultText="You need to create profile."
+              defaultText="You need to create a profile."
             />
           )}
-          <NoDataOrError error={skills.error} />
-          {!analysis && (
-            <NoDataOrError error="You need create analysis first." />
+          {!skills.data && (
+            <NoDataOrError defaultText="You need to add skills." />
+          )}
+          {!analysis.data && (
+            <NoDataOrError
+              error={analysis.error}
+              defaultText="You need to create an analysis."
+            />
           )}
         </p>
       )}
-      <p className="whitespace-pre-line">{ideas?.content}</p>
+      <p className="whitespace-pre-line">{ideas.data?.content}</p>
       <div className="flex justify-center">
-        {ideas == null && <GetIdeasButton isDisabled={!isAllowed} />}
+        {ideas.data == null && <GetIdeasButton isDisabled={!isAllowed} />}
       </div>
     </div>
   );

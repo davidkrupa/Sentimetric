@@ -153,3 +153,11 @@ export type GetActivitiesAmountByName = Result<ActivitiesAmountData[] | null>;
 export type GetDoesProfileExist = Result<boolean>;
 
 export type GetAllProfiles = Result<ProfilesData | null>;
+
+export type GetDoesAnalysisExist = Result<boolean>;
+
+export type GetCurrentAnalysis = Result<SingleAnalysisData | null>;
+
+export type GetAllAnalysis = Result<SingleAnalysisData[] | []>;
+
+export type GetIdeas = Result<IdeasData | null>;

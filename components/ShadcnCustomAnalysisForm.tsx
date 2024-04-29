@@ -21,8 +21,10 @@ import { createAnalysisAndSave } from "@/lib/actions/analysis.actions";
 import { createActivity } from "@/lib/actions/activities.actions";
 import { useState } from "react";
 import LoadingSpinner from "./ui/LoadingSpinner";
+import NoDataOrError from "./NoDataOrError";
 
 export function ShadcnCustomAnalysisForm() {
+  const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof CompanyAnalysisFormSchema>>({
@@ -40,10 +42,15 @@ export function ShadcnCustomAnalysisForm() {
 
   const onSubmit = async (data: z.infer<typeof CompanyAnalysisFormSchema>) => {
     setIsLoading(true);
-    await createAnalysisAndSave(data);
-    await createActivity("analysis", "added");
-    await resetFormValues();
-    setIsLoading(false);
+    try {
+      await createAnalysisAndSave(data);
+      await createActivity("analysis", "added");
+      await resetFormValues();
+    } catch (error) {
+      setError((error as Error).message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -88,6 +95,7 @@ export function ShadcnCustomAnalysisForm() {
           </Button>
           {isLoading && <LoadingSpinner />}
         </div>
+        {error && <NoDataOrError error={error} />}
       </form>
     </Form>
   );

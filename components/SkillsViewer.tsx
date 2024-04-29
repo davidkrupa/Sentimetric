@@ -19,7 +19,7 @@ const SkillsViewer = async ({ chars }: { chars: number }) => {
   return (
     <>
       {!isAllowed ? (
-        <NoDataOrError defaultText="No skills yet." error={error} />
+        <NoDataOrError defaultText="No skills yet." />
       ) : (
         <div className="space-y-3">
           <div className="space-y-3">

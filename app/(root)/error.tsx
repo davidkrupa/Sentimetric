@@ -18,7 +18,6 @@ export default function Error({
   return (
     <div className="flex flex-col justify-center items-center gap-3 h-full">
       <h2 className="text-foreground text-xl">Something went wrong!</h2>
-      <p className="text-muted-foreground">{error?.message}</p>
       <Button
         variant="outline"
         onClick={
