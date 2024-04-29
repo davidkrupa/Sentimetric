@@ -5,11 +5,16 @@ import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "../database";
 import User from "../database/models/user.model";
 import Profile from "../database/models/profile.models";
-import { ProfileParams, GetDoesProfileExist, GetAllProfiles } from "@/types";
+import {
+  ProfileParams,
+  GetDoesProfileExist,
+  GetAllProfiles,
+  VoidOrError,
+} from "@/types";
 import { getCurrentUser, updateUserCurrentProfile } from "./user.actions";
 import { getErrorMessage } from "../utils";
 
-export const addProfile = async (data: ProfileParams): Promise<void> => {
+export const addProfile = async (data: ProfileParams): Promise<VoidOrError> => {
   try {
     await connectToDatabase();
 
@@ -20,8 +25,7 @@ export const addProfile = async (data: ProfileParams): Promise<void> => {
       userId: user._id,
     });
 
-    if (!profile)
-      throw new Error("Error creating profile. Profile creation failed.");
+    if (!profile) throw new Error("Profile creation failed.");
 
     const updatedUser = await User.findOneAndUpdate(
       { _id: user._id },
@@ -30,13 +34,12 @@ export const addProfile = async (data: ProfileParams): Promise<void> => {
 
     if (!updatedUser)
       throw new Error(
-        "Profile creation succeeded, but updating user's currentProfile failed"
+        "Profile created, but updating user's current profile failed."
       );
 
     revalidatePath("/dashboard/profile");
   } catch (error) {
-    console.error(error);
-    throw new Error("Error creating profile");
+    return { error: getErrorMessage(error) };
   }
 };
 
