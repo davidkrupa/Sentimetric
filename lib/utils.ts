@@ -1,6 +1,8 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
+import { toast } from "@/components/ui/use-toast";
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -43,4 +45,11 @@ export const getShortenedList = (list: string[], maxLength: number) => {
     }
   }
   return list;
+};
+
+export const showToastError = (errorMessage: string) => {
+  toast({
+    title: "Something went wrong!",
+    description: errorMessage,
+  });
 };
