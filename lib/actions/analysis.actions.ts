@@ -147,7 +147,7 @@ export const getCurrentAnalysis = async (): Promise<GetCurrentAnalysis> => {
   }
 };
 
-export const deleteAnalysis = async (id: string): Promise<void> => {
+export const deleteAnalysis = async (id: string): Promise<VoidOrError> => {
   try {
     await connectToDatabase();
 
@@ -160,11 +160,14 @@ export const deleteAnalysis = async (id: string): Promise<void> => {
 
     // check if analysis was deleted
     if (deletedAnalysis.deletedCount === 0)
-      throw new Error("Error deleting analysis. No matching document found");
+      throw new Error("Error deleting analysis. No matching document found.");
 
     const profile = await Profile.findOne({ _id: user.currentProfile });
 
-    if (!profile) throw new Error("Profile not found");
+    if (!profile)
+      throw new Error(
+        "Error updating user's current analysis. Profile update failed."
+      );
 
     // check if currently displayed analysis is the one being deleted
     if (profile.currentAnalysis?.toString() === id) {
@@ -179,7 +182,6 @@ export const deleteAnalysis = async (id: string): Promise<void> => {
 
     revalidatePath("/dashboard");
   } catch (error) {
-    console.error(error);
-    throw new Error("Error deleting analysis");
+    return { error: getErrorMessage(error) };
   }
 };
