@@ -23,6 +23,7 @@ import LoadingSpinner from "./ui/LoadingSpinner";
 import { Button } from "./ui/button";
 import { deleteAnalysis } from "@/lib/actions/analysis.actions";
 import { createActivity } from "@/lib/actions/activities.actions";
+import { showToastError } from "@/lib/utils";
 
 interface DataTableProps<TData extends SingleAnalysisData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -50,7 +51,12 @@ export function DataTable<TData extends SingleAnalysisData, TValue>({
 
   const handleDelete = async (id: string) => {
     setIsLoading(true);
-    await deleteAnalysis(id);
+    const analysis = await deleteAnalysis(id);
+    if (analysis?.error) {
+      showToastError(analysis.error);
+      setIsLoading(false);
+      return;
+    }
     await createActivity("analysis", "removed");
     setIsLoading(false);
   };
