@@ -8,18 +8,22 @@ import Profile from "../database/models/profile.models";
 import { getAiResponse } from "./openai.actions";
 import { getCurrentUser } from "./user.actions";
 import JobSkills from "../database/models/skills.model";
-import { GetIdeas, IdeasData } from "@/types";
+import { GetIdeas, VoidOrError } from "@/types";
 import { getErrorMessage } from "../utils";
 
-export const createIdeasFromProfile = async (): Promise<void> => {
+export const createIdeasFromProfile = async (): Promise<VoidOrError> => {
   try {
     await connectToDatabase();
 
     const user = await getCurrentUser();
 
-    const allAnalysis = await CustomAnalysis.find({ userId: user._id });
+    const allAnalysis = await CustomAnalysis.find({
+      userId: user._id,
+      profileId: user.currentProfile,
+    });
 
-    if (allAnalysis.length === 0) throw new Error("No analysis yet");
+    if (allAnalysis.length === 0)
+      throw new Error("No analysis found for the current profile.");
 
     // prepare analysis prompt
     let analysisPrompt = "";
@@ -32,11 +36,12 @@ export const createIdeasFromProfile = async (): Promise<void> => {
 
     const profile = await Profile.findOne({ _id: user.currentProfile });
 
-    if (!profile) throw new Error("Profile not found.");
+    if (!profile) throw new Error("The current user profile was not found.");
 
     const skills = await JobSkills.findOne({ profileId: user.currentProfile });
 
-    if (!skills) throw new Error("Skills not found.");
+    if (!skills)
+      throw new Error("No skills found for the current user profile.");
 
     const prompt = `
       Below is the user profile containing analyses of the selected company. 
@@ -70,8 +75,7 @@ export const createIdeasFromProfile = async (): Promise<void> => {
 
     revalidatePath("/dashboard/ideas");
   } catch (error) {
-    console.error(error);
-    throw new Error("Error creating ideas");
+    return { error: getErrorMessage(error) };
   }
 };
 
