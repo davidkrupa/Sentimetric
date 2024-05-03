@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -31,11 +30,10 @@ import { addSkills } from "@/lib/actions/skills.actions";
 import { UserSkills } from "@/types";
 import { createActivity } from "@/lib/actions/activities.actions";
 import LoadingSpinner from "./ui/LoadingSpinner";
-import { useToast } from "./ui/use-toast";
+import { showToastError } from "@/lib/utils";
 
 export function ShadcnUserSkillsForm() {
   const [isLoading, setIsLoading] = useState(false);
-  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof UserSkillsFormSchema>>({
     resolver: zodResolver(UserSkillsFormSchema),
@@ -63,14 +61,13 @@ export function ShadcnUserSkillsForm() {
 
     const skillsData = await addSkills(skills);
     if (skillsData?.error) {
-      toast({
-        title: "Something went wrong!",
-        description: skillsData.error,
-      });
-    } else {
-      await createActivity("skill", "added");
-      form.setValue("skill", ""); // clear skill input after submit
+      showToastError(skillsData.error);
+      setIsLoading(false);
+      return;
     }
+    form.setValue("skill", ""); // clear skill input after submit
+    await createActivity("skill", "added");
+
     setIsLoading(false);
   }
 
