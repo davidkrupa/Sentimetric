@@ -53,7 +53,12 @@ export const createAnalysisAndSave = async (
 
     if (!analysis) throw new Error("Error creating analyis");
 
-    await updateProfileCurrentAnalysis(analysis._id);
+    // updateProfileCurrentAnalysis may return an error message instead
+    // of throwing an error because it is also used in the UI
+    const analysisUpdate = await updateProfileCurrentAnalysis(analysis._id);
+    if (analysisUpdate?.error) {
+      throw new Error(analysisUpdate.error);
+    }
   } catch (error) {
     return { error: getErrorMessage(error) };
   }
@@ -177,7 +182,14 @@ export const deleteAnalysis = async (id: string): Promise<VoidOrError> => {
       });
       // if more analyses exist, calls with first found _id
       // if deleted analysis was the last one, calls with null
-      await updateProfileCurrentAnalysis(firstAnalysis?._id || null);
+      const analysisUpdate = await updateProfileCurrentAnalysis(
+        firstAnalysis?._id || null
+      );
+      // updateProfileCurrentAnalysis may return an error message instead
+      // of throwing an error because it is also used in the UI
+      if (analysisUpdate?.error) {
+        throw new Error(analysisUpdate.error);
+      }
     }
 
     revalidatePath("/dashboard");
