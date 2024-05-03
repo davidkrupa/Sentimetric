@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -17,9 +18,8 @@ import { Input } from "@/components/ui/input";
 import { JobDetailsFormSchema } from "@/lib/formSchemas/input.schemas";
 import { addProfile } from "@/lib/actions/profile.actions";
 import { createActivity } from "@/lib/actions/activities.actions";
-import { useState } from "react";
 import LoadingSpinner from "./ui/LoadingSpinner";
-import { toast } from "./ui/use-toast";
+import { showToastError } from "@/lib/utils";
 
 export function ShadcnJobDataForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -42,14 +42,12 @@ export function ShadcnJobDataForm() {
     setIsLoading(true);
     const profile = await addProfile(data);
     if (profile?.error) {
-      toast({
-        title: "Something went wrong!",
-        description: profile.error,
-      });
-    } else {
-      await createActivity("profile", "added");
-      await resetFormValues();
+      showToastError(profile.error);
+      setIsLoading(false);
+      return;
     }
+    await createActivity("profile", "added");
+    await resetFormValues();
     setIsLoading(false);
   };
 
