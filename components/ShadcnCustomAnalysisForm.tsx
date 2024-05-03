@@ -3,12 +3,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -19,13 +19,10 @@ import { Input } from "@/components/ui/input";
 import { CompanyAnalysisFormSchema } from "@/lib/formSchemas/input.schemas";
 import { createAnalysisAndSave } from "@/lib/actions/analysis.actions";
 import { createActivity } from "@/lib/actions/activities.actions";
-import { useState } from "react";
 import LoadingSpinner from "./ui/LoadingSpinner";
-import NoDataOrError from "./NoDataOrError";
-import { toast } from "./ui/use-toast";
+import { showToastError } from "@/lib/utils";
 
 export function ShadcnCustomAnalysisForm() {
-  const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof CompanyAnalysisFormSchema>>({
@@ -45,14 +42,12 @@ export function ShadcnCustomAnalysisForm() {
     setIsLoading(true);
     const analysis = await createAnalysisAndSave(data);
     if (analysis?.error) {
-      toast({
-        title: "Something went wrong!",
-        description: analysis.error,
-      });
-    } else {
-      await createActivity("analysis", "added");
-      await resetFormValues();
+      showToastError(analysis.error);
+      setIsLoading(false);
+      return;
     }
+    await createActivity("analysis", "added");
+    await resetFormValues();
     setIsLoading(false);
   };
 
@@ -98,7 +93,6 @@ export function ShadcnCustomAnalysisForm() {
           </Button>
           {isLoading && <LoadingSpinner />}
         </div>
-        {error && <NoDataOrError error={error} />}
       </form>
     </Form>
   );
