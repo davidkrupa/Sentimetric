@@ -45,7 +45,10 @@ export function DataTable<TData extends SingleAnalysisData, TValue>({
 
   const handleRowClick = async (row: TData) => {
     setIsLoading(true);
-    await updateProfileCurrentAnalysis(row._id);
+    const current = await updateProfileCurrentAnalysis(row._id);
+    if (current?.error) {
+      showToastError(current.error);
+    }
     setIsLoading(false);
   };
 

@@ -27,6 +27,7 @@ import {
 import { deleteProfile } from "@/lib/actions/profile.actions";
 import { createActivity } from "@/lib/actions/activities.actions";
 import LoadingSpinner from "./ui/LoadingSpinner";
+import { showToastError } from "@/lib/utils";
 const SelectMenu = ({ data, currentProfile }: SelectMenuProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -82,7 +83,12 @@ const DeleteProfileDialog = ({ id }: { id: string }) => {
 
   const handleDelete = async () => {
     setIsLoading(true);
-    await deleteProfile(id);
+    const deletedProfile = await deleteProfile(id);
+    if (deletedProfile?.error) {
+      showToastError(deletedProfile.error);
+      setIsLoading(false);
+      return;
+    }
     await createActivity("profile", "removed");
     setIsLoading(false);
   };

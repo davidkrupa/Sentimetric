@@ -92,7 +92,7 @@ export const getAllProfiles = async (): Promise<GetAllProfiles> => {
 
 export const updateProfileCurrentAnalysis = async (
   id: string | null
-): Promise<void> => {
+): Promise<VoidOrError> => {
   try {
     await connectToDatabase();
 
@@ -110,11 +110,11 @@ export const updateProfileCurrentAnalysis = async (
 
     revalidatePath("/dashboard/analysis");
   } catch (error) {
-    console.error(error);
-    throw new Error("Error updating current analysis");
+    return { error: getErrorMessage(error) };
   }
 };
 
+// not used yet
 export const updateProfileCurrentProject = async (
   id: string
 ): Promise<void> => {
@@ -140,7 +140,7 @@ export const updateProfileCurrentProject = async (
   }
 };
 
-export const deleteProfile = async (id: string) => {
+export const deleteProfile = async (id: string): Promise<VoidOrError> => {
   try {
     await connectToDatabase();
 
@@ -161,7 +161,6 @@ export const deleteProfile = async (id: string) => {
 
     revalidatePath("/dashboard");
   } catch (error) {
-    console.error(error);
-    throw new Error("Error deleting profile");
+    return { error: getErrorMessage(error) };
   }
 };

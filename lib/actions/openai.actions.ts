@@ -22,7 +22,6 @@ export async function getAiResponse(text: string): Promise<string> {
 
     return answer;
   } catch (error) {
-    console.error(error);
     throw new Error("Error getting answer from openai");
   }
 }
