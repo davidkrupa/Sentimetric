@@ -1,7 +1,9 @@
 import { SignUp } from "@clerk/nextjs";
 import { FaRegCheckCircle } from "react-icons/fa";
+import Image from "next/image";
 
 import BackgroundGradient from "@/components/BackgroundGradient";
+import logo from "@/lib/assets/logo-big.webp";
 
 const bulletPoints = [
   {
@@ -23,11 +25,16 @@ const bulletPoints = [
 
 export default function Page() {
   return (
-    <div className="flex justify-center lg:justify-end items-start min-h-screen w-full">
+    <div className="flex justify-center lg:justify-end items-center min-h-screen w-full max-w-screen-xl mx-auto">
       <BackgroundGradient />
       <div className="fixed top-0 left-0 w-1/2 hidden lg:flex flex-col justify-center items-center gap-5 px-6 h-screen text-muted">
-        <div className="relative mb-8 -left-10 text-left text-5xl font-semibold w-[360px]">
-          Sentimetric
+        <div className="relative flex justify-start items-center gap-3 mb-3 -left-12 text-left text-5xl font-semibold w-[360px]">
+          <div className="flex justify-center items-center size-20">
+            <Image src={logo} width={80} height={80} alt="Sentimetric logo" />
+          </div>
+          <h2 className="hidden sm:inline text-5xl text-muted font-semibold">
+            Sentimetric
+          </h2>
         </div>
         {bulletPoints.map((bulletPoint) => (
           <div key={bulletPoint.title} className="mb-7 w-[360px]">

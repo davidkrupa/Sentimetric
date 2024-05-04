@@ -11,7 +11,7 @@ import { BsPersonVcardFill } from "react-icons/bs";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 import { GrSearchAdvanced } from "react-icons/gr";
 
-import logo from "../lib/assets/logo-first.png";
+import logo from "../lib/assets/sentimetric-logo.webp";
 import LoadingSpinner from "./ui/LoadingSpinner";
 
 const menuItems = [
@@ -85,10 +85,17 @@ const Sidebar = () => {
         className={`${sidebarStyle[sidebarState]} md:static fixed top-0 left-0 z-20 bg-card w-52 min-h-screen pb-10 md:overflow-hidden overflow-auto md:hover:overflow-auto border-r border-r-border`}
       >
         <div className="flex justify-between items-center p-4">
-          <div className="flex justify-start items-center gap-2">
-            <Image src={logo} alt="Sentimetric logo" width={25} height={25} />
-            <span>Sentimetric</span>
-          </div>
+          <Link
+            href="/dashboard"
+            className="flex justify-start items-center gap-1"
+          >
+            <div className="flex justify-center items-center size-7">
+              <Image src={logo} width={25} height={25} alt="Sentimetric logo" />
+            </div>
+            <span className="text-lg text-secondary-foreground font-semibold">
+              Sentimetric
+            </span>
+          </Link>
           <button onClick={() => setSidebarState("closed")}>
             <RiMenuFoldLine />
           </button>
