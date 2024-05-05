@@ -42,13 +42,13 @@ const Timeline = () => {
       <ol className="relative w-full lg:w-2/3 border-s border-border space-y-10">
         {list.map((item) => (
           <li key={item.title} className=" ms-12 max-w-[600px]">
-            <span className="absolute flex items-center justify-center w-6 h-6 bg-muted rounded-full -start-3 ring-4 ring-muted">
+            <span className="absolute flex items-center justify-center w-6 h-6 bg-slate-100 rounded-full -start-3 ring-4 ring-slate-100">
               <FaChevronRight className="text-primary" />
             </span>
-            <h3 className="flex items-center mb-1 text-lg font-medium text-muted">
+            <h3 className="flex items-center mb-1 text-lg font-medium text-slate-100">
               {item.title}
             </h3>
-            <p className="mb-4 text-base font-normal text-muted-foreground">
+            <p className="mb-4 text-base font-normal text-slate-500">
               {item.description}
             </p>
             <SeeExample content={item.content} />

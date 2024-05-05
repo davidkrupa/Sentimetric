@@ -49,11 +49,11 @@ const CardsSection = () => {
       className="mx-auto max-w-screen-xl min-h-screen px-4 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-16 text-white"
     >
       <div className="mx-auto max-w-screen-md text-center mb-8 lg:mb-12">
-        <h2 className="text-4xl mb-6 font-bold text-muted tracking-tight">
+        <h2 className="text-4xl mb-6 font-bold text-slate-100 tracking-tight">
           Elevate Your Business with Our Services
         </h2>
 
-        <p className="font-light text-muted-foreground sm:text-lg">
+        <p className="font-light text-slate-500 sm:text-lg">
           Streamline operations, enhance client satisfaction, and propel your
           business growth with our comprehensive suite of services.
         </p>
@@ -69,13 +69,11 @@ const CardsSection = () => {
               {card.icon}
             </div>
 
-            <h2 className="mt-4 mb-2 text-xl font-bold text-muted">
+            <h2 className="mt-4 mb-2 text-xl font-bold text-slate-100">
               {card.title}
             </h2>
 
-            <p className="mt-1 text-sm text-muted-foreground">
-              {card.description}
-            </p>
+            <p className="mt-1 text-sm text-slate-500">{card.description}</p>
           </div>
         ))}
       </div>

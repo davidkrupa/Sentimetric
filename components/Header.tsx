@@ -18,7 +18,7 @@ const Header = () => {
           <div className="flex justify-center items-center size-9">
             <Image src={logo} width={35} height={35} alt="Sentimetric logo" />
           </div>
-          <span className="hidden sm:inline text-2xl text-muted font-semibold">
+          <span className="hidden sm:inline text-2xl text-slate-100 font-semibold">
             Sentimetric
           </span>
         </Link>
@@ -28,7 +28,7 @@ const Header = () => {
               <Link
                 key={link.name}
                 href={link.href}
-                className="mr-6 text-muted hover:text-muted/70 hover:underline hover:underline-offset-4 transition-all"
+                className="mr-6 text-slate-100 hover:text-slate-300 hover:underline hover:underline-offset-4 transition-all"
               >
                 {link.name}
               </Link>

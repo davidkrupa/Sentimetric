@@ -37,7 +37,7 @@ const AccountButtons = () => {
         <Button
           asChild
           variant="secondary"
-          className="hover:bg-primary hover:text-muted"
+          className="bg-slate-100 hover:bg-primary text-slate-900 hover:text-slate-100"
           onClick={() => setLoading("sign-in")}
         >
           <Link href="/sign-in">
@@ -45,14 +45,14 @@ const AccountButtons = () => {
               Sign In
             </span>
             {loading === "sign-in" && (
-              <LoadingSpinner className="absolute text-muted" />
+              <LoadingSpinner className="absolute text-primary" />
             )}
           </Link>
         </Button>
         <Button
           asChild
           variant="outline"
-          className="bg-transparent border text-muted border-muted-foreground"
+          className="bg-transparent hover:bg-slate-100  text-slate-100 hover:text-slate-900 border border-slate-100"
           onClick={() => setLoading("sign-up")}
         >
           <Link href="/sign-up">
@@ -60,7 +60,7 @@ const AccountButtons = () => {
               Create Account
             </span>
             {loading === "sign-up" && (
-              <LoadingSpinner className="absolute text-muted" />
+              <LoadingSpinner className="absolute text-primary" />
             )}
           </Link>
         </Button>
