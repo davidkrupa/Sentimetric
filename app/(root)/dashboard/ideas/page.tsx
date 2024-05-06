@@ -29,12 +29,12 @@ const Page = async () => {
         <IdeasSummary />
       </Suspense>
 
-      <Suspense
+      {/* <Suspense
         fallback={<Skeleton className="h-36" />}
         key={Date.now() + 1000}
       >
         <ListOfIdeas />
-      </Suspense>
+      </Suspense> */}
     </div>
   );
 };
