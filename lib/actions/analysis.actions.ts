@@ -15,6 +15,7 @@ import { updateProfileCurrentAnalysis } from "./profile.actions";
 import { getCurrentUser } from "./user.actions";
 import { revalidatePath } from "next/cache";
 import { getErrorMessage } from "../utils";
+import JobSkills from "../database/models/skills.model";
 
 export const createAnalysisAndSave = async (
   data: SaveAnalysisParams
@@ -28,19 +29,27 @@ export const createAnalysisAndSave = async (
 
     if (!profile) throw new Error("You need to create profile first");
 
-    const prompt = `
-      Based on user experience and interest in the ${profile.jobTitle}, 
-      prepare the brief content analysis provided at the end of this prompt. 
-      The company this content is about: ${profile.company}. 
-      Industry: ${profile.industry}. 
-      The analysis should contain a maximum of 200 words. 
-      The goal is to identify problems, challenges, and ways to improve 
-      something that may have business value to that company. 
-      Later, this knowledge will be used to offer a product or service 
-      that meets these needs. 
-      Content source: "${data.topic}". 
-      Content for analysis: "${data.content}"
-    `;
+    const skills = await JobSkills.findOne({
+      userId: user._id,
+      profileId: user.currentProfile,
+    });
+
+    if (!skills) throw new Error("Skills not found.");
+    if (skills.hardSkills.length === 0 && skills.softSkills.length === 0) {
+      throw new Error("You need to add skills first");
+    }
+
+    const skillsString = [...skills.hardSkills, ...skills.softSkills].join(
+      ", "
+    );
+
+    const prompt = process.env
+      .ANALYSIS_PROMPT!.replace("{{jobTitle}}", profile.jobTitle)
+      .replace("{{skills}}", skillsString)
+      .replace("{{company}}", profile.company)
+      .replace("{{industry}}", profile.industry)
+      .replace("{{topic}}", data.topic)
+      .replace("{{content}}", data.content);
 
     const openAiResponse = await getAiResponse(prompt);
 

@@ -42,28 +42,20 @@ export const createIdeasFromProfile = async (): Promise<VoidOrError> => {
 
     if (!skills)
       throw new Error("No skills found for the current user profile.");
+    if (skills.hardSkills.length === 0 && skills.softSkills.length === 0) {
+      throw new Error("You need to add skills first");
+    }
 
-    const prompt = `
-      Below is the user profile containing analyses of the selected company. 
-      Please analyze the provided data and, based on it, present a list of 
-      3-6 project ideas that the user can undertake to provide real business value 
-      to the selected company. Ideas should be within the user's experience and skills. 
-      The project may go slightly beyond the skills the user currently has.
+    const skillsString = [...skills.hardSkills, ...skills.softSkills].join(
+      ", "
+    );
 
-      Your answer should consist of two parts: 
-      - A short conclusion from the analysis list containing the most important 
-      information and suggestions, especially if they may have business value for the company.
-      - A numbered list of project ideas that may have real value for the company 
-      and that can be undertaken by the user, based on their profile (experience and skills).
-
-      User profile:
-      - User area of experience: "${profile.jobTitle}";
-      - Analyzed company: "${profile.company}";
-      - Industry: "${profile.industry}";
-      - User hard skills: "${skills.hardSkills || "N/A"}";
-      - User soft skills: "${skills.softSkills || "N/A"}";
-      - List of brief analyses of the company: ${analysisPrompt}
-    `;
+    const prompt = process.env
+      .COMPANY_ANALYSIS_PROMPT!.replace("{{jobTitle}}", profile.jobTitle)
+      .replace("{{skills}}", skillsString)
+      .replace("{{company}}", profile.company)
+      .replace("{{industry}}", profile.industry)
+      .replace("{{content}}", analysisPrompt);
 
     const aiResponse = await getAiResponse(prompt);
 
