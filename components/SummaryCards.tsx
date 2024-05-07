@@ -2,6 +2,7 @@ import { getIdeas } from "@/lib/actions/ideas.actions";
 import { getCompanySummary } from "@/lib/actions/summary.actions";
 import CreatingSummaryCard from "./CreatingSummaryCard";
 import NoDataOrError from "./NoDataOrError";
+import { ScrollArea } from "./ui/scroll-area";
 
 const SummaryCards = async () => {
   const ideas = await getIdeas();
@@ -10,32 +11,44 @@ const SummaryCards = async () => {
   const isAllowed = ideas.data && summary.data;
   const isError = ideas.error || summary.error;
 
+  const formattedList = ideas.data?.content.replace(
+    /^(\d+\. .+?)\n\n?/gm,
+    "$1\n\n"
+  );
+
   return (
-    <div className="px-5 w-full">
+    <div className="w-full">
       {isAllowed || isError ? (
         <>
-          <div className="rounded-lg border bg-card text-card-foreground shadow-sm py-8">
-            <h2 className="text-center text-2xl mb-6">Company Summary</h2>
-            <p className="whitespace-pre-line max-w-4xl mx-auto text-muted-foreground">
-              {summary?.data ? (
-                summary?.data?.content
-              ) : (
-                <NoDataOrError
-                  error={summary.error}
-                  defaultText="No summary yet"
-                />
-              )}
-            </p>
+          <div className="rounded-lg border bg-card text-card-foreground shadow-sm py-8 mb-4">
+            <h2 className="text-center text-3xl mb-8">Company Summary</h2>
+            <ScrollArea className="h-80 max-w-4xl mx-auto">
+              <p className="whitespace-pre-line w-full mx-auto text-muted-foreground px-4 sm:px-6">
+                {summary?.data ? (
+                  summary?.data?.content
+                ) : (
+                  <NoDataOrError
+                    error={summary.error}
+                    defaultText="No summary yet"
+                  />
+                )}
+              </p>
+            </ScrollArea>
           </div>
           <div className="rounded-lg border bg-card text-card-foreground shadow-sm py-8">
-            <h2 className="text-center text-2xl mb-6">Project Ideas</h2>
-            <p className="whitespace-pre-line max-w-4xl mx-auto text-muted-foreground">
-              {ideas?.data ? (
-                ideas?.data?.content
-              ) : (
-                <NoDataOrError error={ideas.error} defaultText="No ideas yet" />
-              )}
-            </p>
+            <h2 className="text-center text-3xl mb-8">Project Ideas</h2>
+            <ScrollArea className="h-80 max-w-4xl mx-auto">
+              <p className="whitespace-pre-line w-full mx-auto text-muted-foreground px-4 sm:px-6">
+                {ideas?.data ? (
+                  formattedList
+                ) : (
+                  <NoDataOrError
+                    error={ideas.error}
+                    defaultText="No ideas yet"
+                  />
+                )}
+              </p>
+            </ScrollArea>
           </div>
         </>
       ) : (
