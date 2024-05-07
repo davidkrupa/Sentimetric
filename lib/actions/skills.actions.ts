@@ -56,9 +56,12 @@ export const getGetDoSkillsExist = async (): Promise<GetDoSkillsExist> => {
       profileId: user.currentProfile,
     });
 
+    const returnValue =
+      skills?.hardSkills.length > 0 || skills?.softSkills.length > 0;
+
     return {
       error: null,
-      data: !!skills,
+      data: returnValue,
     };
   } catch (error) {
     return {
