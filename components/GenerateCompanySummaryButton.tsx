@@ -2,23 +2,32 @@
 
 import { useState } from "react";
 
-import { createIdeasFromProfile } from "@/lib/actions/ideas.actions";
+import { creteIdeasForCompany } from "@/lib/actions/ideas.actions";
 import { Button } from "./ui/button";
-import { createProjectsTopicsFromContent } from "@/lib/actions/project.actions";
 import LoadingSpinner from "./ui/LoadingSpinner";
 import { showToastError } from "@/lib/utils";
+import { createCompanySummary } from "@/lib/actions/summary.actions";
 
-const GetIdeasButton = ({ isDisabled }: { isDisabled: boolean }) => {
+const GenerateCompanySummaryButton = ({
+  isDisabled,
+}: {
+  isDisabled: boolean;
+}) => {
   const [isLoading, setIsLoading] = useState(false);
   const handleClick = async () => {
     setIsLoading(true);
-    const ideas = await createIdeasFromProfile();
+    const summary = await createCompanySummary();
+    if (summary?.error) {
+      showToastError(summary.error);
+      setIsLoading(false);
+      return;
+    }
+    const ideas = await creteIdeasForCompany();
     if (ideas?.error) {
       showToastError(ideas.error);
       setIsLoading(false);
       return;
     }
-    await createProjectsTopicsFromContent();
     setIsLoading(false);
   };
 
@@ -38,4 +47,4 @@ const GetIdeasButton = ({ isDisabled }: { isDisabled: boolean }) => {
   );
 };
 
-export default GetIdeasButton;
+export default GenerateCompanySummaryButton;

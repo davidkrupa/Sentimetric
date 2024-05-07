@@ -146,6 +146,10 @@ export type ActivitiesAmountData = {
   total: number;
 };
 
+type CompanySummaryData = {
+  content: string;
+};
+
 export type GetActivitiesAmountByName = Result<ActivitiesAmountData[] | null>;
 
 export type GetDoesProfileExist = Result<boolean>;
@@ -161,3 +165,5 @@ export type GetAllAnalysis = Result<SingleAnalysisData[] | []>;
 export type GetIdeas = Result<IdeasData | null>;
 
 export type VoidOrError = void | { error: string };
+
+export type GetCompanySummary = Result<CompanySummaryData | null>;
