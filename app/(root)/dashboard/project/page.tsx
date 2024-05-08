@@ -1,19 +1,21 @@
+import GenerateContentSection from "@/components/GenerateContentSection";
+import IdeasSections from "@/components/IdeasSections";
 import { Separator } from "@/components/ui/separator";
 
 const Page = () => {
   return (
-    <div className="rounded-lg border shadow-sm p-6 space-y-6">
-      <div className="space-y-6">
-        <div className="grid sm:grid-cols-3 gap-6"></div>
-        <Separator />
-      </div>
-
-      <div className="space-y-3 px-5">
-        <h3 className="text-center text-2xl font-semibold leading-none tracking-tight p-3">
-          Not implemented yet
-        </h3>
-        {/* <p className="whitespace-pre-line">Content of the project draft</p> */}
-      </div>
+    <div>
+      <h2 className="text-center text-3xl mb-8">Create Your Project</h2>
+      <GenerateContentSection title="Introduction" sectionId="introduction" />
+      <Separator orientation="vertical" className="h-10 w-[2px] mx-auto my-2" />
+      <IdeasSections />
+      <Separator orientation="vertical" className="h-10 w-[2px] mx-auto my-2" />
+      <GenerateContentSection
+        title="About You"
+        sectionId="about"
+        className=" mb-2"
+      />
+      <GenerateContentSection title="Conclusion" sectionId="conclusion" />
     </div>
   );
 };
