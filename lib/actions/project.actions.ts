@@ -2,74 +2,99 @@
 
 import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "../database";
-import Project from "../database/models/project.model";
 import { getCurrentUser } from "./user.actions";
-import { ProjectsData } from "@/types";
+import { GetProjectsSections, ProjectsData, VoidOrError } from "@/types";
 import { getAiResponse } from "./openai.actions";
 import JobSkills from "../database/models/skills.model";
 import Profile from "../database/models/profile.models";
 import Ideas from "../database/models/ideas.model";
+import { getErrorMessage } from "../utils";
+import ProjectSection from "../database/models/project.model";
 
-export const createProjectsTopicsFromContent = async (): Promise<void> => {
+const prompts = {
+  introduction: process.env.PROJECT_INTRODUCTION_SECTION_PROMPT!,
+  projectIdea: process.env.PROJECT_IDEA_SECTION_PROMPT!,
+  about: process.env.PROJECT_ABOUT_SECTION_PROMPT!,
+  conclusion: process.env.PROJECT_CONCLUSION_SECTION_PROMPT!,
+};
+
+type SectionTypeOptions =
+  | "introduction"
+  | "projectIdea"
+  | "about"
+  | "conclusion";
+
+export const createProjectSection = async (
+  sectionId: string | null,
+  sectionType: SectionTypeOptions
+): Promise<VoidOrError> => {
   try {
     await connectToDatabase();
 
     const user = await getCurrentUser();
 
-    const ideas = await Ideas.findOne({
+    const profile = await Profile.findOne({
+      userId: user._id,
+      _id: user.currentProfile,
+    });
+
+    if (!profile) throw new Error("Profile not found");
+
+    const skills = await JobSkills.findOne({
       userId: user._id,
       profileId: user.currentProfile,
     });
 
-    if (!ideas) throw new Error("No ideas found for the current profile");
+    if (!skills) throw new Error("No skills found for the current profile");
 
-    // regular expression to extract project topics
-    const regex = /\b\d+\.\s+([^.!?\n]+\.)\s*/g;
+    const skillsString = [...skills.hardSkills, ...skills.softSkills].join(
+      ", "
+    );
 
-    const projects = [];
-    let match;
-    // extract project topics from the ideas content
-    while ((match = regex.exec(ideas.content)) !== null) {
-      projects.push({
-        name: match[1],
-        topic: match[1],
-        userId: user._id,
-        profileId: user.currentProfile,
-      });
-    }
+    const prompt = prompts[sectionType]
+      .replace("{{jobTitle}}", profile.jobTitle)
+      .replace("{{skills}}", skills)
+      .replace("{{company}}", profile.company)
+      .replace("{{industry}}", profile.industry)
+      .replace("{{content}}", skillsString);
 
-    if (projects.length === 0) return;
+    const response = await getAiResponse(prompt);
 
-    await Project.insertMany(projects);
+    const projectSection = await ProjectSection.findOneAndUpdate(
+      { userId: user._id, profileId: user.currentProfile, sectionId },
+      { content: response },
+      { upsert: true, new: true }
+    );
 
-    revalidatePath("/dashboard/ideas");
+    if (!projectSection) throw new Error("Error creating project");
+
+    revalidatePath("/dashboard/project");
   } catch (error) {
-    console.error(error);
+    return { error: getErrorMessage(error) };
   }
 };
 
-export const getProjects = async (): Promise<ProjectsData[] | undefined> => {
+export const getProjectSections = async (): Promise<GetProjectsSections> => {
   try {
     await connectToDatabase();
 
     const user = await getCurrentUser();
 
-    const projects = await Project.find({
+    const sections = await ProjectSection.find({
       userId: user._id,
       profileId: user.currentProfile,
     });
 
-    if (projects.length === 0) return;
-
-    return JSON.parse(JSON.stringify(projects));
+    return { error: null, data: JSON.parse(JSON.stringify(sections)) };
   } catch (error) {
-    console.error(error);
+    return {
+      error: getErrorMessage(error),
+      data: null,
+    };
   }
 };
 
-export const updateCurrentProject = async (
-  projectId: string
-): Promise<void> => {
+export const updateCurrentIdeas = async (projectId: string): Promise<void> => {
   try {
     await connectToDatabase();
 
@@ -90,65 +115,23 @@ export const updateCurrentProject = async (
   }
 };
 
-export const deleteOneProject = async (id: string): Promise<void> => {
-  try {
-    await connectToDatabase();
+// export const deleteOneProject = async (id: string): Promise<void> => {
+//   try {
+//     await connectToDatabase();
 
-    const user = await getCurrentUser();
+//     const user = await getCurrentUser();
 
-    const project = await Project.findOneAndDelete({
-      userId: user._id,
-      profileId: user.currentProfile,
-      _id: id,
-    });
+//     const project = await Project.findOneAndDelete({
+//       userId: user._id,
+//       profileId: user.currentProfile,
+//       _id: id,
+//     });
 
-    if (!project)
-      throw new Error("Error deleting one project. Project not found");
+//     if (!project)
+//       throw new Error("Error deleting one project. Project not found");
 
-    revalidatePath("/dashboard");
-  } catch (error) {
-    throw new Error("Error deleting one project");
-  }
-};
-
-export const createProject = async () => {
-  try {
-    await connectToDatabase();
-
-    const user = await getCurrentUser();
-
-    const profile = await Profile.findOne({
-      userId: user._id,
-      _id: user.currentProfile,
-    });
-
-    if (!profile) throw new Error("No profile found for the current user");
-
-    const skills = await JobSkills.findOne({
-      userId: user._id,
-      profileId: user.currentProfile,
-    });
-
-    if (!skills) throw new Error("No skills found for the current profile");
-
-    const prompt = `Based on your skills (${skills?.hardSkills}) 
-      and profile (${profile?.jobTitle}, ${profile?.company}, 
-      ${profile?.industry}), generate a project idea that aligns 
-      with your expertise and interests.
-    `;
-
-    const response = await getAiResponse(prompt);
-
-    const project = await Project.findOneAndUpdate(
-      { userId: user._id, profileId: user.currentProfile },
-      { content: response },
-      { upsert: true, new: true }
-    );
-
-    if (!project) throw new Error("Error creating project");
-
-    revalidatePath("/dashboard/project");
-  } catch (error) {
-    throw new Error("Error creating project");
-  }
-};
+//     revalidatePath("/dashboard");
+//   } catch (error) {
+//     throw new Error("Error deleting one project");
+//   }
+// };
