@@ -3,6 +3,7 @@ import { getCompanySummary } from "@/lib/actions/summary.actions";
 import CreatingSummaryCard from "./CreatingSummaryCard";
 import NoDataOrError from "./NoDataOrError";
 import { ScrollArea } from "./ui/scroll-area";
+import { formatText } from "@/lib/utils";
 
 const SummaryCards = async () => {
   const ideas = await getIdeas();
@@ -11,10 +12,13 @@ const SummaryCards = async () => {
   const isAllowed = ideas.data && summary.data;
   const isError = ideas.error || summary.error;
 
-  const formattedList = ideas.data?.content.replace(
-    /^(\d+\. .+?)\n\n?/gm,
-    "$1\n\n"
-  );
+  const ideasArray = formatText(ideas.data?.content);
+
+  const mergedContent = ideasArray
+    .map((item) => {
+      return `${item.index}. ${item.title} - ${item.explanation}`;
+    })
+    .join("\n\n");
 
   return (
     <div className="w-full">
@@ -40,7 +44,7 @@ const SummaryCards = async () => {
             <ScrollArea className="h-80 max-w-4xl mx-auto">
               <p className="whitespace-pre-line w-full mx-auto text-muted-foreground px-4 sm:px-6">
                 {ideas?.data ? (
-                  formattedList
+                  mergedContent
                 ) : (
                   <NoDataOrError
                     error={ideas.error}
