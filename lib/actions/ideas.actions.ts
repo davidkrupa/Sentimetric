@@ -9,8 +9,15 @@ import Profile from "../database/models/profile.models";
 import JobSkills from "../database/models/skills.model";
 import { getAiResponse } from "./openai.actions";
 import { getCurrentUser } from "./user.actions";
-import { GetIdeas, VoidOrError } from "@/types";
-import { getErrorMessage } from "../utils";
+import {
+  FormatTextResults,
+  FormatedIdea,
+  GetCurrentIdeas,
+  GetIdeas,
+  PickedFormattedIds,
+  VoidOrError,
+} from "@/types";
+import { formatText, getErrorMessage } from "../utils";
 
 export const getPromptVariables = async () => {
   await connectToDatabase();
@@ -74,8 +81,12 @@ export const creteIdeasForCompany = async (): Promise<VoidOrError> => {
 
     const aiResponse = await getAiResponse(prompt);
 
+    const formatted = formatText(aiResponse);
+
     await Ideas.create({
       content: aiResponse,
+      formatted,
+      pickedFormattedIds: [{ index: 0 }, { index: 1 }, { index: 2 }],
       userId: user._id,
       profileId: user.currentProfile,
     });
@@ -110,5 +121,75 @@ export const getIdeas = async (): Promise<GetIdeas> => {
       error: getErrorMessage(error),
       data: null,
     };
+  }
+};
+
+export const getCurrentIdeas = async (): Promise<GetCurrentIdeas> => {
+  try {
+    await connectToDatabase();
+
+    const user = await getCurrentUser();
+
+    const profile = await Profile.findOne({ _id: user.currentProfile });
+
+    if (!profile) throw new Error("You need to create profile first.");
+
+    const ideas = await Ideas.findOne({
+      userId: user._id,
+      profileId: profile._id,
+    });
+
+    if (!ideas) throw new Error("You need to create ideas first.");
+
+    // return current ideas for each card, or when not yet picked, idea at index
+    const currentIdeas = ideas.pickedFormattedIds.map(
+      (picked: PickedFormattedIds, index: number) => {
+        return (
+          ideas.formatted.find(
+            (idea: FormatedIdea) =>
+              // returns undefined when pickedFormattedIds.formatted === null
+              idea._id.toString() === picked.formatted?.toString()
+          ) ?? ideas.formatted[index]
+        );
+      }
+    );
+
+    return {
+      error: null,
+      data: JSON.parse(JSON.stringify(currentIdeas)),
+    };
+  } catch (error) {
+    return {
+      error: getErrorMessage(error),
+      data: null,
+    };
+  }
+};
+
+export const updatePickedIdeas = async (
+  id: string,
+  index: number
+): Promise<VoidOrError> => {
+  try {
+    await connectToDatabase();
+
+    const user = await getCurrentUser();
+
+    const profile = await Profile.findOne({ _id: user.currentProfile });
+
+    if (!profile) throw new Error("You need to create profile first.");
+
+    const ideas = await Ideas.findOneAndUpdate(
+      {
+        userId: user._id,
+        profileId: profile._id,
+        "pickedFormattedIds.index": index,
+      },
+      { $set: { "pickedFormattedIds.$.formatted": id } }
+    );
+
+    revalidatePath("/dashboard/project");
+  } catch (error) {
+    return { error: getErrorMessage(error) };
   }
 };
