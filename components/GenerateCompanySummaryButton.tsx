@@ -35,7 +35,7 @@ const GenerateCompanySummaryButton = ({
     <div className="relative">
       <Button
         disabled={isDisabled}
-        className="bg-primary text-white"
+        variant="default"
         onClick={() => handleClick()}
       >
         Create Company Summary
