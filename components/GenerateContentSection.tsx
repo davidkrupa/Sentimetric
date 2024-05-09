@@ -1,5 +1,4 @@
 import { cn } from "@/lib/utils";
-import GenerateContentButton from "./GenerateContentButton";
 
 type GenerateContentSectionProps = {
   className?: string;
@@ -19,19 +18,16 @@ const GenerateContentSection: React.FC<GenerateContentSectionProps> = async ({
   return (
     <div
       className={cn(
-        "gap-5 px-4 py-6 max-w-5xl rounded-lg border-2 shadow-sm mx-auto",
+        "flex flex-col md:flex-row justify-center max-w-5xl gap-5 p-4 border rounded-lg shadow-sm mx-auto ",
         className
       )}
     >
-      <div className="flex justify-center gap-5">
-        <div className="flex flex-col justify-center items-center w-1/3 gap-3 rounded-lg bg-card text-card-foreground py-8 mx-auto border shadow-sm">
-          <h3 className="text-lg text-muted-foreground">{title}</h3>
-          {/* <GenerateContentButton sectionId={sectionId} /> */}
-          {children}
-        </div>
-        <div className="w-2/3 bg-card rounded-lg text-card-foreground py-8 border shadow-sm">
-          <p className="text-center">Text content from AI</p>
-        </div>
+      <div className="flex flex-col justify-center items-center w-full md:w-1/2 lg:w-1/3 gap-3 rounded-lg bg-card text-card-foreground py-8 mx-auto border shadow-sm">
+        <h3 className="text-lg text-muted-foreground">{title}</h3>
+        {children}
+      </div>
+      <div className="w-full md:w-1/2 lg:w-2/3 bg-muted/50 rounded-lg text-card-foreground py-8  shadow-sm">
+        <p className="text-center">Text content from AI</p>
       </div>
     </div>
   );

@@ -1,15 +1,21 @@
 "use client";
 
+import { createProjectSection } from "@/lib/actions/project.actions";
 import { Button } from "./ui/button";
 
-const GenerateContentButton = ({ sectionId }: { sectionId: string }) => {
+const GenerateContentButton = ({ sectionId }: { sectionId?: string }) => {
+  // need to receive current sections ids
   const handleGenerateContent = async () => {
-    // await createSectionContent(sectionId);
+    // await createProjectSection("");
   };
 
   return (
-    <Button variant="outline" onClick={() => handleGenerateContent()}>
-      Generate
+    <Button
+      variant="default"
+      className="mx-auto"
+      onClick={() => handleGenerateContent()}
+    >
+      Generate Project
     </Button>
   );
 };

@@ -103,8 +103,16 @@ export type ProjectsData = {
   createdAt: Date;
 };
 
+type FormattedResponse = {
+  title: string;
+  explanation: string;
+  index: number;
+  _id: string;
+};
+
 export type IdeasData = {
   content: string;
+  formatted: FormattedResponse[];
   createdAt: string;
 };
 
@@ -133,6 +141,17 @@ export type ActivitiesData = {
   action: ActionOptions;
   total: number;
   createdAt: string;
+};
+
+export type FormatTextResults = {
+  index: number;
+  title: string;
+  explanation: string;
+};
+
+export type PickedFormattedIds = {
+  index: number;
+  formatted: string | null;
 };
 
 export type GetLastActivities = Result<ActivitiesData[] | null>;
@@ -167,3 +186,21 @@ export type GetIdeas = Result<IdeasData | null>;
 export type VoidOrError = void | { error: string };
 
 export type GetCompanySummary = Result<CompanySummaryData | null>;
+
+export type GetProjectsSections = Result<ProjectsData[] | null>;
+
+export type FormatedIdea = FormatTextResults & { _id: string };
+
+export type GetCurrentIdeas = Result<FormatedIdea[] | null>;
+
+type TitlesData = {
+  title: string;
+  id: string;
+};
+
+export type IdeaPickerProps = {
+  titles: TitlesData[];
+  index: number;
+  currentIdea: FormatedIdea | null;
+  currentIdeaError: ErrorMessage;
+};
