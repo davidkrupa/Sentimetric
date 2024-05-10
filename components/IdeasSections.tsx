@@ -20,7 +20,8 @@ const IdeasSections = async () => {
         <GenerateContentSection
           key={index}
           title={`Project Idea #${index + 1}`}
-          sectionId={`idea-${index + 1}`}
+          sectionType="projectIdea"
+          sectionIndex={index}
           className="border-dashed"
         >
           <IdeaPicker
