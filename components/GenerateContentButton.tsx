@@ -1,12 +1,21 @@
 "use client";
 
-import { createProjectSection } from "@/lib/actions/project.actions";
+import {
+  createProjectIdeaSection,
+  createProjectSection,
+} from "@/lib/actions/project.actions";
 import { Button } from "./ui/button";
 
-const GenerateContentButton = ({ sectionId }: { sectionId?: string }) => {
-  // need to receive current sections ids
+const GenerateContentButton = () => {
   const handleGenerateContent = async () => {
-    // await createProjectSection("");
+    await Promise.all([
+      createProjectSection("introduction"),
+      createProjectSection("about"),
+      createProjectSection("conclusion"),
+      createProjectIdeaSection(0),
+      createProjectIdeaSection(1),
+      createProjectIdeaSection(2),
+    ]);
   };
 
   return (

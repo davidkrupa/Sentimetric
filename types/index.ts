@@ -95,10 +95,16 @@ export type LineChartProps = {
   data: LineChartSingleElement[];
 };
 
-export type ProjectsData = {
+type ProjectDataSection = {
   name: string;
+  refKeyword: string;
+  schemaId: string;
+};
+
+export type ProjectsData = {
   topic: string;
   content: string;
+  section: ProjectDataSection;
   userId: string;
   createdAt: Date;
 };
@@ -187,7 +193,7 @@ export type VoidOrError = void | { error: string };
 
 export type GetCompanySummary = Result<CompanySummaryData | null>;
 
-export type GetProjectsSections = Result<ProjectsData[] | null>;
+export type GetProjectsSections = Result<ProjectsData | null>;
 
 export type FormatedIdea = FormatTextResults & { _id: string };
 
@@ -203,4 +209,18 @@ export type IdeaPickerProps = {
   index: number;
   currentIdea: FormatedIdea | null;
   currentIdeaError: ErrorMessage;
+};
+
+export type SectionTypeOptions =
+  | "introduction"
+  | "about"
+  | "conclusion"
+  | "projectIdea";
+
+export type GenerateContentSectionProps = {
+  className?: string;
+  children?: React.ReactNode;
+  title: string;
+  sectionType: SectionTypeOptions;
+  sectionIndex?: number;
 };
