@@ -25,7 +25,12 @@ const GenerateContentSection: React.FC<GenerateContentSectionProps> = async ({
       </div>
       <div className="w-full lg:w-2/3 bg-muted/50 rounded-lg text-card-foreground py-6 px-2 shadow-sm">
         <ScrollArea className="h-52 text-muted-foreground leading-normal">
-          <p className="text-justify px-6 sm:px-8">{data?.content}</p>
+          <h2 className="px-6 sm:px-8 mb-4 text-lg text-foreground">
+            {data?.topic}
+          </h2>
+          <p className="text-justify px-6 sm:px-8">
+            {data?.content || "No content yet."}
+          </p>
         </ScrollArea>
       </div>
     </div>
