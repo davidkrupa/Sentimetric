@@ -57,10 +57,9 @@ export const createProjectSection = async (
       .replace("{{skills}}", skillsString)
       .replace("{{company}}", profile.company)
       .replace("{{industry}}", profile.industry)
-      .replace("{{summary}}", summary.content)
-      .replace("{{randomNum}}", Math.floor(Math.random() * 10).toString());
+      .replace("{{summary}}", summary.content);
 
-    // const response = await getAiResponse(prompt);
+    const response = await getAiResponse(prompt);
 
     const projectSection = await ProjectSection.findOneAndUpdate(
       {
@@ -68,7 +67,7 @@ export const createProjectSection = async (
         profileId: user.currentProfile,
         "section.name": sectionType,
       },
-      { content: prompt },
+      { content: response, topic: sectionName },
       { upsert: true, new: true }
     );
 
@@ -116,15 +115,18 @@ export const createProjectIdeaSection = async (
       profileId: user.currentProfile,
     });
 
+    const currentIdea = ideas.formatted[index];
+
     const prompt = prompts.projectIdea
       .replace("{{jobTitle}}", profile.jobTitle)
       .replace("{{skills}}", skillsString)
       .replace("{{company}}", profile.company)
       .replace("{{industry}}", profile.industry)
       .replace("{{summary}}", summary.content)
-      .replace("{{randomNum}}", Math.floor(Math.random() * 10).toString());
+      .replace("{{projectTitle}}", currentIdea.title)
+      .replace("{{projectExplanation}}", currentIdea.explanation);
 
-    // const response = await getAiResponse(prompt);
+    const response = await getAiResponse(prompt);
 
     let schemaId = null;
 
@@ -141,7 +143,7 @@ export const createProjectIdeaSection = async (
         refKeyword: "Ideas.formatted",
         schemaId: schemaId,
       },
-      content: prompt,
+      content: response,
     };
 
     const projectSection = await ProjectSection.findOneAndUpdate(
@@ -151,7 +153,7 @@ export const createProjectIdeaSection = async (
         "section.name": "projectIdea",
         "section.schemaId": schemaId,
       },
-      { $set: { content: prompt } },
+      { $set: { content: response, topic: currentIdea.title } },
       { upsert: true, new: true }
     );
 
