@@ -7,9 +7,9 @@ import User from "../database/models/user.model";
 import Profile from "../database/models/profile.models";
 import {
   ProfileParams,
-  GetDoesProfileExist,
   GetAllProfiles,
   VoidOrError,
+  GetDoesExist,
 } from "@/types";
 import { getCurrentUser, updateUserCurrentProfile } from "./user.actions";
 import { getErrorMessage } from "../utils";
@@ -43,7 +43,7 @@ export const addProfile = async (data: ProfileParams): Promise<VoidOrError> => {
   }
 };
 
-export const getDoesProfileExist = async (): Promise<GetDoesProfileExist> => {
+export const getDoesProfileExist = async (): Promise<GetDoesExist> => {
   try {
     await connectToDatabase();
 

@@ -3,7 +3,7 @@
 import {
   GetAllAnalysis,
   GetCurrentAnalysis,
-  GetDoesAnalysisExist,
+  GetDoesExist,
   SaveAnalysisParams,
   VoidOrError,
 } from "@/types";
@@ -73,7 +73,7 @@ export const createAnalysisAndSave = async (
   }
 };
 
-export const getDoesAnalysisExist = async (): Promise<GetDoesAnalysisExist> => {
+export const getDoesAnalysisExist = async (): Promise<GetDoesExist> => {
   try {
     await connectToDatabase();
 
