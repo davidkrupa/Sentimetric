@@ -12,6 +12,12 @@ import {
 } from "./ui/dialog";
 import { ScrollArea } from "./ui/scroll-area";
 import CopyButton from "./CopyButton";
+import { getDoesProfileExist } from "@/lib/actions/profile.actions";
+import { getGetDoSkillsExist } from "@/lib/actions/skills.actions";
+import { getDoesAnalysisExist } from "@/lib/actions/analysis.actions";
+import NoDataOrError from "./NoDataOrError";
+import { getDoIdeasExist } from "@/lib/actions/ideas.actions";
+import { getDoesSummaryExist } from "@/lib/actions/summary.actions";
 
 export default async function ProjectButtons() {
   const sectionPromises = [
@@ -26,8 +32,26 @@ export default async function ProjectButtons() {
   const [introduction, ideaOne, ideaTwo, ideaThree, about, conclusion] =
     await Promise.all(sectionPromises);
 
+  const [profile, skills, analysis, ideas, summary] = await Promise.all([
+    getDoesProfileExist(),
+    getGetDoSkillsExist(),
+    getDoesAnalysisExist(),
+    getDoIdeasExist(),
+    getDoesSummaryExist(),
+  ]);
+
+  // when static section data is present generate button should not be shown
+  // generete buttons for dynamic sections will be added in their sections
   const isGenerateButtonAllowed =
-    !introduction.data || !about.data || !conclusion.data;
+    !introduction.data && !about.data && !conclusion.data;
+
+  // when user didn't do previous steps, generate button should not be shown
+  const isDisabled =
+    !profile.data ||
+    !skills.data ||
+    !analysis.data ||
+    !ideas.data ||
+    !summary.data;
 
   const isDialogAllowed =
     introduction.data ||
@@ -54,7 +78,42 @@ export default async function ProjectButtons() {
 
   return (
     <div>
-      {isGenerateButtonAllowed && <GenerateContentButton />}
+      {isGenerateButtonAllowed && (
+        <div className="text-center">
+          <GenerateContentButton isDisabled={isDisabled} />
+          <div className="text-center mt-3">
+            {!profile.data && (
+              <NoDataOrError
+                error={profile.error}
+                defaultText="You need to create a profile."
+              />
+            )}
+            {!skills.data && (
+              <NoDataOrError defaultText="You need to add skills." />
+            )}
+            {!analysis.data && (
+              <NoDataOrError
+                error={analysis.error}
+                defaultText="You need to create an analysis."
+              />
+            )}
+            {!ideas.data && (
+              <NoDataOrError
+                error={ideas.error}
+                defaultText="You need to create ideas."
+              />
+            )}
+            {!summary.data && (
+              <NoDataOrError
+                error={summary.error}
+                defaultText="You need to create a summary."
+              />
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* dialog */}
       {isDialogAllowed && (
         <Dialog>
           <DialogTrigger asChild>
