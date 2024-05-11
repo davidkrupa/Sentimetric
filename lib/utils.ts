@@ -52,6 +52,15 @@ export const showToastError = (errorMessage: string) => {
   toast({
     title: "Something went wrong!",
     description: errorMessage,
+    variant: "error",
+  });
+};
+
+export const showToastSuccess = (succesMessage: string) => {
+  toast({
+    title: "Success!",
+    description: succesMessage,
+    variant: "success",
   });
 };
 
