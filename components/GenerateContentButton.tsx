@@ -9,7 +9,7 @@ import {
 import { Button } from "./ui/button";
 import LoadingSpinner from "./ui/LoadingSpinner";
 
-const GenerateContentButton = () => {
+const GenerateContentButton = ({ isDisabled }: { isDisabled: boolean }) => {
   const [isLoading, setIsLoading] = useState(false);
   const handleGenerateContent = async () => {
     setIsLoading(true);
@@ -29,7 +29,7 @@ const GenerateContentButton = () => {
       <Button
         variant="default"
         className="mx-auto"
-        disabled={isLoading}
+        disabled={isLoading || isDisabled}
         onClick={() => handleGenerateContent()}
       >
         Generate Project

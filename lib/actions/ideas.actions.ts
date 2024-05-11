@@ -13,6 +13,7 @@ import {
   FormatTextResults,
   FormatedIdea,
   GetCurrentIdeas,
+  GetDoesExist,
   GetIdeas,
   PickedFormattedIds,
   VoidOrError,
@@ -162,6 +163,29 @@ export const getCurrentIdeas = async (): Promise<GetCurrentIdeas> => {
     return {
       error: getErrorMessage(error),
       data: null,
+    };
+  }
+};
+
+export const getDoIdeasExist = async (): Promise<GetDoesExist> => {
+  try {
+    await connectToDatabase();
+
+    const user = await getCurrentUser();
+
+    const ideas = await Ideas.findOne({
+      userId: user._id,
+      profileId: user.currentProfile,
+    });
+
+    return {
+      error: null,
+      data: !!ideas, // return true if ideas exists, false otherwise
+    };
+  } catch (error) {
+    return {
+      error: getErrorMessage(error),
+      data: false,
     };
   }
 };

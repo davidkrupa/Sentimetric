@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 
-import { GetDoSkillsExist, GetSkills, UserSkills, VoidOrError } from "@/types";
+import { GetDoesExist, GetSkills, UserSkills, VoidOrError } from "@/types";
 import { connectToDatabase } from "../database";
 import JobSkills from "../database/models/skills.model";
 import { getCurrentUser } from "./user.actions";
@@ -42,7 +42,7 @@ export const addSkills = async (skills: UserSkills): Promise<VoidOrError> => {
   }
 };
 
-export const getGetDoSkillsExist = async (): Promise<GetDoSkillsExist> => {
+export const getGetDoSkillsExist = async (): Promise<GetDoesExist> => {
   try {
     await connectToDatabase();
 

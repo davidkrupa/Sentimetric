@@ -6,7 +6,7 @@ import { getPromptVariables } from "./ideas.actions";
 import { getAiResponse } from "./openai.actions";
 import { getCurrentUser } from "./user.actions";
 import { getErrorMessage } from "../utils";
-import { GetCompanySummary, VoidOrError } from "@/types";
+import { GetCompanySummary, GetDoesExist, VoidOrError } from "@/types";
 import { connectToDatabase } from "../database";
 import CompanySummary from "../database/models/summary.model";
 import Profile from "../database/models/profile.models";
@@ -64,6 +64,29 @@ export const getCompanySummary = async (): Promise<GetCompanySummary> => {
     return {
       error: getErrorMessage(error),
       data: null,
+    };
+  }
+};
+
+export const getDoesSummaryExist = async (): Promise<GetDoesExist> => {
+  try {
+    await connectToDatabase();
+
+    const user = await getCurrentUser();
+
+    const ideas = await CompanySummary.findOne({
+      userId: user._id,
+      profileId: user.currentProfile,
+    });
+
+    return {
+      error: null,
+      data: !!ideas, // return true if ideas exists, false otherwise
+    };
+  } catch (error) {
+    return {
+      error: getErrorMessage(error),
+      data: false,
     };
   }
 };
