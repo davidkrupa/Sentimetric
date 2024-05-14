@@ -114,32 +114,6 @@ export const updateProfileCurrentAnalysis = async (
   }
 };
 
-// not used yet
-export const updateProfileCurrentProject = async (
-  id: string
-): Promise<void> => {
-  try {
-    await connectToDatabase();
-
-    const user = await getCurrentUser();
-
-    const updatedProfile = await Profile.findOneAndUpdate(
-      { _id: user.currentProfile, userId: user._id },
-      { currentProject: id }
-    );
-
-    if (!updatedProfile)
-      throw new Error(
-        "Error updating user's current project. Profile update failed"
-      );
-
-    revalidatePath("/dashboard/project");
-  } catch (error) {
-    console.error(error);
-    throw new Error("Error updating current project");
-  }
-};
-
 export const deleteProfile = async (id: string): Promise<VoidOrError> => {
   try {
     await connectToDatabase();
