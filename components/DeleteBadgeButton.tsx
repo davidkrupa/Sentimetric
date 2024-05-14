@@ -7,13 +7,19 @@ import { useState } from "react";
 import { FaXmark } from "react-icons/fa6";
 
 import LoadingSpinner from "./ui/LoadingSpinner";
+import { showToastError } from "@/lib/utils";
 
 const DeleteBadgeButton = ({ skill, type }: DeleteBadgeButtonProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleDelete = async () => {
     setIsLoading(true);
-    await deleteOneSkill(skill, type);
+    const deletedSkill = await deleteOneSkill(skill, type);
+    if (deletedSkill?.error) {
+      showToastError(deletedSkill.error);
+      setIsLoading(false);
+      return;
+    }
     await createActivity("skill", "removed");
     setIsLoading(false);
   };

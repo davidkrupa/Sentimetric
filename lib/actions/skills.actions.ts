@@ -112,24 +112,23 @@ export const getSkills = async (): Promise<GetSkills> => {
 export const deleteOneSkill = async (
   skill: string,
   type: string
-): Promise<void> => {
+): Promise<VoidOrError> => {
   try {
     await connectToDatabase();
 
     const user = await getCurrentUser();
 
-    if (!user.currentProfile)
-      throw new Error("You need to create profile first");
+    if (!user.currentProfile) throw new Error("Profile not found.");
 
     const skills = await JobSkills.findOneAndUpdate(
       { userId: user._id, profileId: user.currentProfile },
       { $pull: { [type]: skill } }
     );
 
-    if (!skills) throw new Error("Error deleting the skill");
+    if (!skills) throw new Error("Skill not found.");
 
     revalidatePath("/dashboard");
   } catch (error) {
-    throw handleError(error);
+    return { error: getErrorMessage(error) };
   }
 };
