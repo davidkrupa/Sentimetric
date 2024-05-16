@@ -9,27 +9,30 @@ import smilingWoman from "../lib/assets/smiling-woman.webp";
 const Timeline = () => {
   const list = [
     {
-      title: "Customer Profiles",
+      title: "Dream Job Profile",
       description:
-        "Create profiles for potential clients, add your or your team's skills. Our AI tool will utilize this data to recommend tailored solutions suitable for your company's requirements.",
+        "First, create your profile by entering details such as company name, industry, your target position, and your skills. It's easy to manage multiple companies without needing to remember everything.",
+      time: "3",
       content: null,
     },
     {
       title: "Company Analysis",
       description:
-        "Streamline the analysis process by simply pasting key information such as the 'About Us' page, company news, or relevant job postings. Let us handle the rest.",
-      content: "Content",
+        "Gather information from the company's website or any other source. You'll copy and paste useful content like the About Us page, job offers, company news, or even user opinions - anything you find helpful. AI will do the rest.",
+      time: "10",
+      content: null,
     },
     {
-      title: "Inspirations",
+      title: "Summary and Ideas",
       description:
-        "Leverage the collected data to inspire custom business ideas that resonate with the target company's values and goals. Provide solutions tailored to address their specific challenges, empowering you to offer your services effectively.",
-      content: "Content",
+        "Our AI tools will quickly analyze your profile along with the company information you've provided, and its own industry knowledge. You'll get a company summary useful for interviews and a list of project ideas to choose from in the final step.",
+      time: "1",
+      content: null,
     },
     {
-      title: "Business Proposals",
-      description:
-        "Craft personalized business proposals with the assistance of AI-generated suggestions. Target the company's unique needs and objectives effectively.",
+      title: "Creating Presentation",
+      description: `Choose the projects that you want to include in your presentation. Our tool will generate a complete presentation for you. Each project has an explanation together with SWOT analysis. It's an easy, effective, and unique way to impress any recruiter and land your dream job.`,
+      time: "1",
       content: null,
     },
   ];
@@ -45,9 +48,14 @@ const Timeline = () => {
             <span className="absolute flex items-center justify-center w-6 h-6 bg-slate-100 rounded-full -start-3 ring-4 ring-slate-100">
               <FaChevronRight className="text-primary" />
             </span>
-            <h3 className="flex items-center mb-1 text-lg font-medium text-slate-100">
-              {item.title}
-            </h3>
+            <div className="flex justify-between items-center mb-2">
+              <h3 className="text-lg font-medium text-slate-100">
+                {item.title}
+              </h3>
+              <p className="mr-6 text-sm text-slate-500/70">
+                Time: {item.time}min
+              </p>
+            </div>
             <p className="mb-4 text-base font-normal text-slate-500">
               {item.description}
             </p>
