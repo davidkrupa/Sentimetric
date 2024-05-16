@@ -3,47 +3,45 @@ import { FaCheck, FaXmark } from "react-icons/fa6";
 const PricingCards = () => {
   const cards = [
     {
-      title: "Starter",
+      title: "Tester",
       price: "$0",
-      description: "Best option for personal use and basic company research.",
+      description: "For testing purposes only. No credit card required.",
       features: [
-        "1 business profile per month",
-        "Basic profile",
-        "Up to 2 AI powered company analysis per profile",
-        "Analysis based business ideas creator",
-      ],
-      excludedFeatures: [
-        "Business proposal creator",
-        "Competition analysis tool",
-      ],
-    },
-    {
-      title: "Basic",
-      price: "$39",
-      description: "Relevant for fraalancers and small businesses.",
-      features: [
-        "5 business profiles per month",
-        "More detailed profiles",
-        "Up to 3 AI powered company analysis per profile",
-        "Analysis based business ideas creator",
-        "Basic business proposals creator",
-      ],
-      excludedFeatures: ["Competition analysis tool"],
-    },
-    {
-      title: "Advanced",
-      price: "$99",
-      description: "Best for growing businesses that need more clients.",
-      features: [
-        "15 business profiles per month",
-        "Customized profiles",
-        "Up to 5 AI powered company analysis per profile",
-        "Analysis based business ideas creator",
-        "Advanced business proposals creator with your branding",
-        "Competition analysis tool",
+        "Company and user profiles",
+        "Company analysis tool",
+        "Company summary generator",
+        "Project ideas generator",
+        "Presentation creator",
       ],
       excludedFeatures: [],
     },
+    // {
+    //   title: "Basic",
+    //   price: "$39",
+    //   description: "Relevant for fraalancers and small businesses.",
+    //   features: [
+    //     "5 business profiles per month",
+    //     "More detailed profiles",
+    //     "Up to 3 AI powered company analysis per profile",
+    //     "Analysis based business ideas creator",
+    //     "Basic business proposals creator",
+    //   ],
+    //   excludedFeatures: ["Competition analysis tool"],
+    // },
+    // {
+    //   title: "Advanced",
+    //   price: "$99",
+    //   description: "Best for growing businesses that need more clients.",
+    //   features: [
+    //     "15 business profiles per month",
+    //     "Customized profiles",
+    //     "Up to 5 AI powered company analysis per profile",
+    //     "Analysis based business ideas creator",
+    //     "Advanced business proposals creator with your branding",
+    //     "Competition analysis tool",
+    //   ],
+    //   excludedFeatures: [],
+    // },
   ];
 
   return (
@@ -65,7 +63,8 @@ const PricingCards = () => {
         {cards.map((card) => (
           <div
             key={card.title}
-            className="flex flex-col p-6 mx-auto max-w-lg text-center text-slate-900 bg-white rounded-lg border border-border shadow xl:p-8"
+            // col-start-2 to remove when add more cards
+            className="col-start-2 flex flex-col p-6 mx-auto max-w-lg text-center text-slate-900 bg-white rounded-lg border border-border shadow xl:p-8"
           >
             <h3 className="mb-4 text-2xl font-semibold">{card.title}</h3>
             <p className="font-light text-slate-500 sm:text-lg">
