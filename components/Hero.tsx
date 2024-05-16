@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Header from "./Header";
-import { Button, buttonVariants } from "./ui/button";
+import { Button } from "./ui/button";
 
 const Hero = () => {
   return (
@@ -8,12 +8,12 @@ const Hero = () => {
       <Header />
       <div className="flex items-center justify-center h-screen">
         <div className="text-center w-[750px] px-3 sm:px-6">
-          <h1 className="text-4xl sm:text-6xl text-balance font-medium text-slate-100 mb-6">
-            Impress Recruiters Get Hired Quickly
+          <h1 className="text-4xl leading-tight sm:text-6xl sm:leading-tight text-balance font-medium text-slate-100 mb-6">
+            Make Recruiters Need To Hire You
           </h1>
           <p className="text-lg lg:text-xl text-slate-500">
-            Get noticed in minutes. Our quick and easy strategy works every
-            time.
+            {`Create a personalized presentation with three project ideas in less than half an hour using our AI tools - guaranteed
+            to be a magnet for recruiters.`}
           </p>
           <div className="mt-8">
             <Button
