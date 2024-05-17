@@ -1,4 +1,5 @@
 import { FaCheck, FaXmark } from "react-icons/fa6";
+import PricingCardButton from "./PricingCardButton";
 
 const PricingCards = () => {
   const cards = [
@@ -51,11 +52,11 @@ const PricingCards = () => {
     >
       <div className="mx-auto max-w-screen-md text-center mb-8 lg:mb-12">
         <h2 className="mb-6 text-4xl tracking-tight font-bold text-slate-100">
-          Designed for speed up your business
+          Simple pricing for everyone
         </h2>
         <p className="font-light text-slate-500 sm:text-lg">
-          We're dedicated to helping you save time analyzing customers and their
-          needs, allowing you to focus on your business.
+          No hidden fees. Cancel anytime. Start with our free plan, upgrade
+          anytime.
         </p>
       </div>
       <div className="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-10 lg:space-y-0">
@@ -97,12 +98,8 @@ const PricingCards = () => {
                 ))}
               </>
             </ul>
-            <a
-              href="#"
-              className="text-white bg-primary hover:bg-primary/90 focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-            >
-              Get started
-            </a>
+
+            <PricingCardButton />
           </div>
         ))}
       </div>
