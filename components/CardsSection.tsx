@@ -1,44 +1,44 @@
 import { FaRegClock, FaArrowUpRightDots } from "react-icons/fa6";
 import { FaFingerprint } from "react-icons/fa";
 import { IoPerson, IoExpand } from "react-icons/io5";
-import { RiOpenaiFill } from "react-icons/ri";
+import { LuMousePointerClick } from "react-icons/lu";
 
 const CardsSection = () => {
   const cards = [
     {
       title: "Time Saving",
       description:
-        "AI analyzing tools quickly and easily analyze your potential clients, aligning services with their values, goals, and your skills and experience.",
+        "AI automation speeds up the process of researching and analyzing companies, providing you with a custom presentation in less than half an hour.",
       icon: <FaRegClock className="size-8 text-primary" />,
+    },
+    {
+      title: "Easy to Use",
+      description:
+        "Our tools are designed to be super easy to use. The step-by-step process allows even non-technical users with zero experience in research or company analysis to feel confident.",
+      icon: <LuMousePointerClick className="size-8 text-primary" />,
+    },
+    {
+      title: "Highlight Your Skills",
+      description:
+        "A custom-made presentation proves you are the perfect candidate by showing ideas that combine your skills with the company's goals and values, even if you are changing career paths.",
+      icon: <IoPerson className="size-8 text-primary" />,
     },
     {
       title: "Individual Approach",
       description:
-        "Every client is unique. By treating them as such, you'll gain returning customers and referrals from happy clients. We'll assist you in discovering their values language.",
-      icon: <IoPerson className="size-8 text-primary" />,
-    },
-    {
-      title: "AI Leverage",
-      description:
-        "Our AI tools enhance your efficiency by automating client analysis processes, enabling you to serve more clients with the same team in less time.",
-      icon: <RiOpenaiFill className="size-8 text-primary" />,
-    },
-    {
-      title: "Business Growth",
-      description:
-        "Our goal is to automate tasks that AI can handle, freeing you to focus on growing your business and serving your clients to the best of your ability.",
-      icon: <FaArrowUpRightDots className="size-8 text-primary" />,
-    },
-    {
-      title: "Personal Branding",
-      description:
-        "We'll help you maintain a professional approach with your clients, regardless of their size. This positions you as a leader and expert in your field.",
+        "Each company analysis, summary, and final presentation are unique and custom-tailored. Access all information easily without needing to memorize anything.",
       icon: <FaFingerprint className="size-8 text-primary" />,
     },
     {
-      title: "Expanding Your Offer",
+      title: "Higher Salary",
       description:
-        "Our tools inspire new services that complement your current offerings, enabling you to increase profits through upselling to clients.",
+        "Providing so much value upfront puts you ahead of your competition. This makes it easier to negotiate a higher salary. You're chosen for being the right person, not the cheapest one.",
+      icon: <FaArrowUpRightDots className="size-8 text-primary" />,
+    },
+    {
+      title: "More Opportunities",
+      description:
+        "Become someone that top companies compete to work with. More opportunities make it easier to make the right choices, negotiate bonuses, and get promoted.",
       icon: <IoExpand className="size-8 text-primary" />,
     },
   ];
@@ -50,12 +50,12 @@ const CardsSection = () => {
     >
       <div className="mx-auto max-w-screen-md text-center mb-8 lg:mb-12">
         <h2 className="text-4xl mb-6 font-bold text-slate-100 tracking-tight">
-          Elevate Your Business with Our Services
+          Get More Interviews Without Effort
         </h2>
 
         <p className="font-light text-slate-500 sm:text-lg">
-          Streamline operations, enhance client satisfaction, and propel your
-          business growth with our comprehensive suite of services.
+          Prove you are the perfect candidate for the company, even if you are
+          changing career paths or lack the required experience.
         </p>
       </div>
 
