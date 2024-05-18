@@ -1,6 +1,8 @@
 import { getCurrentIdeas, getIdeas } from "@/lib/actions/ideas.actions";
 import GenerateContentSection from "./GenerateContentSection";
 import IdeaPicker from "./IdeaPicker";
+import { Suspense } from "react";
+import { Skeleton } from "./ui/skeleton";
 
 const IdeasSections = async () => {
   // amount of ideascards
@@ -17,20 +19,24 @@ const IdeasSections = async () => {
   return (
     <>
       {array.map((_, index) => (
-        <GenerateContentSection
-          key={index}
-          title={`Project Idea #${index + 1}`}
-          sectionType="projectIdea"
-          sectionIndex={index}
-          className="border-dashed"
+        <Suspense
+          key={`idea-${index}`}
+          fallback={<Skeleton className="h-44 w-full mb-3" />}
         >
-          <IdeaPicker
-            titles={titles}
-            index={index}
-            currentIdea={currentIdea.data?.[index] ?? null}
-            currentIdeaError={currentIdea.error}
-          />
-        </GenerateContentSection>
+          <GenerateContentSection
+            title={`Project Idea #${index + 1}`}
+            sectionType="projectIdea"
+            sectionIndex={index}
+            className="border-dashed"
+          >
+            <IdeaPicker
+              titles={titles}
+              index={index}
+              currentIdea={currentIdea.data?.[index] ?? null}
+              currentIdeaError={currentIdea.error}
+            />
+          </GenerateContentSection>
+        </Suspense>
       ))}
     </>
   );

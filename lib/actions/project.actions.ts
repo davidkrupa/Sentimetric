@@ -4,7 +4,12 @@ import { revalidatePath } from "next/cache";
 
 import { connectToDatabase } from "../database";
 import { getCurrentUser } from "./user.actions";
-import { GetProjectsSections, SectionTypeOptions, VoidOrError } from "@/types";
+import {
+  FormatTextResults,
+  GetProjectsSections,
+  SectionTypeOptions,
+  VoidOrError,
+} from "@/types";
 import { getAiResponse } from "./openai.actions";
 import JobSkills from "../database/models/skills.model";
 import Profile from "../database/models/profile.models";
@@ -52,12 +57,24 @@ export const createProjectSection = async (
       profileId: user.currentProfile,
     });
 
+    const ideas = await Ideas.findOne({
+      userId: user._id,
+      profileId: user.currentProfile,
+    });
+
+    const pickedIdeasString = ideas.formatted
+      .map((idea: FormatTextResults, i: number) => {
+        return `Idea ${i + 1}: ${idea?.title}, Short explanation: ${idea?.explanation}`;
+      })
+      .join(", ");
+
     const prompt = prompts[sectionType]
       .replace("{{jobTitle}}", profile.jobTitle)
       .replace("{{skills}}", skillsString)
       .replace("{{company}}", profile.company)
       .replace("{{industry}}", profile.industry)
-      .replace("{{summary}}", summary.content);
+      .replace("{{summary}}", summary.content)
+      .replace("{{projectsList}}", pickedIdeasString);
 
     const response = await getAiResponse(prompt);
 
@@ -134,17 +151,6 @@ export const createProjectIdeaSection = async (
     if (pickedFormatted) {
       schemaId = pickedFormatted.formatted;
     }
-
-    const projectSectionData = {
-      userId: user._id,
-      profileId: user.currentProfile,
-      section: {
-        name: "projectIdea",
-        refKeyword: "Ideas.formatted",
-        schemaId: schemaId,
-      },
-      content: response,
-    };
 
     const projectSection = await ProjectSection.findOneAndUpdate(
       {

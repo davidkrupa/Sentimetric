@@ -25,11 +25,10 @@ export default async function ProjectButtons() {
     getProjectSection("projectIdea", 0),
     getProjectSection("projectIdea", 1),
     getProjectSection("projectIdea", 2),
-    getProjectSection("about"),
     getProjectSection("conclusion"),
   ];
 
-  const [introduction, ideaOne, ideaTwo, ideaThree, about, conclusion] =
+  const [introduction, ideaOne, ideaTwo, ideaThree, conclusion] =
     await Promise.all(sectionPromises);
 
   const [profile, skills, analysis, ideas, summary] = await Promise.all([
@@ -42,8 +41,7 @@ export default async function ProjectButtons() {
 
   // when static section data is present generate button should not be shown
   // generete buttons for dynamic sections will be added in their sections
-  const isGenerateButtonAllowed =
-    !introduction.data && !about.data && !conclusion.data;
+  const isGenerateButtonAllowed = !introduction.data && !conclusion.data;
 
   // when user didn't do previous steps, generate button should not be shown
   const isDisabled =
@@ -55,20 +53,12 @@ export default async function ProjectButtons() {
 
   const isDialogAllowed =
     introduction.data ||
-    about.data ||
     conclusion.data ||
     ideaOne.data ||
     ideaTwo.data ||
     ideaThree.data;
 
-  const sections = [
-    introduction,
-    ideaOne,
-    ideaTwo,
-    ideaThree,
-    about,
-    conclusion,
-  ];
+  const sections = [introduction, ideaOne, ideaTwo, ideaThree, conclusion];
 
   const contentForCopy = sections
     .map((section) => {
@@ -119,7 +109,7 @@ export default async function ProjectButtons() {
           <DialogTrigger asChild>
             <Button variant="default">See The Project</Button>
           </DialogTrigger>
-          <DialogContent className="max-w-4xl grid gap-8">
+          <DialogContent className="max-w-6xl grid gap-8">
             <DialogHeader>
               <DialogTitle className="text-center">Your Project</DialogTitle>
             </DialogHeader>
