@@ -16,7 +16,8 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Sentimetric",
-  description: "App for measure customers sentiments",
+  description:
+    "Unlock your career potential with our AI-powered job application presentation builder designed to help you stand out in the competitive job market. Our app goes beyond traditional cover letters and resumes by creating personalized presentations that show recruiters how your skills and experience align with company goals and values. Plus, we provide project ideas with SWOT analyses that will impress every recruiter.",
 };
 
 export default function RootLayout({

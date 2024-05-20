@@ -220,3 +220,18 @@ export type GenerateContentSectionProps = {
   sectionType: SectionTypeOptions;
   sectionIndex?: number;
 };
+
+export type TransactionModes = "subscription" | "payment";
+
+export type PricingCardButtonProps = {
+  transactionMode: TransactionModes | null;
+};
+
+export type PricingCardData = {
+  title: string;
+  price: string;
+  description: string;
+  features: string[];
+  excludedFeatures: string[];
+  transactionMode: TransactionModes | null;
+};

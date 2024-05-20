@@ -45,7 +45,7 @@ const AccountButtons = () => {
               Sign In
             </span>
             {loading === "sign-in" && (
-              <LoadingSpinner className="absolute text-primary" />
+              <LoadingSpinner className="absolute text-primary hover:text-white" />
             )}
           </Link>
         </Button>

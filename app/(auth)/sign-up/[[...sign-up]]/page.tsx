@@ -49,7 +49,7 @@ export default function Page() {
         ))}
       </div>
       <div className="flex justify-center lg:w-1/2">
-        <SignUp afterSignUpUrl="/dashboard" />
+        <SignUp afterSignUpUrl="/plans" />
       </div>
     </div>
   );
