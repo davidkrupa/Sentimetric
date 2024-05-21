@@ -7,7 +7,6 @@ import { CreateTransactionParams, TransactionModes } from "@/types";
 import { connectToDatabase } from "../database";
 import Transaction from "../database/models/transaction.model";
 import { handleError } from "../utils";
-import { getCurrentUser } from "./user.actions";
 
 const priceId = {
   subscription:
@@ -54,16 +53,9 @@ export async function createTransaction(transaction: CreateTransactionParams) {
   try {
     await connectToDatabase();
 
-    console.log("TRANSACTION CALLED");
-
-    const user = await getCurrentUser();
-
     const newTransaction = await Transaction.create({
       ...transaction,
-      userId: user._id,
     });
-
-    console.log("TRANSACTION CREATED: ", newTransaction);
 
     return JSON.parse(JSON.stringify(newTransaction));
   } catch (error) {
