@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import { createTransaction } from "@/lib/actions/transaction.action";
 import { NextResponse } from "next/server";
 import stripe from "stripe";
 
@@ -25,16 +26,13 @@ export async function POST(request: Request) {
 
     const transaction = {
       stripeId: id,
-      plan: metadata?.plan || "",
       buyerClerkId: metadata?.buyerClerkId || "",
       createdAt: new Date(),
     };
 
-    // Create a new transaction in database here
-    // const newTransaction = await createTransaction(transaction);
+    const newTransaction = await createTransaction(transaction);
 
-    // return NextResponse.json({ message: "OK", transaction: newTransaction });
-    return NextResponse.json({ message: "OK" });
+    return NextResponse.json({ message: "OK", transaction: newTransaction });
   }
 
   return new Response("", { status: 200 });
