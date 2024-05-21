@@ -225,6 +225,7 @@ export type TransactionModes = "subscription" | "payment";
 
 export type PricingCardButtonProps = {
   transactionMode: TransactionModes | null;
+  userId: string | null;
 };
 
 export type PricingCardData = {
@@ -234,4 +235,10 @@ export type PricingCardData = {
   features: string[];
   excludedFeatures: string[];
   transactionMode: TransactionModes | null;
+};
+
+export type CreateTransactionParams = {
+  stripeId: string;
+  buyerClerkId: string;
+  createdAt: Date;
 };

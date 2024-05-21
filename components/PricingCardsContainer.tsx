@@ -1,5 +1,7 @@
-import { PricingCardData } from "@/types";
+import { auth } from "@clerk/nextjs";
 import { FaCheck, FaXmark } from "react-icons/fa6";
+
+import { PricingCardData } from "@/types";
 import PricingCardButton from "./PricingCardButton";
 
 const cards: PricingCardData[] = [
@@ -53,6 +55,8 @@ const cards: PricingCardData[] = [
 ];
 
 const PricingCardsContainer = () => {
+  const { userId }: { userId: string | null } = auth();
+
   return (
     <div className="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-10 lg:space-y-0">
       {cards.map((card) => (
@@ -94,7 +98,10 @@ const PricingCardsContainer = () => {
             </>
           </ul>
 
-          <PricingCardButton transactionMode={card.transactionMode} />
+          <PricingCardButton
+            transactionMode={card.transactionMode}
+            userId={userId}
+          />
         </div>
       ))}
     </div>

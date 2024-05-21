@@ -9,13 +9,16 @@ import { checkoutPayment } from "@/lib/actions/transaction.action";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { PricingCardButtonProps } from "@/types";
 
-const PricingCardButton = ({ transactionMode }: PricingCardButtonProps) => {
+const PricingCardButton = ({
+  transactionMode,
+  userId,
+}: PricingCardButtonProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handlePayment = async () => {
     setIsLoading(true);
     if (transactionMode !== null) {
-      await checkoutPayment(transactionMode);
+      await checkoutPayment(transactionMode, userId);
     }
     setIsLoading(false);
   };
