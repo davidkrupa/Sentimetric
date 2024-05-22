@@ -10,8 +10,10 @@ export default function CopyButton({ content }: { content: any }) {
   };
 
   return (
-    <div>
-      <Button onClick={() => handleCopy()}>Copy Your Project</Button>
-    </div>
+    <>
+      <Button variant="default" onClick={() => handleCopy()}>
+        Copy Your Project
+      </Button>
+    </>
   );
 }

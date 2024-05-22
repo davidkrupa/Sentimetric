@@ -126,7 +126,7 @@ export default async function ProjectButtons() {
               ))}
             </ScrollArea>
 
-            <DialogFooter className="sm:justify-start">
+            <DialogFooter className="sm:justify-start gap-3">
               <DialogClose asChild>
                 <Button type="button" variant="secondary">
                   Close
