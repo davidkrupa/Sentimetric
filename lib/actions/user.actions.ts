@@ -19,6 +19,7 @@ export const createUser = async (user: CreateUserParams) => {
     return JSON.parse(JSON.stringify(newUser));
   } catch (error) {
     handleError(error);
+    throw error;
   }
 };
 
