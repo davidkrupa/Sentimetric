@@ -1,10 +1,7 @@
-import { IoDocumentTextOutline, IoNotificationsOutline } from "react-icons/io5";
-import { FaRegLightbulb, FaChartBar } from "react-icons/fa";
+import { Suspense } from "react";
 
 import LastActivitiesCard from "@/components/LastActivitiesCard";
 import LineChartCard from "@/components/LineChartCard";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import StatisticsCards from "@/components/StatisticsCards";
 
