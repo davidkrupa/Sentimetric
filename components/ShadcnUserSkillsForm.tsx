@@ -30,7 +30,7 @@ import { addSkills } from "@/lib/actions/skills.actions";
 import { UserSkills } from "@/types";
 import { createActivity } from "@/lib/actions/activities.actions";
 import LoadingSpinner from "./ui/LoadingSpinner";
-import { showToastError } from "@/lib/utils";
+import { showToastError, showToastSuccess } from "@/lib/utils";
 
 export function ShadcnUserSkillsForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -67,7 +67,7 @@ export function ShadcnUserSkillsForm() {
     }
     form.setValue("skill", ""); // clear skill input after submit
     await createActivity("skill", "added");
-
+    showToastSuccess("Skill added successfully!");
     setIsLoading(false);
   }
 

@@ -20,7 +20,7 @@ import { CompanyAnalysisFormSchema } from "@/lib/formSchemas/input.schemas";
 import { createAnalysisAndSave } from "@/lib/actions/analysis.actions";
 import { createActivity } from "@/lib/actions/activities.actions";
 import LoadingSpinner from "./ui/LoadingSpinner";
-import { showToastError } from "@/lib/utils";
+import { showToastError, showToastSuccess } from "@/lib/utils";
 
 export function ShadcnCustomAnalysisForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -48,6 +48,7 @@ export function ShadcnCustomAnalysisForm() {
     }
     await createActivity("analysis", "added");
     await resetFormValues();
+    showToastSuccess("Analysis created successfully");
     setIsLoading(false);
   };
 
@@ -55,7 +56,7 @@ export function ShadcnCustomAnalysisForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-5/6 space-y-6 max-w-md"
+        className="space-y-6 max-w-2xl"
       >
         <FormField
           control={form.control}
@@ -79,7 +80,7 @@ export function ShadcnCustomAnalysisForm() {
               <FormControl>
                 <Textarea
                   placeholder="Content of the About Us page of the company you selected"
-                  className="resize-none"
+                  className=""
                   {...field}
                 />
               </FormControl>
