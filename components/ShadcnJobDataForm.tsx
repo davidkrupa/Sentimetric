@@ -19,7 +19,7 @@ import { JobDetailsFormSchema } from "@/lib/formSchemas/input.schemas";
 import { addProfile } from "@/lib/actions/profile.actions";
 import { createActivity } from "@/lib/actions/activities.actions";
 import LoadingSpinner from "./ui/LoadingSpinner";
-import { showToastError } from "@/lib/utils";
+import { showToastError, showToastSuccess } from "@/lib/utils";
 
 export function ShadcnJobDataForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -48,6 +48,7 @@ export function ShadcnJobDataForm() {
     }
     await createActivity("profile", "added");
     await resetFormValues();
+    showToastSuccess("New profile created successfully");
     setIsLoading(false);
   };
 
