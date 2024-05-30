@@ -18,6 +18,7 @@ import { getDoesAnalysisExist } from "@/lib/actions/analysis.actions";
 import NoDataOrError from "./NoDataOrError";
 import { getDoIdeasExist } from "@/lib/actions/ideas.actions";
 import { getDoesSummaryExist } from "@/lib/actions/summary.actions";
+import SaveButton from "./SaveButton";
 
 export default async function ProjectButtons() {
   const sectionPromises = [
@@ -132,7 +133,8 @@ export default async function ProjectButtons() {
                   Close
                 </Button>
               </DialogClose>
-              <CopyButton content={contentForCopy} />
+              {/* <CopyButton content={contentForCopy} /> */}
+              <SaveButton sections={sections} />
             </DialogFooter>
           </DialogContent>
         </Dialog>
