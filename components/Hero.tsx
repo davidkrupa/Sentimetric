@@ -12,8 +12,9 @@ const Hero = () => {
             Make Recruiters Need To Hire You
           </h1>
           <p className="text-lg lg:text-xl text-slate-500">
-            {`Create a personalized presentation with three project ideas in less than half an hour using our AI tools - guaranteed
-            to be a magnet for recruiters.`}
+            {/* {`Create a personalized presentation with three project ideas in less than half an hour using our AI tools - guaranteed
+            to be a magnet for recruiters.`} */}
+            {`Craft AI-generated job-winning presentations tailored to your skills and highlighting opportunities to boost profits in your target company.`}
           </p>
           <div className="mt-8">
             <Button
