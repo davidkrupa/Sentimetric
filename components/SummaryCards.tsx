@@ -16,7 +16,7 @@ const SummaryCards = async () => {
 
   const mergedContent = ideasArray
     .map((item) => {
-      return `${item.index}. ${item.title} - ${item.explanation}`;
+      return `${item.index + 1}. ${item.title} - ${item.explanation}`;
     })
     .join("\n\n");
 

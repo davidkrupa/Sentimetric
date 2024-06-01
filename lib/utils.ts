@@ -81,7 +81,7 @@ export const formatText = (text: string | undefined) => {
       const [index, title] = indexAndTitle.split(". ");
       // Push into results array
       results.push({
-        index: parseInt(index),
+        index: parseInt(index) - 1,
         title: title?.trim(),
         explanation: explanation?.trim(),
       });

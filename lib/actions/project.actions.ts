@@ -6,6 +6,7 @@ import { connectToDatabase } from "../database";
 import { getCurrentUser } from "./user.actions";
 import {
   FormatTextResults,
+  FormatTextResultsWithId,
   GetProjectsSections,
   SectionTypeOptions,
   VoidOrError,
@@ -132,7 +133,12 @@ export const createProjectIdeaSection = async (
       profileId: user.currentProfile,
     });
 
-    const currentIdea = ideas.formatted[index];
+    const currentIdeaId = ideas.pickedFormattedIds[index].formatted;
+
+    const currentIdea = ideas.formatted.find(
+      (idea: FormatTextResultsWithId) =>
+        idea._id.toString() === currentIdeaId.toString()
+    );
 
     const prompt = prompts.projectIdea
       .replace("{{jobTitle}}", profile.jobTitle)
