@@ -10,7 +10,6 @@ import JobSkills from "../database/models/skills.model";
 import { getAiResponse } from "./openai.actions";
 import { getCurrentUser } from "./user.actions";
 import {
-  FormatTextResults,
   FormatedIdea,
   GetCurrentIdeas,
   GetDoesExist,

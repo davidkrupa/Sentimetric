@@ -153,6 +153,10 @@ export type FormatTextResults = {
   explanation: string;
 };
 
+export type FormatTextResultsWithId = FormatTextResults & {
+  _id: string;
+};
+
 export type PickedFormattedIds = {
   index: number;
   formatted: string | null;
