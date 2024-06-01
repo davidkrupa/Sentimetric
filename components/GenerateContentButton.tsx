@@ -13,13 +13,11 @@ const GenerateContentButton = ({ isDisabled }: { isDisabled: boolean }) => {
   const [isLoading, setIsLoading] = useState(false);
   const handleGenerateContent = async () => {
     setIsLoading(true);
-    await Promise.all([
-      createProjectSection("introduction", "Introduction"),
-      createProjectSection("conclusion", "Conclusion"),
-      createProjectIdeaSection(0),
-      createProjectIdeaSection(1),
-      createProjectIdeaSection(2),
-    ]);
+    await createProjectSection("introduction", "Introduction");
+    await createProjectIdeaSection(0);
+    await createProjectIdeaSection(1);
+    await createProjectIdeaSection(2);
+    await createProjectSection("conclusion", "Conclusion");
     setIsLoading(false);
   };
 
@@ -39,7 +37,7 @@ const GenerateContentButton = ({ isDisabled }: { isDisabled: boolean }) => {
         )}
       </div>
       {isLoading && (
-        <p className="mt-2 max-w-md text-center">
+        <p className="mt-2 max-w-md text-center text-muted-foreground">
           Please stay on this page while your request is being processed. This
           may take up to 1 minute.
         </p>
