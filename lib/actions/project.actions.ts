@@ -18,6 +18,7 @@ import Ideas from "../database/models/ideas.model";
 import { getErrorMessage } from "../utils";
 import ProjectSection from "../database/models/project.model";
 import CompanySummary from "../database/models/summary.model";
+import { updatePickedIdeas } from "./ideas.actions";
 
 const prompts = {
   introduction: process.env.PROJECT_INTRODUCTION_SECTION_PROMPT!,
@@ -135,10 +136,20 @@ export const createProjectIdeaSection = async (
 
     const currentIdeaId = ideas.pickedFormattedIds[index].formatted;
 
-    const currentIdea = ideas.formatted.find(
-      (idea: FormatTextResultsWithId) =>
-        idea._id.toString() === currentIdeaId.toString()
-    );
+    let currentIdea;
+
+    // if the idea is picked and currentIdeaId exists
+    if (currentIdeaId) {
+      currentIdea = ideas.formatted.find(
+        (idea: FormatTextResultsWithId) =>
+          idea._id.toString() === currentIdeaId.toString()
+      );
+    }
+
+    // if the idea is not picked, use the default idea
+    if (!currentIdea) {
+      currentIdea = ideas.formatted[index];
+    }
 
     const prompt = prompts.projectIdea
       .replace("{{jobTitle}}", profile.jobTitle)
@@ -153,9 +164,15 @@ export const createProjectIdeaSection = async (
 
     let schemaId = null;
 
-    const pickedFormatted = ideas.pickedFormattedIds[index];
-    if (pickedFormatted) {
-      schemaId = pickedFormatted.formatted;
+    const chosenId = ideas.pickedFormattedIds[index].formatted;
+    if (chosenId) {
+      // if the idea is picked by user, use the chosen id
+      schemaId = chosenId;
+    } else {
+      // if the idea is not picked by the user,
+      // update the picked idea to default id
+      schemaId = ideas.formatted[index]._id;
+      await updatePickedIdeas(schemaId, index);
     }
 
     const projectSection = await ProjectSection.findOneAndUpdate(
