@@ -2,6 +2,14 @@ import BackgroundGradient from "@/components/BackgroundGradient";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 
+export const metadata = {
+  title: "Privacy Policy",
+  robots: {
+    index: false,
+    follow: true,
+  },
+};
+
 const Page = () => {
   return (
     <>
