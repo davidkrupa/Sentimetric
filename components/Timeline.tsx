@@ -38,10 +38,7 @@ const Timeline = () => {
   ];
 
   return (
-    <section
-      id="features"
-      className="flex items-start gap-4 w-full max-w-screen-xl mx-auto px-4 py-10 min-h-screen"
-    >
+    <section className="flex items-start gap-4 w-full max-w-screen-xl mx-auto px-4 py-10 min-h-screen">
       <ol className="relative w-full lg:w-2/3 border-s border-border space-y-10">
         {list.map((item) => (
           <li key={item.title} className=" ms-12 max-w-[600px]">
