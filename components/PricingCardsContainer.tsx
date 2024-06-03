@@ -6,29 +6,14 @@ import PricingCardButton from "./PricingCardButton";
 
 const cards: PricingCardData[] = [
   {
-    title: "Basic",
-    price: "$0",
-    description: "Test our service. No credit card needed.",
-    features: [
-      "1 company profile",
-      "Up to 2 partial analyses per company",
-      "AI-powered company summary",
-      "2 project ideas tailored to you",
-      "One 600-word presentation",
-      "1 SWOT analysis included",
-    ],
-    excludedFeatures: [],
-    transactionMode: null,
-  },
-  {
-    title: "Pro",
-    price: "$29",
-    description: "Get access to all AI tools. Cancel anytime.",
+    title: "Subscription",
+    price: "$19",
+    description: "Full access, cancel anytime.",
     features: [
       "10 company profiles per month",
       "Up to 5 partial analyses per company",
       "AI-powered company summaries",
-      "6 custom project ideas per company",
+      "Up to 6 custom project ideas per company",
       "AI-powered 1200-word presentations",
       "Custom presentation for each company",
       "SWOT analysis for each chosen project idea",
@@ -37,20 +22,21 @@ const cards: PricingCardData[] = [
     transactionMode: "subscription",
   },
   {
-    title: "Pro Lifetime",
-    price: "$99",
-    description: "Lifetime access to all our AI tools and future updates.",
+    title: "Lifetime Access",
+    price: "$39",
+    description: "Use for life with one payment.",
     features: [
       "Unlimited company profiles",
       "Up to 5 partial analyses per company",
       "AI-powered company summaries",
-      "6 custom project ideas per company",
+      "Up to 6 custom project ideas per company",
       "AI-powered 1200-word presentations",
       "Custom presentation for each company",
       "SWOT analysis for each chosen project idea",
     ],
     excludedFeatures: [],
     transactionMode: "payment",
+    specialOffer: true,
   },
 ];
 
@@ -58,14 +44,19 @@ const PricingCardsContainer = () => {
   const { userId }: { userId: string | null } = auth();
 
   return (
-    <div className="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-10 lg:space-y-0">
+    <div className="space-y-8 lg:grid lg:grid-cols-2 sm:gap-6 xl:gap-24 lg:space-y-0">
       {cards.map((card) => (
         <div
           key={card.title}
-          className="flex flex-col p-6 mx-auto max-w-lg text-center text-slate-900 bg-white rounded-lg border border-border shadow xl:p-8"
+          className="relative flex flex-col p-6 mx-auto max-w-sm w-full text-center text-slate-900 bg-white rounded-lg  shadow xl:p-8"
         >
+          {card.specialOffer && (
+            <div className="absolute top-0 right-0 mx-auto px-3 py-1 rounded-tr-lg rounded-bl-lg tracking-wider text-xs text-white font-medium bg-green-500">
+              SPECIAL OFFER
+            </div>
+          )}
           <h3 className="mb-4 text-2xl font-semibold">{card.title}</h3>
-          <p className="font-light text-slate-500 sm:text-lg">
+          <p className="font-light text-slate-500 sm:text-md">
             {card.description}
           </p>
           <div className="flex justify-center items-baseline my-8">

@@ -239,6 +239,7 @@ export type PricingCardData = {
   features: string[];
   excludedFeatures: string[];
   transactionMode: TransactionModes | null;
+  specialOffer?: boolean;
 };
 
 export type CreateTransactionParams = {
