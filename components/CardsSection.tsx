@@ -44,10 +44,7 @@ const CardsSection = () => {
   ];
 
   return (
-    <section
-      id="benefits"
-      className="mx-auto max-w-screen-xl min-h-screen px-4 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-16 text-white"
-    >
+    <section className="mx-auto max-w-screen-xl min-h-screen px-4 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-16 text-white">
       <div className="mx-auto max-w-screen-md text-center mb-8 lg:mb-12">
         <h2 className="text-4xl mb-6 font-bold text-slate-100 tracking-tight">
           Get More Interviews Without Effort
