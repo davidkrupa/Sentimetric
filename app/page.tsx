@@ -5,6 +5,7 @@ import Hero from "@/components/Hero";
 import PainAndBenefits from "@/components/PainAndBenefits";
 import PricingCards from "@/components/PricingCards";
 import Timeline from "@/components/Timeline";
+import VideoTutorial from "@/components/VideoTutorial";
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
       <Hero />
       <PainAndBenefits />
       <Timeline />
+      <VideoTutorial />
       <CardsSection />
       <PricingCards />
       <Footer />
