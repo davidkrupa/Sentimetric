@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins, Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
+import PlausibleProvider from "next-plausible";
 
 import "./globals.css";
 
@@ -29,6 +30,9 @@ export default function RootLayout({
     <ClerkProvider>
       {/* disabling warning caused by shadcn theme provider in html */}
       <html lang="en" suppressHydrationWarning={true}>
+        <head>
+          <PlausibleProvider domain="sentimetric.net" />
+        </head>
         <body className={inter.className}>{children}</body>
       </html>
     </ClerkProvider>
