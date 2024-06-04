@@ -9,17 +9,17 @@ const bulletPoints = [
   {
     title: "Save time",
     description:
-      "Empower your business with AI insights. Discover winning strategies and tailor services for maximum impact.",
+      "AI automation speeds up the process of researching and analyzing companies, providing you with a custom presentation in less than half an hour.",
   },
   {
-    title: "Ideas on autopilot",
+    title: "Easy to Use",
     description:
-      "Unlock personalised ideas with ease. Let AI lead you to lucrative service opportunities tailored to company needs.",
+      "Our tools are designed to be super easy to use. The step-by-step process allows even non-technical users with zero experience to feel confident.",
   },
   {
-    title: "Create business proposals",
+    title: "More Opportunities",
     description:
-      "Craft precise proposals. AI analysis ensures services align seamlessly with client requirements.",
+      "Become someone that top companies compete to work with. More opportunities make it easier to make the right choices and negotiate salary.",
   },
 ];
 
