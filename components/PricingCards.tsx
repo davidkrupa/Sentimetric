@@ -10,10 +10,6 @@ const PricingCards = () => {
         <h2 className="mb-6 text-4xl tracking-tight font-bold text-slate-100">
           Simple pricing for everyone
         </h2>
-        <p className="font-light text-slate-500 sm:text-lg">
-          No hidden fees. Cancel anytime. Start with our free plan, upgrade
-          anytime.
-        </p>
       </div>
 
       <PricingCardsContainer />
