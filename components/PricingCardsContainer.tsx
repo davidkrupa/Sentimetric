@@ -3,8 +3,25 @@ import { FaCheck, FaXmark } from "react-icons/fa6";
 
 import { PricingCardData } from "@/types";
 import PricingCardButton from "./PricingCardButton";
+import { Button } from "./ui/button";
+import Link from "next/link";
 
 const cards: PricingCardData[] = [
+  {
+    title: "Free",
+    price: "$0",
+    description: "For testing our service.",
+    features: [
+      "1 company profile",
+      "Up to 2 partial analyses",
+      "AI-powered company summary",
+      "Up to 3 custom project ideas",
+      "AI-powered 800-word presentation",
+      "SWOT analysis for each chosen project idea",
+    ],
+    excludedFeatures: [],
+    transactionMode: null,
+  },
   {
     title: "Subscription",
     price: "$19",
@@ -44,8 +61,8 @@ const PricingCardsContainer = () => {
   const { userId }: { userId: string | null } = auth();
 
   return (
-    <div className="space-y-8 lg:grid lg:grid-cols-2 sm:gap-6 xl:gap-24 lg:space-y-0">
-      {cards.map((card) => (
+    <div className="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-12 lg:space-y-0">
+      {cards.map((card, i) => (
         <div
           key={card.title}
           className="relative flex flex-col p-6 mx-auto max-w-sm w-full text-center text-slate-900 bg-white rounded-lg  shadow xl:p-8"
@@ -88,7 +105,6 @@ const PricingCardsContainer = () => {
               ))}
             </>
           </ul>
-
           <PricingCardButton
             transactionMode={card.transactionMode}
             userId={userId}
