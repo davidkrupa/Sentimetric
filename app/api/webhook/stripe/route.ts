@@ -25,12 +25,13 @@ export async function POST(request: Request) {
 
   // CREATE
   if (eventType === "checkout.session.completed") {
-    const { id, metadata } = event.data.object;
+    const { id, metadata, mode } = event.data.object;
 
     const transaction = {
       stripeId: id,
       buyerClerkId: metadata?.buyerClerkId || "",
       createdAt: new Date(),
+      paymentType: mode ?? "",
     };
 
     const newTransaction = await createTransaction(transaction);

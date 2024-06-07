@@ -246,4 +246,5 @@ export type CreateTransactionParams = {
   stripeId: string;
   buyerClerkId: string;
   createdAt: Date;
+  paymentType: string;
 };
