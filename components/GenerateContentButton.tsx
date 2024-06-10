@@ -8,16 +8,30 @@ import {
 } from "@/lib/actions/project.actions";
 import { Button } from "./ui/button";
 import LoadingSpinner from "./ui/LoadingSpinner";
+import { showToastError } from "@/lib/utils";
 
 const GenerateContentButton = ({ isDisabled }: { isDisabled: boolean }) => {
   const [isLoading, setIsLoading] = useState(false);
   const handleGenerateContent = async () => {
     setIsLoading(true);
-    await createProjectSection("introduction", "Introduction");
+    const introduction = await createProjectSection(
+      "introduction",
+      "Introduction"
+    );
+    if (introduction?.error) {
+      showToastError(introduction.error);
+      setIsLoading(false);
+      return;
+    }
     await createProjectIdeaSection(0);
     await createProjectIdeaSection(1);
     await createProjectIdeaSection(2);
-    await createProjectSection("conclusion", "Conclusion");
+    const conclusion = await createProjectSection("conclusion", "Conclusion");
+    if (conclusion?.error) {
+      showToastError(conclusion.error);
+      setIsLoading(false);
+      return;
+    }
     setIsLoading(false);
   };
 
