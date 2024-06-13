@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { RiMenuFoldLine, RiMenuUnfoldLine } from "react-icons/ri";
 import { FaRegLightbulb } from "react-icons/fa";
-import { FaChartBar } from "react-icons/fa6";
+import { FaChartBar, FaRegMessage, FaUser } from "react-icons/fa6";
 import { BsPersonVcardFill } from "react-icons/bs";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 import { GrSearchAdvanced } from "react-icons/gr";
@@ -117,6 +117,38 @@ const Sidebar = () => {
               )}
             </Link>
           ))}
+
+          {/* feedback */}
+          <div className="fixed bottom-3 w-44 space-y-3">
+            <Link
+              href="/dashboard/feedback"
+              onClick={() => handleLinkClick("/dashboard/feedback")}
+              className={`flex items-center justify-start relative gap-5 py-3 px-2 rounded-lg text-muted-foreground hover:text-foreground text-md w-full hover:bg-muted/50 transition-colors ${
+                path === "/dashboard/feedback" && "bg-muted/50"
+              }`}
+            >
+              <FaRegMessage />
+              <span className="capitalize">Feedback</span>
+              {isLoading && chosenPath === "/dashboard/feedback" && (
+                <LoadingSpinner className="mr-3 absolute right-0 top-0 bottom-0 my-auto" />
+              )}
+            </Link>
+
+            {/* User payment plan details */}
+            {/* <Link
+              href="/dashboard/plan"
+              onClick={() => handleLinkClick("/dashboard/plan")}
+              className={`flex items-center justify-start gap-5 py-3 px-2 rounded-lg text-muted-foreground hover:text-foreground text-md w-full hover:bg-muted/50 transition-colors ${
+                path === "/dashboard/plan" && "bg-muted/50"
+              }`}
+            >
+              <FaUser />
+              <span className="capitalize">Your Plan</span>
+              {isLoading && chosenPath === "/dashboard/plan" && (
+                <LoadingSpinner className="mr-3 absolute right-0 top-0 bottom-0 my-auto" />
+              )}
+            </Link> */}
+          </div>
         </div>
       </aside>
 
