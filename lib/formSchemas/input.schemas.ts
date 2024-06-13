@@ -36,3 +36,10 @@ export const CompanyAnalysisFormSchema = z.object({
     .min(300, { message: "Content must be at least 300 characters" })
     .max(10000, { message: "Content must be at max 10.000 characters" }),
 });
+
+export const UserReview = z.object({
+  review: z
+    .string()
+    .min(20, { message: "Content must be at least 20 characters" })
+    .max(500, { message: "Content must be at max 500 characters" }),
+});
