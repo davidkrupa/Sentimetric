@@ -14,7 +14,7 @@ export default function Home() {
       <Hero />
       <PainAndBenefits />
       <Timeline />
-      <VideoTutorial />
+      {/* <VideoTutorial /> */}
       <CardsSection />
       <PricingCards />
       <Footer />
