@@ -73,13 +73,13 @@ const PricingCardsContainer = () => {
             </div>
           )}
           <h3 className="mb-4 text-2xl font-semibold">{card.title}</h3>
-          <p className="font-light text-slate-500 sm:text-md">
+          <p className="font-light text-slate-400 sm:text-md">
             {card.description}
           </p>
           <div className="flex justify-center items-baseline my-8">
             <span className="mr-2 text-5xl font-extrabold">{card.price}</span>
             {card.transactionMode !== "payment" && (
-              <span className="text-slate-500">/month</span>
+              <span className="text-slate-400">/month</span>
             )}
           </div>
           {/* Card List */}

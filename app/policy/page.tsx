@@ -14,7 +14,7 @@ const Page = () => {
   return (
     <>
       <BackgroundGradient />
-      <div className="flex flex-col items-start gap-4 max-w-screen-xl mx-auto px-2 md:px-6 lg:px-12 text-slate-500 pb-12 pt-32 relative">
+      <div className="flex flex-col items-start gap-4 max-w-screen-xl mx-auto px-2 md:px-6 lg:px-12 text-slate-400 pb-12 pt-32 relative">
         <Header />
         <h1 className="text-slate-100 text-2xl font-medium text-center">
           Privacy Policy

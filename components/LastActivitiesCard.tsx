@@ -29,7 +29,7 @@ const LastActivitiesCard = async () => {
                     <FaMinus className="text-sm text-destructive absolute top-0 right-0" />
                   )}
                   {activity.action === "added" && (
-                    <FaPlus className="text-sm text-green-700 absolute top-0 right-0" />
+                    <FaPlus className="text-sm text-green-500 absolute top-0 right-0" />
                   )}
                 </div>
                 <div>

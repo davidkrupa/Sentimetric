@@ -62,14 +62,14 @@ const PainAndBenefits = () => {
 
         {/* Benefits */}
         <div className="flex flex-col  mx-auto text-center text-slate-900 bg-white rounded-2xl border border-border shadow p-6 xl:px-12 xl:py-8 w-full">
-          <h3 className="mb-6 text-xl font-semibold text-left text-green-600">
+          <h3 className="mb-6 text-xl font-semibold text-left text-green-500">
             {benefits.title}
           </h3>
           <ul className="space-y-4 text-left">
             {benefits.features.map((feature) => (
               <li key={feature} className="flex items-center space-x-3">
                 <div className="size-6">
-                  <FaCheck className="text-green-600 size-6" />
+                  <FaCheck className="text-green-500 size-6" />
                 </div>
                 <p className="text-base font-medium">{feature}</p>
               </li>
