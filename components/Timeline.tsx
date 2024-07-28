@@ -49,11 +49,11 @@ const Timeline = () => {
               <h3 className="text-lg font-medium text-slate-100">
                 {item.title}
               </h3>
-              <p className="mr-6 text-sm text-slate-500/70">
+              <p className="mr-6 text-sm text-slate-400/70">
                 Time: {item.time}min
               </p>
             </div>
-            <p className="mb-4 text-base font-normal text-slate-500">
+            <p className="mb-4 text-base font-normal text-slate-400">
               {item.description}
             </p>
             <SeeExample content={item.content} />

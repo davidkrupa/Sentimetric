@@ -18,7 +18,7 @@ const Footer = () => {
             Sentimetric
           </span>
         </Link>
-        <ul className="flex flex-wrap items-center text-sm font-medium text-slate-500">
+        <ul className="flex flex-wrap items-center text-sm font-medium text-slate-400">
           <li>
             <a href="/about" className="hover:underline me-4 md:me-6">
               About
@@ -36,8 +36,8 @@ const Footer = () => {
           </li>
         </ul>
       </div>
-      <hr className="my-6 border-slate-500 sm:mx-auto lg:my-8" />
-      <span className="block text-sm sm:text-center text-slate-500">
+      <hr className="my-6 border-slate-400 sm:mx-auto lg:my-8" />
+      <span className="block text-sm sm:text-center text-slate-400">
         © 2024{" "}
         <Link href="https://sentimetric.net" className="hover:underline">
           Sentimetric™

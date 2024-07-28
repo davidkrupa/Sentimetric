@@ -15,7 +15,7 @@ const NotFound = () => {
             <p className="mb-4 text-3xl tracking-tight font-bold text-slate-100 md:text-4xl">
               Something's missing.
             </p>
-            <p className="mb-4 text-lg font-light text-slate-500">
+            <p className="mb-4 text-lg font-light text-slate-400">
               Sorry, we can't find that page. You'll find lots to explore on the
               home page.{" "}
             </p>

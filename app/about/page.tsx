@@ -14,7 +14,7 @@ const Page = () => {
   return (
     <div className="max-w-screen-xl px-4 mx-auto min-h-screen flex flex-col">
       <BackgroundGradient />
-      <div className="flex-grow flex flex-col justify-between gap-4 mx-auto px-2 md:px-6 lg:px-12 text-slate-500 pb-4 pt-28 relative">
+      <div className="flex-grow flex flex-col justify-between gap-4 mx-auto px-2 md:px-6 lg:px-12 text-slate-400 pb-4 pt-28 relative">
         <Header />
         <div>
           <h2 className="text-slate-100 text-xl font-medium my-4">About Us</h2>

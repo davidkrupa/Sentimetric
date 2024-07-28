@@ -50,7 +50,7 @@ const CardsSection = () => {
           Get More Interviews Without Effort
         </h2>
 
-        <p className="font-light text-slate-500 sm:text-lg">
+        <p className="font-light text-slate-400 sm:text-lg">
           Prove you are the perfect candidate for the company, even if you are
           changing career paths or lack the required experience.
         </p>
@@ -70,7 +70,7 @@ const CardsSection = () => {
               {card.title}
             </h2>
 
-            <p className="mt-1 text-sm text-slate-500">{card.description}</p>
+            <p className="mt-1 text-sm text-slate-400">{card.description}</p>
           </div>
         ))}
       </div>
