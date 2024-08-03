@@ -22,7 +22,7 @@ const Hero = () => {
               variant="outline"
               className="bg-transparent hover:bg-slate-100  text-slate-100 hover:text-slate-900 border border-slate-100"
             >
-              <Link href="#features">How it works</Link>
+              <Link href="#pricing">Start Your Project</Link>
             </Button>
           </div>
         </div>
