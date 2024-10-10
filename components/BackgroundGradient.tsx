@@ -1,5 +1,6 @@
 const BackgroundGradient = () => {
   return (
+    // https://bg.ibelick.com/
     <div className="fixed left-0 top-0 -z-10 h-screen w-full">
       {/* background 1 */}
       {/* <div className="relative h-full w-full bg-slate-950">

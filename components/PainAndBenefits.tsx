@@ -11,12 +11,12 @@ const painPoints = {
     "Very hard to negotiate salary and better terms",
     "Time-consuming and difficult research",
     "Difficult to make connections and network",
-    "Average time to find a job is 5-6 months, up to a year",
+    // "Average time to find a job is 5-6 months, up to a year",
   ],
 };
 
 const benefits = {
-  title: "Job Application with Us",
+  title: "Job Application with Sentimetric",
   features: [
     "Bypass the queue of candidates",
     "Bypass software filters",
@@ -26,7 +26,7 @@ const benefits = {
     "Easy to get a better salary and additional terms",
     "Quick and simple process using AI tools",
     "Easy to connect by offering value upfront",
-    "Get noticed quickly, get hired quickly",
+    // "Get noticed quickly, get hired quickly",
   ],
 };
 
@@ -38,21 +38,21 @@ const PainAndBenefits = () => {
     >
       <div className="mx-auto max-w-screen-md text-center mb-8 lg:mb-12">
         <h2 className="mb-6 text-4xl tracking-tight font-bold text-slate-100">
-          Tired of endless job search?
+          Traditional Approach vs Direct Approach
         </h2>
       </div>
 
       {/* Pain Points */}
       <div className="flex flex-col md:flex-row gap-10 xl:gap-16">
-        <div className="flex flex-col mx-auto text-center text-slate-900 bg-white rounded-2xl border border-border shadow p-6 xl:px-12 xl:py-8 w-full">
-          <h3 className="mb-6 text-xl font-semibold text-left text-red-600">
+        <div className="flex flex-col mx-auto text-center text-slate-200 rounded-2xl border border-slate-600 shadow p-6 xl:px-12 xl:py-8 w-full">
+          <h3 className="mb-6 text-xl font-semibold text-left text-red-400">
             {painPoints.title}
           </h3>
           <ul className="space-y-4 text-left">
             {painPoints.features.map((feature) => (
               <li key={feature} className="flex items-center space-x-3">
                 <div className="size-6">
-                  <FaXmark className="text-red-600 size-6" />
+                  <FaXmark className="text-red-400 size-6" />
                 </div>
                 <p className="text-base font-medium">{feature}</p>
               </li>
@@ -61,15 +61,15 @@ const PainAndBenefits = () => {
         </div>
 
         {/* Benefits */}
-        <div className="flex flex-col  mx-auto text-center text-slate-900 bg-white rounded-2xl border border-border shadow p-6 xl:px-12 xl:py-8 w-full">
-          <h3 className="mb-6 text-xl font-semibold text-left text-green-500">
+        <div className="flex flex-col mx-auto text-center text-slate-200 rounded-2xl border border-slate-600 shadow p-6 xl:px-12 xl:py-8 w-full">
+          <h3 className="mb-6 text-xl font-semibold text-left text-primary">
             {benefits.title}
           </h3>
           <ul className="space-y-4 text-left">
             {benefits.features.map((feature) => (
               <li key={feature} className="flex items-center space-x-3">
                 <div className="size-6">
-                  <FaCheck className="text-green-500 size-6" />
+                  <FaCheck className="text-primary size-6" />
                 </div>
                 <p className="text-base font-medium">{feature}</p>
               </li>

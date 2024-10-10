@@ -31,7 +31,11 @@ export default function RootLayout({
       {/* disabling warning caused by shadcn theme provider in html */}
       <html lang="en" suppressHydrationWarning={true}>
         <head>{/* <PlausibleProvider domain="sentimetric.net" /> */}</head>
-        <body className={`${inter.className} bg-slate-950`}>{children}</body>
+        <body
+          className={`${inter.className} bg-slate-950 antialiased font-sans`}
+        >
+          {children}
+        </body>
       </html>
     </ClerkProvider>
   );
