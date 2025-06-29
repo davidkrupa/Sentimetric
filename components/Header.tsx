@@ -6,13 +6,13 @@ import AccountButtons from "./AccountButtons";
 
 const Header = () => {
   const links = [
-    { name: "How it works", href: "#features" },
+    { name: "How it works", href: "#timeline" },
     { name: "Benefits", href: "#benefits" },
     { name: "Pricing", href: "#pricing" },
   ];
 
   return (
-    <header className="w-full py-4 absolute top-0 left-0">
+    <header className="w-full py-4 absolute top-0 left-0 z-20">
       <nav className="flex items-center justify-between">
         <Link href="/" className="flex justify-start items-center gap-3">
           <div className="flex justify-center items-center size-9">

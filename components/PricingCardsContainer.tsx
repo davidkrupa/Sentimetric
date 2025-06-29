@@ -65,7 +65,7 @@ const PricingCardsContainer = () => {
       {cards.map((card, i) => (
         <div
           key={card.title}
-          className="relative flex flex-col p-6 mx-auto max-w-sm w-full text-center text-slate-900 bg-white rounded-lg  shadow xl:p-8"
+          className="relative flex flex-col text-green-500 p-6 mx-auto max-w-sm w-full text-center bg-primary/30 rounded-lg  shadow xl:p-8"
         >
           {card.specialOffer && (
             <div className="absolute top-0 right-0 mx-auto px-3 py-1 rounded-tr-lg rounded-bl-lg tracking-wider text-xs text-white font-medium bg-green-500">
@@ -77,13 +77,15 @@ const PricingCardsContainer = () => {
             {card.description}
           </p>
           <div className="flex justify-center items-baseline my-8">
-            <span className="mr-2 text-5xl font-extrabold">{card.price}</span>
+            <span className="mr-2 text-5xl font-extrabold text-green-500">
+              {card.price}
+            </span>
             {card.transactionMode !== "payment" && (
               <span className="text-slate-400">/month</span>
             )}
           </div>
           {/* Card List */}
-          <ul className="mb-8 space-y-4 text-left">
+          <ul className="mb-8 space-y-4 text-left text-slate-100">
             <>
               {/* Included Features */}
               {card.features.map((feature) => (

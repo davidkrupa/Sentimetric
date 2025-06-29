@@ -44,13 +44,16 @@ const CardsSection = () => {
   ];
 
   return (
-    <section className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 py-16 text-white">
+    <section
+      id="benefits"
+      className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 py-12 text-white"
+    >
       <div className="mx-auto max-w-screen-md text-center mb-8 lg:mb-12">
         <h2 className="text-4xl mb-6 font-bold text-slate-100 tracking-tight">
           Get More Interviews Without Effort
         </h2>
 
-        <p className="font-light text-slate-400 sm:text-lg">
+        <p className="font-light text-slate-300 sm:text-lg">
           Prove you are the perfect candidate for the company, even if you are
           changing career paths or lack the required experience.
         </p>
@@ -60,17 +63,17 @@ const CardsSection = () => {
         {cards.map((card) => (
           <div
             key={card.title}
-            className="block rounded-xl border border-gray-800 p-8 shadow-xl transition hover:border-primary/10 hover:shadow-primary/10"
+            className="block rounded-xl bg-primary/10 border border-blue-900/70 p-8 shadow-xl transition hover:border-primary/10 hover:shadow-primary/10"
           >
             <div className="size-10" style={{ fontSize: "2rem" }}>
               {card.icon}
             </div>
 
-            <h2 className="mt-4 mb-2 text-xl font-bold text-slate-100">
+            <h2 className="mt-4 mb-4 text-xl font-bold text-primary">
               {card.title}
             </h2>
 
-            <p className="mt-1 text-sm text-slate-400">{card.description}</p>
+            <p className="mt-1 text-sm text-slate-300">{card.description}</p>
           </div>
         ))}
       </div>

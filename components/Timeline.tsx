@@ -38,7 +38,10 @@ const Timeline = () => {
   ];
 
   return (
-    <section className="flex items-start gap-4 w-full max-w-screen-xl mx-auto px-4 py-16 ">
+    <section
+      id="timeline"
+      className="flex items-start gap-4 w-full max-w-screen-xl mx-auto px-4 py-12 "
+    >
       <ol className="relative w-full lg:w-2/3 border-s border-border space-y-10">
         {list.map((item) => (
           <li key={item.title} className=" ms-12 max-w-[600px]">
@@ -46,21 +49,19 @@ const Timeline = () => {
               <FaChevronRight className="text-primary" />
             </span>
             <div className="flex justify-between items-center mb-2">
-              <h3 className="text-lg font-medium text-slate-100">
-                {item.title}
-              </h3>
-              <p className="mr-6 text-sm text-slate-400/70">
+              <h3 className="text-lg font-medium text-primary">{item.title}</h3>
+              <p className="mr-6 text-sm text-slate-400">
                 Time: {item.time}min
               </p>
             </div>
-            <p className="mb-4 text-base font-normal text-slate-400">
+            <p className="mb-4 text-base font-normal text-slate-300">
               {item.description}
             </p>
             <SeeExample content={item.content} />
           </li>
         ))}
       </ol>
-      <div className="hidden lg:flex flex-1 min-h-screen flex-col justify-start items-center w-1/33 my-10">
+      <div className="hidden lg:flex flex-1  flex-col justify-start items-center w-1/33 my-10">
         <div className="size-48 rounded-2xl rotate-45 overflow-hidden shadow-gray-400/50 shadow-2xl hover:-translate-y-4 transition-all">
           <Image
             alt="man looking to the left"
