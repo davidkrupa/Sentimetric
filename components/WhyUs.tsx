@@ -214,7 +214,7 @@ export default function WhyUs() {
                 key={card.title}
                 variants={cardVariants}
                 className={`
-                  group relative overflow-hidden rounded-2xl bg-slate-900/60 backdrop-blur-sm border border-slate-800/50 
+                  group relative overflow-hidden rounded-2xl bg-primary/30 backdrop-blur-sm border border-primary/30 
                   hover:border-blue-600/30 transition-all duration-500 hover:shadow-2xl hover:shadow-blue-600/10 hover:-translate-y-2
                   ${card.size === "large" ? "md:col-span-2 lg:col-span-3 md:row-span-2" : ""}
                   ${card.size === "medium" ? "md:col-span-2 lg:col-span-2" : ""}

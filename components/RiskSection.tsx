@@ -149,9 +149,13 @@ const containerVariants = {
 
 export default function RiskSection() {
   return (
-    <section className="relative py-24 overflow-hidden w-full rounded-[3rem]">
+    <section className="relative border border-primary/50 py-24 overflow-hidden w-full rounded-[3rem]">
       {/* Blurred gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-purple-600/5 to-blue-800/10">
+      {/* <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-purple-600/5 to-blue-800/10">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-600/15 rounded-full blur-3xl"></div>
+      </div> */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-purple-600/5 to-primary/60">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl"></div>
         <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-600/15 rounded-full blur-3xl"></div>
       </div>
@@ -188,7 +192,7 @@ export default function RiskSection() {
               custom={i}
               className="group"
             >
-              <div className="relative p-8 rounded-2xl bg-slate-900/50 backdrop-blur-sm border border-slate-800/50 hover:border-blue-600/30 transition-all duration-300 hover:shadow-xl hover:shadow-blue-600/10 hover:-translate-y-1">
+              <div className="relative p-8 rounded-2xl bg-slate-900/30 backdrop-blur-sm border border-primary/50 hover:border-blue-600/30 transition-all duration-300 hover:shadow-xl hover:shadow-blue-600/10 hover:-translate-y-1">
                 {/* Card gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
