@@ -38,7 +38,7 @@ const Footer = () => {
       </div>
       <hr className="my-6 border-slate-400 sm:mx-auto lg:my-8" />
       <span className="block text-sm sm:text-center text-slate-400">
-        © 2024{" "}
+        © 2026{" "}
         <Link href="https://sentimetric.net" className="hover:underline">
           Sentimetric™
         </Link>
